@@ -44,9 +44,9 @@ export default function SpringMassPage() {
   const parameterControls = (
     <div className="space-y-4">
       {/* Physics Parameters */}
-      <ControlGroup title="Physics Parameters">
+      <ControlGroup title="Tham số vật lý">
         <ControlSlider
-          label="Mass (m)"
+          label="Khối lượng (m)"
           value={mass}
           unit="kg"
           min={0.5}
@@ -57,7 +57,7 @@ export default function SpringMassPage() {
           decimals={1}
         />
         <ControlSlider
-          label="Spring Constant (k)"
+          label="Độ cứng lò xo (k)"
           value={springConstant}
           unit="N/m"
           min={10}
@@ -68,7 +68,7 @@ export default function SpringMassPage() {
           decimals={0}
         />
         <ControlSlider
-          label="Damping (b)"
+          label="Hệ số tắt dần (b)"
           value={damping}
           unit="Ns/m"
           min={0}
@@ -79,7 +79,7 @@ export default function SpringMassPage() {
           decimals={2}
         />
         <ControlSlider
-          label="Initial Displacement"
+          label="Độ lệch ban đầu"
           value={initialDisplacement}
           unit="m"
           min={0.5}
@@ -90,7 +90,7 @@ export default function SpringMassPage() {
           decimals={1}
         />
         <ControlSlider
-          label="Number of Masses"
+          label="Số vật nặng"
           value={numberOfMasses}
           unit=""
           min={1}
@@ -107,7 +107,7 @@ export default function SpringMassPage() {
         onClick={() => router.push("/experiments/spring-mass/details")}
         className="w-full py-2.5 bg-gradient-to-r from-amber-100 to-amber-200 hover:from-amber-200 hover:to-amber-300 text-amber-700 font-medium text-sm rounded-lg transition-all border border-amber-300/50 flex items-center justify-center gap-2"
       >
-        📖 View Experiment Details
+        📖 Xem chi tiết thí nghiệm
       </button>
     </div>
   );
@@ -117,31 +117,31 @@ export default function SpringMassPage() {
     <>
       <DataGrid
         data={{
-          period: { value: data.period, unit: "s", color: "#f59e0b", decimals: 3 },
-          frequency: { value: data.frequency, unit: "Hz", color: "#8b5cf6", decimals: 2 },
-          displacement: { value: data.displacement, unit: "m", color: "#ec4899", decimals: 2 },
-          velocity: { value: data.velocity, unit: "m/s", color: "#22c55e", decimals: 2 },
-          springForce: { value: data.springForce, unit: "N", color: "#ef4444", decimals: 1 },
-          dampingForce: { value: data.dampingForce, unit: "N", color: "#3b82f6", decimals: 2 },
+          period: { value: data.period, unit: "s (Chu kỳ)", color: "#f59e0b", decimals: 3 },
+          frequency: { value: data.frequency, unit: "Hz (Tần số)", color: "#8b5cf6", decimals: 2 },
+          displacement: { value: data.displacement, unit: "m (Li độ)", color: "#ec4899", decimals: 2 },
+          velocity: { value: data.velocity, unit: "m/s (Vận tốc)", color: "#22c55e", decimals: 2 },
+          springForce: { value: data.springForce, unit: "N (Lực đàn hồi)", color: "#ef4444", decimals: 1 },
+          dampingForce: { value: data.dampingForce, unit: "N (Lực cản)", color: "#3b82f6", decimals: 2 },
         }}
         columns={2}
       />
       <div className="mt-3 pt-3 border-t border-gray-700">
         <div className="grid grid-cols-2 gap-2 text-xs">
           <div className="p-2 bg-gray-800/50 rounded">
-            <span className="text-gray-500">Kinetic Energy</span>
+            <span className="text-gray-500">Động năng</span>
             <div className="font-mono text-green-400">{data.kineticEnergy.toFixed(2)} J</div>
           </div>
           <div className="p-2 bg-gray-800/50 rounded">
-            <span className="text-gray-500">Spring PE</span>
+            <span className="text-gray-500">Thế năng đàn hồi</span>
             <div className="font-mono text-amber-400">{data.springPotentialEnergy.toFixed(2)} J</div>
           </div>
           <div className="p-2 bg-gray-800/50 rounded">
-            <span className="text-gray-500">Gravitational PE</span>
+            <span className="text-gray-500">Thế năng trọng trường</span>
             <div className="font-mono text-blue-400">{data.gravitationalPotentialEnergy.toFixed(2)} J</div>
           </div>
           <div className="p-2 bg-gray-800/50 rounded">
-            <span className="text-gray-500">Total Energy</span>
+            <span className="text-gray-500">Cơ năng toàn phần</span>
             <div className="font-mono text-purple-400">{data.totalEnergy.toFixed(2)} J</div>
           </div>
         </div>
@@ -149,15 +149,15 @@ export default function SpringMassPage() {
     </>
   ) : (
     <div className="text-center text-gray-500 text-sm py-8">
-      Waiting for simulation data...
+      Đang chờ dữ liệu mô phỏng...
     </div>
   );
 
   return (
     <>
       <ExperimentContainer
-        title="Spring-Mass System"
-        description="Explore simple harmonic motion with Hooke's Law: F = -kx - bv. Supports 1-3 masses in series."
+        title="Hệ con lắc lò xo"
+        description="Khám phá dao động điều hòa với định luật Hooke: F = -kx - bv. Hỗ trợ 1-3 vật mắc nối tiếp."
         cameraPosition={[18, 10, 18]}
         backgroundColor="#050510"
         controls={null}
@@ -188,7 +188,7 @@ export default function SpringMassPage() {
 
       {/* Parameter Controls - Toggleable */}
       <FloatingControlPanel
-        title="⚙️ Spring-Mass Parameters"
+        title="⚙️ Tham số con lắc lò xo"
         initialPosition={{ x: 20, y: 80 }}
       >
         {parameterControls}

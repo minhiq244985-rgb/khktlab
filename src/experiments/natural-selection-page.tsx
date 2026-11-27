@@ -31,7 +31,7 @@ export default function NaturalSelectionPage() {
     percentLarge: 50,
     averageSize: 0.5,
     percentSurviving: 100,
-    environmentPhase: 'Grassland',
+    environmentPhase: 'Đồng cỏ',
   });
 
   const handlePlayPause = useCallback(() => {
@@ -53,9 +53,9 @@ export default function NaturalSelectionPage() {
   const parameterControls = useMemo(
     () => (
       <>
-        <ControlGroup title="Evolution Parameters">
+        <ControlGroup title="Thông số tiến hóa">
           <ControlSlider
-            label="Mutation Rate"
+            label="Tỷ lệ đột biến"
             value={mutationRate}
             min={0}
             max={0.5}
@@ -65,7 +65,7 @@ export default function NaturalSelectionPage() {
             decimals={2}
           />
           <ControlSlider
-            label="Predator Speed"
+            label="Tốc độ kẻ săn mồi"
             value={predatorSpeed}
             min={0.5}
             max={2}
@@ -75,7 +75,7 @@ export default function NaturalSelectionPage() {
             decimals={1}
           />
           <ControlSlider
-            label="Initial Population"
+            label="Quần thể ban đầu"
             value={initialPopulation}
             min={20}
             max={80}
@@ -85,7 +85,7 @@ export default function NaturalSelectionPage() {
             decimals={0}
           />
           <ControlSlider
-            label="Generation Speed"
+            label="Tốc độ thế hệ"
             value={generationSpeed}
             min={0.5}
             max={3}
@@ -97,13 +97,13 @@ export default function NaturalSelectionPage() {
         </ControlGroup>
 
         <div className="bg-green-50/50 rounded-lg p-3 border border-green-200/50">
-          <div className="text-xs text-gray-600 mb-2 font-medium">Natural Selection Info</div>
+          <div className="text-xs text-gray-600 mb-2 font-medium">Thông tin Chọn lọc tự nhiên</div>
           <div className="text-xs text-gray-500 space-y-1">
-            <div>• Green organisms are camouflaged in grass</div>
-            <div>• Red organisms are visible to predators</div>
-            <div>• Small organisms move faster</div>
-            <div>• Environment changes every 15 seconds</div>
-            <div>• Survivors reproduce with mutations</div>
+            <div>• Sinh vật xanh lá ngụy trang tốt trong cỏ</div>
+            <div>• Sinh vật đỏ dễ bị kẻ săn mồi phát hiện</div>
+            <div>• Sinh vật kích thước nhỏ di chuyển nhanh hơn</div>
+            <div>• Môi trường thay đổi mỗi 15 giây</div>
+            <div>• Cá thể sống sót sinh sản kèm theo đột biến</div>
           </div>
         </div>
 
@@ -111,7 +111,7 @@ export default function NaturalSelectionPage() {
           onClick={handleReset}
           className="w-full mt-4 px-4 py-2 bg-[#22c55e]/20 hover:bg-[#22c55e]/30 text-[#22c55e] rounded-lg border border-[#22c55e]/50 transition-colors text-sm font-medium"
         >
-          Reset Simulation
+          Đặt lại mô phỏng
         </button>
       </>
     ),
@@ -122,12 +122,12 @@ export default function NaturalSelectionPage() {
     () => (
       <DataGrid
         data={{
-          generation: { value: selectionData.generation, unit: "gen", color: "#22c55e", decimals: 0 },
-          population: { value: selectionData.populationCount, unit: "organisms", color: "#34d399", decimals: 0 },
-          green: { value: selectionData.percentGreen, unit: "camouflaged", color: "#22c55e", decimals: 0 },
-          red: { value: selectionData.percentRed, unit: "visible", color: "#ef4444", decimals: 0 },
-          small: { value: selectionData.percentSmall, unit: "fast", color: "#3b82f6", decimals: 0 },
-          large: { value: selectionData.percentLarge, unit: "slow", color: "#f59e0b", decimals: 0 },
+          generation: { value: selectionData.generation, unit: "thế hệ", color: "#22c55e", decimals: 0 },
+          population: { value: selectionData.populationCount, unit: "sinh vật", color: "#34d399", decimals: 0 },
+          green: { value: selectionData.percentGreen, unit: "ngụy trang", color: "#22c55e", decimals: 0 },
+          red: { value: selectionData.percentRed, unit: "dễ thấy", color: "#ef4444", decimals: 0 },
+          small: { value: selectionData.percentSmall, unit: "nhanh", color: "#3b82f6", decimals: 0 },
+          large: { value: selectionData.percentLarge, unit: "chậm", color: "#f59e0b", decimals: 0 },
           surviving: { value: selectionData.percentSurviving, unit: "%", color: "#fbbf24", decimals: 0 },
         }}
         columns={2}
@@ -148,8 +148,8 @@ export default function NaturalSelectionPage() {
   return (
     <div className="w-full h-screen relative">
       <ExperimentContainer
-        title="Natural Selection"
-        description="Watch evolution in action: environment changes favor different traits, and survivors pass on their genes"
+        title="Chọn lọc tự nhiên"
+        description="Quan sát tiến hóa thực tế: sự thay đổi môi trường ưu tiên các đặc điểm khác nhau, và cá thể sống sót truyền lại gen của mình"
         cameraPosition={[0, 8, 12]}
         backgroundColor="#0a0a0f"
         controls={null}
@@ -189,7 +189,7 @@ export default function NaturalSelectionPage() {
           onClick={() => setShowControls(true)}
           className="fixed top-20 right-4 z-20 px-4 py-2 bg-[#22c55e]/20 hover:bg-[#22c55e]/30 text-[#22c55e] rounded-lg border border-[#22c55e]/50 transition-colors text-sm font-medium"
         >
-          Show Controls
+          Hiện bảng điều khiển
         </button>
       )}
     </div>

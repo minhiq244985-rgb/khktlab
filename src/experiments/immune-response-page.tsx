@@ -51,9 +51,9 @@ export default function ImmuneResponsePage() {
   const parameterControls = useMemo(
     () => (
       <>
-        <ControlGroup title="Infection Control">
+        <ControlGroup title="Kiểm soát nhiễm trùng">
           <ControlSlider
-            label="Virus Level"
+            label="Mức độ virus"
             value={virusLevel}
             min={0.5}
             max={3}
@@ -61,7 +61,7 @@ export default function ImmuneResponsePage() {
             onChange={setVirusLevel}
               />
           <ControlSlider
-            label="Antibody Rate"
+            label="Tốc độ kháng thể"
             value={antibodyRate}
             min={0.1}
             max={3}
@@ -69,7 +69,7 @@ export default function ImmuneResponsePage() {
             onChange={setAntibodyRate}
               />
           <ControlSlider
-            label="Speed"
+            label="Tốc độ"
             value={speed}
             min={0.5}
             max={3}
@@ -82,7 +82,7 @@ export default function ImmuneResponsePage() {
           onClick={() => router.push('/experiments/immune-response/details')}
           className="w-full mt-4 px-4 py-2 bg-[#f97316]/20 hover:bg-[#f97316]/30 text-[#f97316] rounded-lg border border-[#f97316]/50 transition-colors text-sm font-medium"
         >
-          View Details
+          Xem chi tiết
         </button>
       </>
     ),
@@ -93,9 +93,9 @@ export default function ImmuneResponsePage() {
     () => (
       <DataGrid
         data={{
-          viruses: { value: immuneData.virusCount, unit: "particles", color: "#ef4444", decimals: 0 },
-          antibodies: { value: immuneData.antibodyCount, unit: "proteins", color: "#3b82f6", decimals: 0 },
-          tCells: { value: immuneData.tCellCount, unit: "cells", color: "#f97316", decimals: 0 },
+          viruses: { value: immuneData.virusCount, unit: "hạt", color: "#ef4444", decimals: 0 },
+          antibodies: { value: immuneData.antibodyCount, unit: "protein", color: "#3b82f6", decimals: 0 },
+          tCells: { value: immuneData.tCellCount, unit: "tế bào", color: "#f97316", decimals: 0 },
         }}
         columns={1}
       />
@@ -115,8 +115,8 @@ export default function ImmuneResponsePage() {
   return (
     <div className="w-full h-screen relative">
       <ExperimentContainer
-        title="Immune System Response"
-        description="Watch immune cells fight viral infection"
+        title="Phản ứng của hệ miễn dịch"
+        description="Quan sát tế bào miễn dịch chống lại nhiễm virus"
         cameraPosition={[0, 5, 15]}
         backgroundColor="#050510"
         controls={null}
@@ -155,7 +155,7 @@ export default function ImmuneResponsePage() {
           onClick={() => setShowControls(true)}
           className="fixed top-20 right-4 z-20 px-4 py-2 bg-[#f97316]/20 hover:bg-[#f97316]/30 text-[#f97316] rounded-lg border border-[#f97316]/50 transition-colors text-sm font-medium"
         >
-          Show Controls
+          Hiện bảng điều khiển
         </button>
       )}
     </div>

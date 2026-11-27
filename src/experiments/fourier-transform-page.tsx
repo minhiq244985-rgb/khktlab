@@ -15,17 +15,24 @@ import {
 
 const WAVEFORMS = ["square", "triangle", "sawtooth", "custom"] as const;
 
+const WAVEFORM_LABELS: Record<typeof WAVEFORMS[number], string> = {
+  square: "Sóng vuông",
+  triangle: "Sóng tam giác",
+  sawtooth: "Sóng răng cưa",
+  custom: "Tùy chỉnh",
+};
+
 export default function FourierTransformPage() {
   const router = useRouter();
   const [data, setData] = useState<FourierTransformData | null>(null);
   const [showDataPanel, setShowDataPanel] = useState(true);
 
-  // Simulation
+  // Mô phỏng
   const [isPlaying, setIsPlaying] = useState(true);
   const [simulationSpeed, setSimulationSpeed] = useState(1);
   const [resetTrigger, setResetTrigger] = useState(0);
 
-  // Parameters
+  // Thông số
   const [frequency, setFrequency] = useState(1);
   const [harmonicCount, setHarmonicCount] = useState(3);
   const [waveSpeed, setWaveSpeed] = useState(1);
@@ -42,12 +49,12 @@ export default function FourierTransformPage() {
     setWaveformType("square");
   };
 
-  // === PARAMETER CONTROLS ===
+  // === ĐIỀU KHIỂN THÔNG SỐ ===
   const parameterControls = (
     <div className="space-y-4">
-      <ControlGroup title="Wave Parameters">
+      <ControlGroup title="Thông số sóng">
         <ControlSlider
-          label="Base Frequency"
+          label="Tần số cơ bản"
           value={frequency}
           unit="Hz"
           min={0.5}
@@ -58,7 +65,7 @@ export default function FourierTransformPage() {
           decimals={1}
         />
         <ControlSlider
-          label="Harmonics"
+          label="Sóng hài"
           value={harmonicCount}
           unit="n"
           min={1}
@@ -69,7 +76,7 @@ export default function FourierTransformPage() {
           decimals={0}
         />
         <ControlSlider
-          label="Wave Speed"
+          label="Tốc độ sóng"
           value={waveSpeed}
           unit=""
           min={0.1}
@@ -81,50 +88,50 @@ export default function FourierTransformPage() {
         />
       </ControlGroup>
 
-      <ControlGroup title="Waveform Type">
+      <ControlGroup title="Dạng sóng">
         <div className="grid grid-cols-2 gap-2">
           {WAVEFORMS.map((wf) => (
             <button
               key={wf}
               onClick={() => setWaveformType(wf)}
-              className={`py-2 px-3 text-sm rounded-lg transition-all capitalize ${
+              className={`py-2 px-3 text-sm rounded-lg transition-all ${
                 waveformType === wf
                   ? "bg-purple-600 text-white"
                   : "bg-gray-200 text-gray-700 hover:bg-gray-300"
               }`}
             >
-              {wf}
+              {WAVEFORM_LABELS[wf]}
             </button>
           ))}
         </div>
       </ControlGroup>
 
       <div className="bg-purple-50/50 rounded-lg p-3 border border-purple-200/50">
-        <div className="text-xs text-gray-600 mb-2 font-medium">Quick Presets</div>
+        <div className="text-xs text-gray-600 mb-2 font-medium">Mẫu thiết lập nhanh</div>
         <div className="grid grid-cols-2 gap-2">
           <button
             onClick={() => { setFrequency(1); setHarmonicCount(5); setWaveformType("square"); }}
             className="py-1.5 px-2 bg-purple-100 hover:bg-purple-200 text-purple-700 text-xs rounded transition-all"
           >
-            Square Wave
+            Sóng vuông
           </button>
           <button
             onClick={() => { setFrequency(1); setHarmonicCount(5); setWaveformType("triangle"); }}
             className="py-1.5 px-2 bg-purple-100 hover:bg-purple-200 text-purple-700 text-xs rounded transition-all"
           >
-            Triangle
+            Tam giác
           </button>
           <button
             onClick={() => { setFrequency(1); setHarmonicCount(7); setWaveformType("sawtooth"); }}
             className="py-1.5 px-2 bg-purple-100 hover:bg-purple-200 text-purple-700 text-xs rounded transition-all"
           >
-            Sawtooth
+            Răng cưa
           </button>
           <button
             onClick={() => { setFrequency(0.5); setHarmonicCount(2); setWaveformType("custom"); }}
             className="py-1.5 px-2 bg-purple-100 hover:bg-purple-200 text-purple-700 text-xs rounded transition-all"
           >
-            Simple
+            Đơn giản
           </button>
         </div>
       </div>
@@ -133,20 +140,20 @@ export default function FourierTransformPage() {
         onClick={() => router.push("/experiments/fourier-transform/details")}
         className="w-full py-2.5 bg-gradient-to-r from-purple-100 to-purple-200 hover:from-purple-200 hover:to-purple-300 text-purple-700 font-medium text-sm rounded-lg transition-all border border-purple-300/50 flex items-center justify-center gap-2"
       >
-        📖 View Experiment Details
+        📖 Xem chi tiết thí nghiệm
       </button>
     </div>
   );
 
-  // === DATA PANEL CONTENT ===
+  // === NỘI DUNG BẢNG DỮ LIỆU ===
   const dataPanelContent = data ? (
     <>
       <DataGrid
         data={{
-          amplitude: { value: Math.abs(data.currentAmplitude), unit: "units", color: "#8b5cf6", decimals: 2 },
+          amplitude: { value: Math.abs(data.currentAmplitude), unit: "đơn vị", color: "#8b5cf6", decimals: 2 },
           frequency: { value: data.frequency, unit: "Hz", color: "#a78bfa", decimals: 1 },
-          harmonics: { value: data.harmonicCount, unit: "waves", color: "#c4b5fd", decimals: 0 },
-          waveform: { value: 0, unit: data.waveformType, color: "#ddd6fe", decimals: 0 },
+          harmonics: { value: data.harmonicCount, unit: "sóng", color: "#c4b5fd", decimals: 0 },
+          waveform: { value: 0, unit: WAVEFORM_LABELS[data.waveformType as typeof WAVEFORMS[number]] || data.waveformType, color: "#ddd6fe", decimals: 0 },
         }}
         columns={1}
       />
@@ -158,15 +165,15 @@ export default function FourierTransformPage() {
     </>
   ) : (
     <div className="text-center text-gray-500 text-sm py-8">
-      Waiting for simulation data...
+      Đang chờ dữ liệu mô phỏng...
     </div>
   );
 
   return (
     <>
       <ExperimentContainer
-        title="Fourier Transform"
-        description="Build complex waveforms by adding sine waves together"
+        title="Biến đổi Fourier"
+        description="Xây dựng các dạng sóng phức tạp bằng cách cộng các sóng sin lại với nhau"
         cameraPosition={[15, 10, 15]}
         backgroundColor="#050510"
         controls={null}
@@ -191,7 +198,7 @@ export default function FourierTransformPage() {
       />
 
       <FloatingControlPanel
-        title="⚙️ Wave Parameters"
+        title="⚙️ Thông số sóng"
         initialPosition={{ x: 20, y: 80 }}
       >
         {parameterControls}

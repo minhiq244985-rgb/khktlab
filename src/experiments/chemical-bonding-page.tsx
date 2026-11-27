@@ -60,21 +60,21 @@ export default function ChemicalBondingPage() {
   // Bond type info
   const bondInfo: Record<BondType, { title: string; description: string; example: string; color: string }> = {
     ionic: {
-      title: "Ionic Bond",
-      description: "Electrons are transferred from metal to non-metal, creating oppositely charged ions that attract.",
-      example: "NaCl (Sodium Chloride)",
+      title: "Liên kết ion",
+      description: "Electron được chuyển từ kim loại sang phi kim, tạo thành các ion trái dấu hút nhau bằng lực hút tĩnh điện.",
+      example: "NaCl (Natri Clorua)",
       color: "#AB5CF2",
     },
     covalent: {
-      title: "Covalent Bond",
-      description: "Electrons are shared between atoms to complete their outer shells.",
-      example: "H₂O (Water)",
+      title: "Liên kết cộng hóa trị",
+      description: "Các nguyên tử dùng chung các cặp electron hóa trị để đạt cấu hình electron bền vững.",
+      example: "H₂O (Nước)",
       color: "#FF0D0D",
     },
     metallic: {
-      title: "Metallic Bond",
-      description: "Valence electrons are delocalized, forming a 'sea of electrons' that holds metal atoms together.",
-      example: "Fe (Iron)",
+      title: "Liên kết kim loại",
+      description: "Các electron hóa trị chuyển động tự do, tạo thành 'biển electron' gắn kết các ion dương kim loại với nhau.",
+      example: "Fe (Sắt)",
       color: "#E06633",
     },
   };
@@ -82,7 +82,7 @@ export default function ChemicalBondingPage() {
   // === PARAMETER CONTROLS ===
   const parameterControls = (
     <div className="space-y-4">
-      <ControlGroup title="Bond Type">
+      <ControlGroup title="Loại liên kết">
         <div className="space-y-3">
           {(["ionic", "covalent", "metallic"] as BondType[]).map((type) => (
             <button
@@ -103,7 +103,7 @@ export default function ChemicalBondingPage() {
         </div>
       </ControlGroup>
 
-      <ControlGroup title="Bond Info">
+      <ControlGroup title="Thông tin liên kết">
         <div className="bg-blue-50/80 rounded-lg p-3 border border-blue-200/50">
           <div className="text-xs text-gray-600 mb-2 font-medium">
             {bondInfo[bondType].title}
@@ -114,7 +114,7 @@ export default function ChemicalBondingPage() {
         </div>
       </ControlGroup>
 
-      <ControlGroup title="Animation Mode">
+      <ControlGroup title="Chế độ mô phỏng">
         <div className="grid grid-cols-2 gap-2">
           <button
             onClick={() => setStepMode("auto")}
@@ -124,7 +124,7 @@ export default function ChemicalBondingPage() {
                 : "bg-gray-200/50 text-gray-700 hover:bg-gray-300/50"
             }`}
           >
-            Auto Play
+            Chạy tự động
           </button>
           <button
             onClick={() => setStepMode("manual")}
@@ -134,13 +134,13 @@ export default function ChemicalBondingPage() {
                 : "bg-gray-200/50 text-gray-700 hover:bg-gray-300/50"
             }`}
           >
-            Manual Steps
+            Từng bước
           </button>
         </div>
       </ControlGroup>
 
       {stepMode === "manual" && (
-        <ControlGroup title="Step Control">
+        <ControlGroup title="Điều khiển bước">
           <div className="flex gap-2">
             <button
               onClick={handlePrevStep}
@@ -151,7 +151,7 @@ export default function ChemicalBondingPage() {
                   : "bg-gray-200 text-gray-700 hover:bg-gray-300"
               }`}
             >
-              ← Prev
+              ← Trước
             </button>
             <div className="flex-1 bg-gray-100 rounded-lg flex items-center justify-center text-sm font-medium">
               {manualStep + 1}/{bondType === "metallic" ? 4 : 5}
@@ -165,15 +165,15 @@ export default function ChemicalBondingPage() {
                   : "bg-gray-200 text-gray-700 hover:bg-gray-300"
               }`}
             >
-              Next →
+              Tiếp →
             </button>
           </div>
         </ControlGroup>
       )}
 
-      <ControlGroup title="Animation Speed">
+      <ControlGroup title="Tốc độ hoạt ảnh">
         <ControlSlider
-          label="Speed"
+          label="Tốc độ"
           value={simulationSpeed}
           onChange={setSimulationSpeed}
           min={0.25}
@@ -189,7 +189,7 @@ export default function ChemicalBondingPage() {
         onClick={() => router.push("/experiments/chemical-bonding/details")}
         className="w-full py-2.5 bg-gradient-to-r from-emerald-100 to-emerald-200 hover:from-emerald-200 hover:to-emerald-300 text-emerald-700 font-medium text-sm rounded-lg transition-all border border-emerald-300/50 flex items-center justify-center gap-2"
       >
-        📖 View Experiment Details
+        📖 Xem chi tiết thí nghiệm
       </button>
     </div>
   );
@@ -201,13 +201,13 @@ export default function ChemicalBondingPage() {
         data={{
           step: { value: data.step + 1, unit: `/${data.totalSteps}`, color: "#10b981", decimals: 0 },
           bondEnergy: { value: data.bondEnergy, unit: "kJ/mol", color: "#f59e0b", decimals: 0 },
-          enDiff: { value: data.electronegativityDiff, unit: "ΔEN", color: "#ef4444", decimals: 2 },
+          enDiff: { value: data.electronegativityDiff, unit: "Δχ", color: "#ef4444", decimals: 2 },
           bondLength: { value: data.bondLength, unit: "Å", color: "#3b82f6", decimals: 2 },
         }}
         columns={2}
       />
       <div className="mt-3 p-3 bg-gray-800/50 rounded-lg">
-        <div className="text-xs text-gray-400 mb-2">Current Step</div>
+        <div className="text-xs text-gray-400 mb-2">Bước hiện tại</div>
         <div className="text-xs text-gray-300 leading-relaxed">
           {data.description}
         </div>
@@ -215,28 +215,28 @@ export default function ChemicalBondingPage() {
 
       {/* Bond classification */}
       <div className="mt-3 p-3 bg-gray-800/50 rounded-lg">
-        <div className="text-xs text-gray-400 mb-1">Bond Classification</div>
+        <div className="text-xs text-gray-400 mb-1">Phân loại liên kết</div>
         <div className="text-emerald-400 text-sm font-medium">
-          {data.bondType === "ionic" && "Ionic (ΔEN > 1.7)"}
+          {data.bondType === "ionic" && "Liên kết ion (Δχ > 1,7)"}
           {data.bondType === "covalent" &&
             (data.electronegativityDiff > 0.5
-              ? "Polar Covalent (0.5 < ΔEN < 1.7)"
-              : "Nonpolar Covalent (ΔEN < 0.5)")}
-          {data.bondType === "metallic" && "Metallic (delocalized electrons)"}
+              ? "Cộng hóa trị phân cực (0,5 < Δχ < 1,7)"
+              : "Cộng hóa trị không phân cực (Δχ < 0,5)")}
+          {data.bondType === "metallic" && "Liên kết kim loại (electron tự do)"}
         </div>
       </div>
     </>
   ) : (
     <div className="text-center text-gray-500 text-sm py-8">
-      Waiting for simulation data...
+      Đang chờ dữ liệu mô phỏng...
     </div>
   );
 
   return (
     <>
       <ExperimentContainer
-        title="Chemical Bonding"
-        description="Explore how atoms connect through ionic, covalent, and metallic bonds. Watch step-by-step animations of bond formation."
+        title="Liên kết hóa học"
+        description="Khám phá cách các nguyên tử kết nối thông qua liên kết ion, cộng hóa trị và kim loại. Quan sát từng bước hình thành liên kết."
         cameraPosition={[12, 8, 12]}
         backgroundColor="#050510"
         controls={null}
@@ -263,7 +263,7 @@ export default function ChemicalBondingPage() {
       />
 
       <FloatingControlPanel
-        title="⚛️ Chemical Bonding"
+        title="⚛️ Liên kết hóa học"
         initialPosition={{ x: 20, y: 80 }}
       >
         {parameterControls}

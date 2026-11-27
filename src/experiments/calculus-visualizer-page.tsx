@@ -15,6 +15,13 @@ import {
 
 const FUNCTIONS = ["quadratic", "cubic", "sine", "exponential"] as const;
 
+const FUNCTION_LABELS: Record<typeof FUNCTIONS[number], string> = {
+  quadratic: "Bậc hai",
+  cubic: "Bậc ba",
+  sine: "Hàm Sin",
+  exponential: "Hàm mũ",
+};
+
 export default function CalculusVisualizerPage() {
   const router = useRouter();
   const [data, setData] = useState<CalculusData | null>(null);
@@ -42,27 +49,27 @@ export default function CalculusVisualizerPage() {
 
   const parameterControls = (
     <div className="space-y-4">
-      <ControlGroup title="Function Type">
+      <ControlGroup title="Loại hàm số">
         <div className="grid grid-cols-2 gap-2">
           {FUNCTIONS.map((fn) => (
             <button
               key={fn}
               onClick={() => setFunctionType(fn)}
-              className={`py-2 px-3 text-sm rounded-lg transition-all capitalize ${
+              className={`py-2 px-3 text-sm rounded-lg transition-all ${
                 functionType === fn
                   ? "bg-green-600 text-white"
                   : "bg-gray-200 text-gray-700 hover:bg-gray-300"
               }`}
             >
-              {fn}
+              {FUNCTION_LABELS[fn]}
             </button>
           ))}
         </div>
       </ControlGroup>
 
-      <ControlGroup title="Visualization">
+      <ControlGroup title="Trực quan hóa">
         <ControlSlider
-          label="Animation Speed"
+          label="Tốc độ hoạt ảnh"
           value={speed}
           unit=""
           min={0.1}
@@ -73,10 +80,10 @@ export default function CalculusVisualizerPage() {
           decimals={1}
         />
         {[
-          { label: "Show Derivative", checked: showDerivative, onChange: setShowDerivative },
-          { label: "Show Integral Area", checked: showIntegral, onChange: setShowIntegral },
-          { label: "Show Tangent Line", checked: showTangent, onChange: setShowTangent },
-          { label: "Show Riemann Sum", checked: showRiemann, onChange: setShowRiemann },
+          { label: "Hiển thị đạo hàm", checked: showDerivative, onChange: setShowDerivative },
+          { label: "Hiển thị diện tích tích phân", checked: showIntegral, onChange: setShowIntegral },
+          { label: "Hiển thị tiếp tuyến", checked: showTangent, onChange: setShowTangent },
+          { label: "Hiển thị tổng Riemann", checked: showRiemann, onChange: setShowRiemann },
         ].map((opt) => (
           <label key={opt.label} className="flex items-center justify-between text-sm text-gray-700 cursor-pointer py-2 px-3 bg-gray-100/50 rounded-lg border border-gray-300/50">
             <span>{opt.label}</span>
@@ -85,7 +92,7 @@ export default function CalculusVisualizerPage() {
         ))}
         {showRiemann && (
           <ControlSlider
-            label="Riemann Rectangles"
+            label="Số hình chữ nhật Riemann"
             value={riemannRects}
             unit=""
             min={5}
@@ -99,11 +106,11 @@ export default function CalculusVisualizerPage() {
       </ControlGroup>
 
       <div className="bg-green-50/50 rounded-lg p-3 border border-green-200/50">
-        <div className="text-xs text-gray-600 mb-2 font-medium">Calculus Concepts</div>
+        <div className="text-xs text-gray-600 mb-2 font-medium">Khái niệm Giải tích</div>
         <div className="text-xs text-gray-500">
-          Derivative = instantaneous rate of change<br />
-          Integral = area under the curve<br />
-          Tangent = line touching at a point
+          Đạo hàm = tốc độ biến thiên tức thời<br />
+          Tích phân = diện tích dưới đường cong<br />
+          Tiếp tuyến = đường thẳng chạm tại một điểm
         </div>
       </div>
 
@@ -111,7 +118,7 @@ export default function CalculusVisualizerPage() {
         onClick={() => router.push("/experiments/calculus-visualizer/details")}
         className="w-full py-2.5 bg-gradient-to-r from-green-100 to-green-200 hover:from-green-200 hover:to-green-300 text-green-700 font-medium text-sm rounded-lg transition-all border border-green-300/50 flex items-center justify-center gap-2"
       >
-        📖 View Experiment Details
+        📖 Xem chi tiết thí nghiệm
       </button>
     </div>
   );
@@ -135,15 +142,15 @@ export default function CalculusVisualizerPage() {
     </>
   ) : (
     <div className="text-center text-gray-500 text-sm py-8">
-      Waiting for simulation data...
+      Đang chờ dữ liệu mô phỏng...
     </div>
   );
 
   return (
     <>
       <ExperimentContainer
-        title="Calculus Visualizer"
-        description="Explore derivatives, integrals, and tangent lines"
+        title="Mô phỏng Giải tích"
+        description="Khám phá đạo hàm, tích phân và đường tiếp tuyến"
         cameraPosition={[12, 8, 12]}
         backgroundColor="#050510"
         controls={null}
@@ -164,7 +171,7 @@ export default function CalculusVisualizerPage() {
 
       <SimulationController isPlaying={isPlaying} onPlayPause={handlePlayPause} onReset={handleReset} speed={simulationSpeed} onSpeedChange={setSimulationSpeed} />
 
-      <FloatingControlPanel title="⚙️ Calculus Settings" initialPosition={{ x: 20, y: 80 }}>
+      <FloatingControlPanel title="⚙️ Cài đặt Giải tích" initialPosition={{ x: 20, y: 80 }}>
         {parameterControls}
       </FloatingControlPanel>
 

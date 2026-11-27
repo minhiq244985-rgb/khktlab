@@ -5,28 +5,28 @@ import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { Line } from "@react-three/drei";
 
-// Element data for Z=1 to 20 (Hydrogen to Calcium)
+// Dữ liệu nguyên tố từ Z=1 đến 20 (Hiđro đến Canxi)
 const ELEMENTS: Record<number, { name: string; symbol: string; massNumber: number }> = {
-  1: { name: "Hydrogen", symbol: "H", massNumber: 1 },
-  2: { name: "Helium", symbol: "He", massNumber: 4 },
-  3: { name: "Lithium", symbol: "Li", massNumber: 7 },
-  4: { name: "Beryllium", symbol: "Be", massNumber: 9 },
-  5: { name: "Boron", symbol: "B", massNumber: 11 },
-  6: { name: "Carbon", symbol: "C", massNumber: 12 },
-  7: { name: "Nitrogen", symbol: "N", massNumber: 14 },
-  8: { name: "Oxygen", symbol: "O", massNumber: 16 },
-  9: { name: "Fluorine", symbol: "F", massNumber: 19 },
+  1: { name: "Hiđro", symbol: "H", massNumber: 1 },
+  2: { name: "Heli", symbol: "He", massNumber: 4 },
+  3: { name: "Liti", symbol: "Li", massNumber: 7 },
+  4: { name: "Berili", symbol: "Be", massNumber: 9 },
+  5: { name: "Bo", symbol: "B", massNumber: 11 },
+  6: { name: "Cacbon", symbol: "C", massNumber: 12 },
+  7: { name: "Nitơ", symbol: "N", massNumber: 14 },
+  8: { name: "Oxi", symbol: "O", massNumber: 16 },
+  9: { name: "Flo", symbol: "F", massNumber: 19 },
   10: { name: "Neon", symbol: "Ne", massNumber: 20 },
-  11: { name: "Sodium", symbol: "Na", massNumber: 23 },
-  12: { name: "Magnesium", symbol: "Mg", massNumber: 24 },
-  13: { name: "Aluminum", symbol: "Al", massNumber: 27 },
-  14: { name: "Silicon", symbol: "Si", massNumber: 28 },
-  15: { name: "Phosphorus", symbol: "P", massNumber: 31 },
-  16: { name: "Sulfur", symbol: "S", massNumber: 32 },
-  17: { name: "Chlorine", symbol: "Cl", massNumber: 35 },
+  11: { name: "Natri", symbol: "Na", massNumber: 23 },
+  12: { name: "Magie", symbol: "Mg", massNumber: 24 },
+  13: { name: "Nhôm", symbol: "Al", massNumber: 27 },
+  14: { name: "Silic", symbol: "Si", massNumber: 28 },
+  15: { name: "Photpho", symbol: "P", massNumber: 31 },
+  16: { name: "Lưu huỳnh", symbol: "S", massNumber: 32 },
+  17: { name: "Clo", symbol: "Cl", massNumber: 35 },
   18: { name: "Argon", symbol: "Ar", massNumber: 40 },
-  19: { name: "Potassium", symbol: "K", massNumber: 39 },
-  20: { name: "Calcium", symbol: "Ca", massNumber: 40 },
+  19: { name: "Kali", symbol: "K", massNumber: 39 },
+  20: { name: "Canxi", symbol: "Ca", massNumber: 40 },
 };
 
 // Bohr radii in Angstroms (scaled for visualization)
@@ -66,8 +66,8 @@ export interface AtomicStructureSceneProps {
 }
 
 /**
- * Atomic Structure scene component
- * Visualizes Bohr model with nucleus and electron shells
+ * Thành phần cảnh Cấu trúc nguyên tử
+ * Trực quan hóa mô hình Bohr với hạt nhân và các lớp vỏ electron
  */
 export function AtomicStructureSceneComponent({
   atomicNumber,
@@ -131,7 +131,7 @@ export function AtomicStructureSceneComponent({
 
   // Calculate nucleons
   const protons = atomicNumber;
-  const elementData = ELEMENTS[atomicNumber] || { name: "Unknown", symbol: "?", massNumber: atomicNumber * 2 };
+  const elementData = ELEMENTS[atomicNumber] || { name: "Không xác định", symbol: "?", massNumber: atomicNumber * 2 };
   const neutrons = elementData.massNumber - protons;
   const electronConfig = getElectronConfiguration(atomicNumber);
 

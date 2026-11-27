@@ -28,29 +28,29 @@ export interface DoubleSlitData {
 
 interface Particle {
   position: THREE.Vector3;
-  targetY: number; // Pre-calculated landing position on screen
+  targetY: number; // Vị trí chạm màn chắn được tính trước
   velocity: THREE.Vector3;
   active: boolean;
   phase: "source" | "travelling" | "screen";
-  progress: number; // 0 to 1 along path
+  progress: number; // Từ 0 đến 1 dọc theo đường đi
 }
 
 /**
- * REAL Quantum Double-Slit Simulation
+ * Mô phỏng Khe Đôi Lượng Tử THỰC TẾ
  *
- * Uses the exact double-slit intensity distribution:
+ * Sử dụng phân bố cường độ khe đôi chính xác:
  * I(y) = I0 * cos²(π * d * y / (λ * L)) * sinc²(π * a * y / (λ * L))
  *
- * where:
- * - I(y) is the intensity at screen position y
- * - d is the slit separation
- * - a is the slit width
- * - λ is the wavelength
- * - L is the distance from slits to screen
+ * trong đó:
+ * - I(y) là cường độ tại vị trí y trên màn chắn
+ * - d là khoảng cách giữa hai khe
+ * - a là độ rộng khe
+ * - λ là bước sóng
+ * - L là khoảng cách từ hai khe đến màn chắn
  * - sinc(x) = sin(x)/x
  *
- * Particles are fired individually and land on the screen according
- * to this probability distribution, demonstrating wave-particle duality.
+ * Các hạt được bắn ra riêng lẻ và chạm vào màn chắn theo
+ * phân bố xác suất này, minh họa lưỡng tính sóng-hạt.
  */
 export function DoubleSlitSceneComponent({
   onDataChange,
@@ -71,7 +71,7 @@ export function DoubleSlitSceneComponent({
   const lastParticleTimeRef = useRef(0);
   const totalParticlesRef = useRef(0);
 
-  // Scene setup
+  // Thiết lập cảnh
   const sourcePos = useMemo(() => new THREE.Vector3(-12, 0, 0), []);
   const barrierX = 0;
   const screenX = 12;
@@ -81,24 +81,24 @@ export function DoubleSlitSceneComponent({
   const [screenIntensities, setScreenIntensities] = useState<Float32Array>(new Float32Array(300));
 
   /**
-   * Calculate the double-slit intensity at screen position y
+   * Tính cường độ khe đôi tại vị trí y trên màn chắn
    * I(y) = I0 * cos²(π * d * y / (λ * L)) * sinc²(π * a * y / (λ * L))
    */
   const calculateIntensity = (y: number): number => {
-    // Convert wavelength from nm to simulation units
-    const lambda = wavelength / 10000; // Scale factor for simulation
+    // Chuyển đổi bước sóng từ nm sang đơn vị mô phỏng
+    const lambda = wavelength / 10000; // Hệ số tỷ lệ cho mô phỏng
     const L = screenX - barrierX;
     const d = slitSeparation;
     const a = slitWidth;
 
-    // Small angle approximation: sin(theta) ≈ theta ≈ y/L
+    // Xấp xỉ góc nhỏ: sin(theta) ≈ theta ≈ y/L
     const y_normalized = y / L;
 
-    // Double-slit interference term: cos²(π * d * y / (λ * L))
+    // Thành phần giao thoa khe đôi: cos²(π * d * y / (λ * L))
     const interferenceArg = (Math.PI * d * y_normalized) / lambda;
     const interference = Math.cos(interferenceArg) ** 2;
 
-    // Single-slit diffraction envelope: sinc²(π * a * y / (λ * L))
+    // Đường bao nhiễu xạ đơn khe: sinc²(π * a * y / (λ * L))
     const diffractionArg = (Math.PI * a * y_normalized) / lambda;
     let diffraction = 1;
     if (Math.abs(diffractionArg) > 0.0001) {
@@ -110,41 +110,41 @@ export function DoubleSlitSceneComponent({
   };
 
   /**
-   * Sample a screen position according to the quantum probability distribution
-   * Uses rejection sampling to pick positions proportional to intensity
+   * Lấy mẫu vị trí màn chắn theo phân bố xác suất lượng tử
+   * Sử dụng phương pháp lấy mẫu loại bỏ (rejection sampling) tỷ lệ thuận với cường độ
    */
   const sampleQuantumPosition = (): number => {
     const maxAttempts = 200;
     const searchRange = screenHeight * 1.5;
 
     for (let attempt = 0; attempt < maxAttempts; attempt++) {
-      // Pick a random position on screen
+      // Chọn một vị trí ngẫu nhiên trên màn chắn
       const y = (Math.random() - 0.5) * 2 * searchRange;
 
-      // Calculate quantum probability at this position
+      // Tính xác suất lượng tử tại vị trí này
       const probability = calculateIntensity(y);
 
-      // Accept or reject based on probability
+      // Chấp nhận hoặc loại bỏ dựa trên xác suất
       if (Math.random() < probability) {
         return y;
       }
     }
 
-    // Fallback: return a random position near center
+    // Dự phòng: trả về một vị trí ngẫu nhiên gần tâm
     return (Math.random() - 0.5) * screenHeight;
   };
 
-  // Data calculation and reporting
+  // Tính toán và báo cáo dữ liệu
   useEffect(() => {
     const lambda = wavelength / 10000;
     const L = screenX - barrierX;
     const d = slitSeparation;
 
-    // Fringe spacing: Δy = λ * L / d
+    // Khoảng vân: Δy = λ * L / d
     const fringeSpacing = (lambda * L) / d;
 
     const data: DoubleSlitData = {
-      fringeSpacing: fringeSpacing * 1000, // Convert to mm
+      fringeSpacing: fringeSpacing * 1000, // Chuyển sang mm
       particleCount: totalParticlesRef.current,
       wavelength,
       slitSeparation,
@@ -153,7 +153,7 @@ export function DoubleSlitSceneComponent({
     onDataChange?.(data);
   }, [wavelength, slitSeparation, slitWidth, onDataChange, screenIntensities]);
 
-  // Reset handler
+  // Xử lý đặt lại
   useEffect(() => {
     if (resetTrigger !== undefined) {
       particlesRef.current = [];
@@ -173,14 +173,14 @@ export function DoubleSlitSceneComponent({
     const dt = Math.min(delta, 0.033) * simulationSpeed;
     timeRef.current += dt;
 
-    // Spawn new particles at specified rate
+    // Tạo hạt mới theo tốc độ đã chỉ định
     const spawnInterval = 1 / particleRate;
     if (timeRef.current - lastParticleTimeRef.current > spawnInterval) {
-      // Pre-calculate where this particle will land (quantum measurement)
+      // Tính trước vị trí hạt sẽ chạm màn (đo lường lượng tử)
       const targetY = sampleQuantumPosition();
 
-      // Calculate velocity to hit the target
-      const travelTime = (screenX - sourcePos.x) / 10; // Speed of 10 units/sec
+      // Tính vận tốc để chạm đích
+      const travelTime = (screenX - sourcePos.x) / 10; // Tốc độ 10 đơn vị/giây
       const vy = targetY / travelTime;
 
       const particle: Particle = {
@@ -198,18 +198,18 @@ export function DoubleSlitSceneComponent({
     const positions = new Float32Array(500 * 3);
     let idx = 0;
 
-    // Update all particles
+    // Cập nhật tất cả các hạt
     for (let i = particlesRef.current.length - 1; i >= 0; i--) {
       const p = particlesRef.current[i];
       if (!p.active) continue;
 
-      // Move particle
+      // Di chuyển hạt
       p.position.add(p.velocity.clone().multiplyScalar(dt));
       p.progress = (p.position.x - sourcePos.x) / (screenX - sourcePos.x);
 
-      // Check if passed barrier (slits)
+      // Kiểm tra xem đã đi qua màn chắn (hai khe) chưa
       if (p.phase === "source" && p.position.x >= barrierX) {
-        // Check if particle goes through either slit
+        // Kiểm tra xem hạt có đi qua khe nào không
         const slit1Y = slitSeparation / 2;
         const slit2Y = -slitSeparation / 2;
 
@@ -219,20 +219,20 @@ export function DoubleSlitSceneComponent({
 
         if (inSlit1 || inSlit2) {
           p.phase = "travelling";
-          // Adjust trajectory slightly for diffraction
+          // Điều chỉnh quỹ đạo một chút do nhiễu xạ
           p.velocity.y += (Math.random() - 0.5) * 0.3;
           p.velocity.normalize().multiplyScalar(10);
         } else {
-          // Blocked by barrier
+          // Bị chặn bởi vách ngăn
           p.active = false;
         }
       }
 
-      // Check if reached screen
+      // Kiểm tra xem đã chạm màn chắn chưa
       if (p.position.x >= screenX) {
         p.phase = "screen";
 
-        // Record hit position
+        // Ghi lại vị trí va chạm
         const screenIndex = Math.floor(
           ((p.position.y + screenHeight / 2) / screenHeight) * 300
         );
@@ -247,7 +247,7 @@ export function DoubleSlitSceneComponent({
         p.active = false;
       }
 
-      // Store position for rendering
+      // Lưu vị trí để kết xuất
       if (p.active && idx < 500) {
         positions[idx * 3] = p.position.x;
         positions[idx * 3 + 1] = p.position.y;
@@ -255,7 +255,7 @@ export function DoubleSlitSceneComponent({
         idx++;
       }
 
-      // Remove inactive particles
+      // Xóa các hạt không hoạt động
       if (!p.active) {
         particlesRef.current.splice(i, 1);
       }
@@ -263,7 +263,7 @@ export function DoubleSlitSceneComponent({
 
     setParticlePositions(positions);
 
-    // Update screen intensity visualization
+    // Cập nhật hiển thị cường độ trên màn chắn
     const intensities = new Float32Array(300);
     for (let i = 0; i < 300; i++) {
       if (maxHitsRef.current > 0) {
@@ -273,20 +273,20 @@ export function DoubleSlitSceneComponent({
     setScreenIntensities(intensities);
   });
 
-  // Theoretical intensity curve for comparison
+  // Đường cong cường độ lý thuyết để so sánh
   const intensityCurvePoints = useMemo(() => {
     const points: [number, number, number][] = [];
     const steps = 200;
     for (let i = 0; i <= steps; i++) {
       const y = ((i / steps) * screenHeight * 1.4) - screenHeight * 0.7;
       const intensity = calculateIntensity(y);
-      // Draw curve to the right of the screen
+      // Vẽ đường cong ở bên phải màn chắn
       points.push([screenX + 1 + intensity * 5, y, 0]);
     }
     return points;
   }, [wavelength, slitSeparation, slitWidth, screenHeight]);
 
-  // Screen hit bars (accumulated pattern)
+  // Các vạch va chạm trên màn chắn (hình ảnh tích lũy)
   const screenHitBars = useMemo(() => {
     const bars: { y: number; height: number; opacity: number }[] = [];
     const barWidth = screenHeight / 300;
@@ -306,7 +306,7 @@ export function DoubleSlitSceneComponent({
     return bars;
   }, [screenIntensities]);
 
-  // Wavelength to color
+  // Chuyển đổi bước sóng sang màu sắc
   const wavelengthColor = `hsl(${540 - wavelength * 0.6}, 100%, 50%)`;
   const wavelengthHex = useMemo(() => {
     const hue = 540 - wavelength * 0.6;
@@ -315,21 +315,21 @@ export function DoubleSlitSceneComponent({
 
   return (
     <group>
-      {/* Floor plane */}
+      {/* Mặt sàn */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -8, 0]} receiveShadow>
         <planeGeometry args={[35, 25]} />
         <meshStandardMaterial color="#050510" roughness={0.95} metalness={0.1} />
       </mesh>
       <gridHelper args={[35, 35, "#1a1a3e", "#0a0a1e"]} position={[0, -7.99, 0]} />
 
-      {/* Particle Source (left side) */}
+      {/* Nguồn phát hạt (bên trái) */}
       <group position={sourcePos}>
-        {/* Source housing */}
+        {/* Vỏ nguồn phát */}
         <mesh castShadow>
           <cylinderGeometry args={[0.6, 0.8, 1.5, 16]} />
           <meshStandardMaterial color="#333" metalness={0.8} roughness={0.2} />
         </mesh>
-        {/* Emissive aperture */}
+        {/* Khe phát xạ */}
         <mesh position={[0.5, 0, 0]}>
           <sphereGeometry args={[0.3, 16, 16]} />
           <meshStandardMaterial
@@ -338,9 +338,9 @@ export function DoubleSlitSceneComponent({
             emissiveIntensity={3}
           />
         </mesh>
-        {/* Point light from source */}
+        {/* Ánh sáng điểm từ nguồn */}
         <pointLight color={wavelengthHex} intensity={3} distance={8} />
-        {/* Glow effect */}
+        {/* Hiệu ứng phát sáng */}
         <mesh>
           <sphereGeometry args={[0.5, 16, 16]} />
           <meshBasicMaterial
@@ -351,27 +351,27 @@ export function DoubleSlitSceneComponent({
         </mesh>
       </group>
 
-      {/* Barrier with two slits (center) */}
+      {/* Vách ngăn có hai khe (ở giữa) */}
       <group position={[barrierX, 0, 0]}>
-        {/* Top barrier segment */}
+        {/* Phần vách ngăn trên */}
         <mesh position={[0, slitSeparation / 2 + slitWidth / 2 + 3.5, 0]} castShadow>
           <boxGeometry args={[0.3, 7, 2.5]} />
           <meshStandardMaterial color="#2a2a3e" metalness={0.7} roughness={0.3} />
         </mesh>
 
-        {/* Middle barrier segment (between slits) */}
+        {/* Phần vách ngăn giữa (nằm giữa hai khe) */}
         <mesh position={[0, 0, 0]} castShadow>
           <boxGeometry args={[0.3, slitSeparation - slitWidth, 2.5]} />
           <meshStandardMaterial color="#2a2a3e" metalness={0.7} roughness={0.3} />
         </mesh>
 
-        {/* Bottom barrier segment */}
+        {/* Phần vách ngăn dưới */}
         <mesh position={[0, -slitSeparation / 2 - slitWidth / 2 - 3.5, 0]} castShadow>
           <boxGeometry args={[0.3, 7, 2.5]} />
           <meshStandardMaterial color="#2a2a3e" metalness={0.7} roughness={0.3} />
         </mesh>
 
-        {/* Slit glow markers */}
+        {/* Điểm đánh dấu phát sáng ở khe */}
         <mesh position={[0.15, slitSeparation / 2, 0]}>
           <boxGeometry args={[0.05, slitWidth, 2.6]} />
           <meshBasicMaterial color={wavelengthHex} transparent opacity={0.6} />
@@ -382,27 +382,27 @@ export function DoubleSlitSceneComponent({
         </mesh>
       </group>
 
-      {/* Detection Screen (right side) */}
+      {/* Màn chắn dò hạt (bên phải) */}
       <group position={[screenX, 0, 0]}>
-        {/* Screen backing */}
+        {/* Mặt sau màn chắn */}
         <mesh receiveShadow>
           <boxGeometry args={[0.3, screenHeight, 0.8]} />
           <meshStandardMaterial color="#1a1a2e" metalness={0.5} roughness={0.5} />
         </mesh>
 
-        {/* Screen frame - top */}
+        {/* Khung màn chắn - trên */}
         <mesh position={[0, screenHeight / 2 + 0.4, 0]} castShadow>
           <boxGeometry args={[0.5, 0.6, 1]} />
           <meshStandardMaterial color="#444" metalness={0.8} roughness={0.2} />
         </mesh>
 
-        {/* Screen frame - bottom */}
+        {/* Khung màn chắn - dưới */}
         <mesh position={[0, -screenHeight / 2 - 0.4, 0]} castShadow>
           <boxGeometry args={[0.5, 0.6, 1]} />
           <meshStandardMaterial color="#444" metalness={0.8} roughness={0.2} />
         </mesh>
 
-        {/* Accumulated particle pattern on screen */}
+        {/* Hình ảnh hạt tích lũy trên màn chắn */}
         {screenHitBars.map((bar, i) => (
           <mesh key={i} position={[0.2, bar.y, 0.15]}>
             <boxGeometry args={[0.08, bar.height, 0.08]} />
@@ -415,7 +415,7 @@ export function DoubleSlitSceneComponent({
         ))}
       </group>
 
-      {/* Flying particles */}
+      {/* Các hạt đang bay */}
       {showParticles && (
         <points geometry={new THREE.BufferGeometry().setAttribute('position', new THREE.BufferAttribute(particlePositions, 3))}>
           <pointsMaterial
@@ -430,17 +430,17 @@ export function DoubleSlitSceneComponent({
         </points>
       )}
 
-      {/* Theoretical intensity curve (for comparison) */}
+      {/* Đường cong cường độ lý thuyết (để so sánh) */}
       {showWaveView && (
         <group position={[0, 0, -0.8]}>
-          {/* Intensity curve */}
+          {/* Đường cong cường độ */}
           <Line
             points={intensityCurvePoints}
             color={wavelengthHex}
             lineWidth={3}
             opacity={0.9}
           />
-          {/* Base line */}
+          {/* Đường cơ sở */}
           <Line
             points={[
               [screenX + 1, -screenHeight * 0.7, 0],
@@ -450,7 +450,7 @@ export function DoubleSlitSceneComponent({
             lineWidth={1}
             opacity={0.5}
           />
-          {/* Tick marks */}
+          {/* Vạch chia */}
           {[
             -screenHeight * 0.5,
             -screenHeight * 0.25,
@@ -472,7 +472,7 @@ export function DoubleSlitSceneComponent({
         </group>
       )}
 
-      {/* Labels / info plates */}
+      {/* Nhãn / bảng thông tin */}
       <group position={[sourcePos.x, 2.5, 0]}>
         <mesh>
           <planeGeometry args={[4, 0.6]} />
@@ -480,7 +480,7 @@ export function DoubleSlitSceneComponent({
         </mesh>
       </group>
 
-      {/* Distance markers on floor */}
+      {/* Vạch đo khoảng cách trên sàn */}
       <group position={[0, -7.95, 2]}>
         {[...Array(5)].map((_, i) => {
           const x = -10 + i * 5;

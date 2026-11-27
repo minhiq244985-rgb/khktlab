@@ -23,8 +23,8 @@ export interface CrystalLatticeSceneProps {
 }
 
 /**
- * Crystal Lattice scene component - Performance optimized
- * Visualizes 3D crystal structures: FCC, BCC, HCP, and diamond
+ * Component cảnh Mạng tinh thể - Tối ưu hiệu năng
+ * Trực quan hóa cấu trúc tinh thể 3D: FCC, BCC, HCP và kim cương
  */
 export function CrystalLatticeSceneComponent({
   latticeType,
@@ -35,11 +35,11 @@ export function CrystalLatticeSceneComponent({
 }: CrystalLatticeSceneProps) {
   const groupRef = useRef<THREE.Group>(null);
 
-  // Performance refs - physics state updated every frame
+  // Ref hiệu năng - trạng thái vật lý cập nhật mỗi khung hình
   const frameCountRef = useRef(0);
   const rotationRef = useRef(0);
 
-  // React state - updated only every 8 frames
+  // Trạng thái React - chỉ cập nhật mỗi 8 khung hình
   const [data, setData] = useState<CrystalLatticeData>({
     latticeType: "FCC",
     unitCells: 8,
@@ -49,7 +49,7 @@ export function CrystalLatticeSceneComponent({
     totalAtoms: 32,
   });
 
-  // Crystal structure properties
+  // Thuộc tính các cấu trúc tinh thể
   const latticeData: Record<"FCC" | "BCC" | "HCP" | "diamond", {
     atomsPerCell: number;
     coordinationNumber: number;
@@ -61,20 +61,20 @@ export function CrystalLatticeSceneComponent({
     diamond: { atomsPerCell: 8, coordinationNumber: 4, packingEfficiency: 0.34 },
   };
 
-  // Generate lattice positions using useMemo for performance
+  // Tạo vị trí mạng tinh thể bằng useMemo để tối ưu hiệu năng
   const getLatticePositions = (): THREE.Vector3[] => {
     const positions: THREE.Vector3[] = [];
     const spacing = 2;
     const layers = 2;
 
     if (latticeType === "FCC") {
-      // Face-Centered Cubic
+      // Lập phương tâm mặt (Face-Centered Cubic)
       for (let x = 0; x < layers; x++) {
         for (let y = 0; y < layers; y++) {
           for (let z = 0; z < layers; z++) {
-            // Corner atoms
+            // Nguyên tử ở đỉnh
             positions.push(new THREE.Vector3(x * spacing, y * spacing, z * spacing));
-            // Face centers
+            // Nguyên tử ở tâm mặt
             positions.push(new THREE.Vector3(x * spacing + spacing/2, y * spacing + spacing/2, z * spacing));
             positions.push(new THREE.Vector3(x * spacing + spacing/2, y * spacing, z * spacing + spacing/2));
             positions.push(new THREE.Vector3(x * spacing, y * spacing + spacing/2, z * spacing + spacing/2));
@@ -82,7 +82,7 @@ export function CrystalLatticeSceneComponent({
         }
       }
     } else if (latticeType === "BCC") {
-      // Body-Centered Cubic
+      // Lập phương tâm khối (Body-Centered Cubic)
       for (let x = 0; x < layers; x++) {
         for (let y = 0; y < layers; y++) {
           for (let z = 0; z < layers; z++) {
@@ -92,7 +92,7 @@ export function CrystalLatticeSceneComponent({
         }
       }
     } else if (latticeType === "HCP") {
-      // Hexagonal Close-Packed
+      // Lục giác xếp chặt (Hexagonal Close-Packed)
       for (let layer = 0; layer < 3; layer++) {
         const offset = layer % 2 === 0 ? 0 : spacing/2;
         for (let x = -1; x <= 1; x++) {
@@ -106,7 +106,7 @@ export function CrystalLatticeSceneComponent({
         }
       }
     } else if (latticeType === "diamond") {
-      // Diamond structure (two interpenetrating FCC lattices)
+      // Cấu trúc kim cương (hai mạng FCC lồng nhau)
       for (let x = 0; x < layers; x++) {
         for (let y = 0; y < layers; y++) {
           for (let z = 0; z < layers; z++) {
@@ -127,7 +127,7 @@ export function CrystalLatticeSceneComponent({
 
   const atomPositions = useMemo(() => getLatticePositions(), [latticeType]);
 
-  // Generate bonds using Line from drei
+  // Tạo đường liên kết bằng Line từ drei
   const bondLines = useMemo(() => {
     if (!showBonds) return [];
 
@@ -149,7 +149,7 @@ export function CrystalLatticeSceneComponent({
     return bonds;
   }, [atomPositions, latticeType, showBonds]);
 
-  // Unit cell wireframe using Line from drei
+  // Khung dây ô đơn vị bằng Line từ drei
   const unitCellLines = useMemo(() => {
     if (!showUnitCell) return [];
 
@@ -167,7 +167,7 @@ export function CrystalLatticeSceneComponent({
     return lines;
   }, [showUnitCell]);
 
-  // Center the lattice
+  // Căn giữa mạng tinh thể
   const centerOffset = useMemo(() => {
     const center = new THREE.Vector3();
     atomPositions.forEach(pos => center.add(pos));
@@ -175,7 +175,7 @@ export function CrystalLatticeSceneComponent({
     return center.negate();
   }, [atomPositions]);
 
-  // Throttled data updates (every 8 frames)
+  // Cập nhật dữ liệu có chu kỳ (mỗi 8 khung hình)
   useFrame((_, delta) => {
     if (!groupRef.current) return;
 
@@ -202,7 +202,7 @@ export function CrystalLatticeSceneComponent({
     }
   });
 
-  // Get atom color based on position
+  // Lấy màu nguyên tử theo vị trí
   const getAtomColor = (index: number) => {
     const colors = ["#a855f7", "#ec4899", "#8b5cf6", "#d946ef"];
     return colors[index % colors.length];
@@ -211,7 +211,7 @@ export function CrystalLatticeSceneComponent({
   return (
     <>
       <group ref={groupRef} position={[centerOffset.x, centerOffset.y, centerOffset.z]}>
-        {/* Unit cell wireframe using Line from drei */}
+        {/* Khung dây ô đơn vị bằng Line từ drei */}
         {unitCellLines.map((line, i) => (
           <Line
             key={`unit-cell-${i}`}
@@ -223,7 +223,7 @@ export function CrystalLatticeSceneComponent({
           />
         ))}
 
-        {/* Corner highlights */}
+        {/* Làm nổi bật các đỉnh */}
         {showUnitCell && [
           [0,0,0], [2,0,0], [2,2,0], [0,2,0],
           [0,0,2], [2,0,2], [2,2,2], [0,2,2],
@@ -234,7 +234,7 @@ export function CrystalLatticeSceneComponent({
           </mesh>
         ))}
 
-        {/* Bonds using Line from drei */}
+        {/* Đường liên kết bằng Line từ drei */}
         {bondLines.map((bond, i) => (
           <Line
             key={`bond-${i}`}
@@ -246,7 +246,7 @@ export function CrystalLatticeSceneComponent({
           />
         ))}
 
-        {/* Atoms */}
+        {/* Các nguyên tử */}
         {atomPositions.map((pos, i) => (
           <mesh key={i} position={pos} castShadow>
             <sphereGeometry args={[0.25, 16, 16]} />

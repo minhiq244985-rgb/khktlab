@@ -33,18 +33,18 @@ interface Organism {
   id: number;
   position: [number, number, number];
   velocity: [number, number, number];
-  trophicLevel: 0 | 1 | 2 | 3; // 0=producer, 1=primary, 2=secondary, 3=apex
+  trophicLevel: 0 | 1 | 2 | 3; // 0=sinh vật sản xuất, 1=bậc 1, 2=bậc 2, 3=đầu bảng
   alive: boolean;
   energy: number;
   age: number;
 }
 
-// Trophic level configuration
+// Cấu hình bậc dinh dưỡng
 const TROPHIC_INFO = {
-  0: { name: 'Producers', color: '#22c55e', size: 0.18, speed: 0, energyValue: 100 },
-  1: { name: 'Primary Consumers', color: '#3b82f6', size: 0.3, speed: 0.018, energyValue: 10 },
-  2: { name: 'Secondary Consumers', color: '#f59e0b', size: 0.45, speed: 0.025, energyValue: 1 },
-  3: { name: 'Apex Predators', color: '#ef4444', size: 0.65, speed: 0.03, energyValue: 0.1 },
+  0: { name: 'Sinh vật sản xuất', color: '#22c55e', size: 0.18, speed: 0, energyValue: 100 },
+  1: { name: 'Sinh vật tiêu thụ bậc 1', color: '#3b82f6', size: 0.3, speed: 0.018, energyValue: 10 },
+  2: { name: 'Sinh vật tiêu thụ bậc 2', color: '#f59e0b', size: 0.45, speed: 0.025, energyValue: 1 },
+  3: { name: 'Động vật săn mồi đầu bảng', color: '#ef4444', size: 0.65, speed: 0.03, energyValue: 0.1 },
 };
 
 export default function EcosystemSceneComponent({
@@ -63,13 +63,13 @@ export default function EcosystemSceneComponent({
   const groupRef = useRef<THREE.Group>(null);
   const frameCountRef = useRef(0);
 
-  // Physics state in refs
+  // Trạng thái vật lý trong refs
   const organismsRef = useRef<Organism[]>([]);
   const populationHistoryRef = useRef<{ p: number; pr: number; s: number; a: number }[]>([]);
   const timeRef = useRef(0);
   const generationRef = useRef(0);
 
-  // React state for UI updates (throttled)
+  // Trạng thái React để cập nhật UI (được điều tiết)
   const [displayData, setDisplayData] = useState<EcosystemData>({
     producerCount: initialProducerPop,
     primaryCount: initialPrimaryPop,
@@ -80,12 +80,12 @@ export default function EcosystemSceneComponent({
     biodiversityIndex: 1.5,
   });
 
-  // Initialize organisms
+  // Khởi tạo sinh vật
   useEffect(() => {
     const organisms: Organism[] = [];
     let id = 0;
 
-    // Producers (plants) - at ground level
+    // Sinh vật sản xuất (thực vật) - ở mặt đất
     for (let i = 0; i < initialProducerPop; i++) {
       organisms.push({
         id: id++,
@@ -102,7 +102,7 @@ export default function EcosystemSceneComponent({
       });
     }
 
-    // Primary consumers (herbivores) - eat producers
+    // Sinh vật tiêu thụ bậc 1 (động vật ăn cỏ) - ăn sinh vật sản xuất
     for (let i = 0; i < initialPrimaryPop; i++) {
       organisms.push({
         id: id++,
@@ -123,7 +123,7 @@ export default function EcosystemSceneComponent({
       });
     }
 
-    // Secondary consumers (predators) - eat primary consumers
+    // Sinh vật tiêu thụ bậc 2 (động vật săn mồi) - ăn sinh vật tiêu thụ bậc 1
     for (let i = 0; i < initialSecondaryPop; i++) {
       organisms.push({
         id: id++,
@@ -144,7 +144,7 @@ export default function EcosystemSceneComponent({
       });
     }
 
-    // Apex predators - eat secondary consumers
+    // Động vật săn mồi đầu bảng - ăn sinh vật tiêu thụ bậc 2
     for (let i = 0; i < initialApexPop; i++) {
       organisms.push({
         id: id++,
@@ -179,18 +179,18 @@ export default function EcosystemSceneComponent({
 
     const organisms = organismsRef.current;
 
-    // Update organisms
+    // Cập nhật sinh vật
     organisms.forEach((org) => {
       if (!org.alive) return;
 
       const info = TROPHIC_INFO[org.trophicLevel];
 
-      // Producers sway, consumers move
+      // Sinh vật sản xuất đứng yên, sinh vật tiêu thụ di chuyển
       if (org.trophicLevel > 0) {
         org.velocity[0] += (Math.random() - 0.5) * 0.006 * simulationSpeed;
         org.velocity[2] += (Math.random() - 0.5) * 0.006 * simulationSpeed;
 
-        // Clamp velocity
+        // Giới hạn vận tốc
         const currentSpeed = Math.sqrt(org.velocity[0] ** 2 + org.velocity[2] ** 2);
         if (currentSpeed > info.speed) {
           const factor = info.speed / currentSpeed;
@@ -201,17 +201,17 @@ export default function EcosystemSceneComponent({
         org.position[0] += org.velocity[0] * simulationSpeed;
         org.position[2] += org.velocity[2] * simulationSpeed;
 
-        // Wrap boundaries
+        // Vòng lặp ranh giới
         const bound = 7;
         if (org.position[0] > bound) org.position[0] = -bound;
         if (org.position[0] < -bound) org.position[0] = bound;
         if (org.position[2] > bound) org.position[2] = -bound;
         if (org.position[2] < -bound) org.position[2] = bound;
 
-        // Lose energy over time (higher trophic levels burn more energy)
+        // Tiêu hao năng lượng theo thời gian (bậc dinh dưỡng cao hơn tiêu tốn nhiều năng lượng hơn)
         org.energy -= delta * (2 + org.trophicLevel) * simulationSpeed;
 
-        // Hunt for prey (consumers eat lower trophic level)
+        // Săn mồi (sinh vật tiêu thụ ăn bậc dinh dưỡng thấp hơn)
         if (org.energy < 70) {
           const preyLevel = org.trophicLevel - 1 as 0 | 1 | 2;
           const prey = organisms.find(o =>
@@ -225,24 +225,24 @@ export default function EcosystemSceneComponent({
 
           if (prey && Math.random() < predationRate) {
             prey.alive = false;
-            // 10% energy transfer rule - actually very inefficient
+            // Quy tắc chuyển hóa năng lượng 10%
             org.energy = Math.min(150, org.energy + 50);
           }
         }
 
-        // Die if no energy
+        // Chết nếu hết năng lượng
         if (org.energy <= 0) {
           org.alive = false;
         }
       } else {
-        // Producers gain energy from sun (photosynthesis)
+        // Sinh vật sản xuất nhận năng lượng từ mặt trời (quang hợp)
         org.energy = Math.min(100, org.energy + delta * 12 * simulationSpeed);
       }
 
       org.age += delta * simulationSpeed;
     });
 
-    // Reproduction
+    // Sinh sản
     if (Math.random() < reproductionRate * delta * simulationSpeed) {
       const reproducer = organisms.find(o =>
         o.alive &&
@@ -273,7 +273,7 @@ export default function EcosystemSceneComponent({
       }
     }
 
-    // Producer regrowth
+    // Tái sinh sinh vật sản xuất
     const aliveProducers = organisms.filter(o => o.alive && o.trophicLevel === 0);
     if (aliveProducers.length < initialProducerPop && Math.random() < 0.12 * simulationSpeed) {
       organisms.push({
@@ -291,7 +291,7 @@ export default function EcosystemSceneComponent({
       });
     }
 
-    // Record population data every second
+    // Ghi lại dữ liệu quần thể mỗi giây
     if (Math.floor(timeRef.current) > Math.floor(timeRef.current - delta * simulationSpeed)) {
       const counts = {
         p: organisms.filter(o => o.alive && o.trophicLevel === 0).length,
@@ -306,7 +306,7 @@ export default function EcosystemSceneComponent({
       generationRef.current++;
     }
 
-    // Update React state every 8 frames
+    // Cập nhật trạng thái React sau mỗi 8 khung hình
     if (frameCountRef.current % 8 === 0) {
       const alive = organisms.filter(o => o.alive);
       const counts = {
@@ -316,7 +316,7 @@ export default function EcosystemSceneComponent({
         apex: alive.filter(o => o.trophicLevel === 3).length,
       };
 
-      // Calculate biodiversity (Shannon index)
+      // Tính đa dạng sinh học (chỉ số Shannon)
       const total = alive.length;
       const proportions = [
         counts.producers / total,
@@ -326,7 +326,7 @@ export default function EcosystemSceneComponent({
       ].filter(p => p > 0);
       const biodiversity = -proportions.reduce((sum, p) => sum + p * Math.log(p), 0);
 
-      // Calculate total energy (10% rule: 100 -> 10 -> 1 -> 0.1)
+      // Tính tổng năng lượng (quy tắc 10%: 100 -> 10 -> 1 -> 0.1)
       const totalEnergy = counts.producers * 100 +
         counts.primary * 10 +
         counts.secondary * 1 +
@@ -347,7 +347,7 @@ export default function EcosystemSceneComponent({
     }
   });
 
-  // Population graph data
+  // Dữ liệu biểu đồ quần thể
   const populationGraphData = useMemo(() => {
     const history = populationHistoryRef.current;
     if (history.length < 2) return [[], [], [], []] as [number, number, number][][];
@@ -364,13 +364,13 @@ export default function EcosystemSceneComponent({
     ];
   }, [displayData]);
 
-  // Memoized organism rendering
+  // Kết xuất sinh vật được ghi nhớ
   const organismElements = useMemo(() => {
     return organismsRef.current
       .filter(o => o.alive)
       .map((org) => (
         <group key={org.id} position={org.position}>
-          {/* Body */}
+          {/* Cơ thể */}
           <mesh>
             <sphereGeometry args={[TROPHIC_INFO[org.trophicLevel].size, 12, 12]} />
             <meshStandardMaterial
@@ -381,7 +381,7 @@ export default function EcosystemSceneComponent({
               metalness={0.3}
             />
           </mesh>
-          {/* Energy indicator glow */}
+          {/* Ánh sáng chỉ báo năng lượng */}
           {org.energy > 90 && (
             <mesh>
               <sphereGeometry args={[TROPHIC_INFO[org.trophicLevel].size * 1.4, 8, 8]} />
@@ -393,7 +393,7 @@ export default function EcosystemSceneComponent({
               />
             </mesh>
           )}
-          {/* Trophic level ring indicator */}
+          {/* Vòng chỉ báo bậc dinh dưỡng */}
           {org.trophicLevel > 0 && (
             <mesh rotation={[Math.PI / 2, 0, 0]}>
               <torusGeometry args={[TROPHIC_INFO[org.trophicLevel].size * 1.2, 0.02, 8, 16]} />
@@ -413,13 +413,13 @@ export default function EcosystemSceneComponent({
       <OrbitControls enableDamping dampingFactor={0.05} maxPolarAngle={Math.PI / 2.5} />
 
       <group ref={groupRef}>
-        {/* Ground */}
+        {/* Mặt đất */}
         <mesh position={[0, -0.1, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
           <planeGeometry args={[16, 16]} />
           <meshStandardMaterial color="#15803d" roughness={0.95} metalness={0.05} />
         </mesh>
 
-        {/* Grass details */}
+        {/* Chi tiết cỏ */}
         {Array.from({ length: 120 }).map((_, i) => (
           <mesh
             key={i}
@@ -435,10 +435,10 @@ export default function EcosystemSceneComponent({
           </mesh>
         ))}
 
-        {/* Organisms */}
+        {/* Sinh vật */}
         {organismElements}
 
-        {/* Population graph */}
+        {/* Biểu đồ quần thể */}
         <group position={[-4, 5, 4]} rotation={[-Math.PI / 3.5, 0, 0]}>
           <mesh position={[4, 0.8, -2]}>
             <boxGeometry args={[14, 3.5, 0.1]} />
@@ -460,20 +460,20 @@ export default function EcosystemSceneComponent({
 
           <Html position={[11, 2.5, -2]} distanceFactor={15}>
             <div className="bg-gray-900/90 text-white px-2 py-1 rounded text-xs whitespace-nowrap">
-              Population Dynamics (Lotka-Volterra)
+              Động lực quần thể (Lotka-Volterra)
             </div>
           </Html>
         </group>
 
-        {/* Energy Pyramid (3D) */}
+        {/* Tháp năng lượng (3D) */}
         <group position={[5, 2.5, 0]}>
           <Html position={[0, 5, 0]} distanceFactor={12}>
             <div className="bg-amber-600/90 text-white px-3 py-1 rounded text-sm font-bold">
-              Energy Pyramid (10% Rule)
+              Tháp năng lượng (Quy tắc 10%)
             </div>
           </Html>
 
-          {/* Pyramid layers */}
+          {/* Các tầng tháp */}
           <mesh position={[0, 0.4, 0]}>
             <boxGeometry args={[3, 0.3, 3]} />
             <meshStandardMaterial color="#22c55e" transparent opacity={0.8} />
@@ -492,24 +492,24 @@ export default function EcosystemSceneComponent({
           </mesh>
 
           <Html position={[2, 0.4, 0]} distanceFactor={10}>
-            <div className="text-green-400 text-xs">Producers<br/>100%</div>
+            <div className="text-green-400 text-xs">Sản xuất<br/>100%</div>
           </Html>
           <Html position={[1.3, 1.2, 0]} distanceFactor={10}>
-            <div className="text-blue-400 text-xs">Primary<br/>10%</div>
+            <div className="text-blue-400 text-xs">Bậc 1<br/>10%</div>
           </Html>
           <Html position={[0.8, 1.9, 0]} distanceFactor={10}>
-            <div className="text-amber-400 text-xs">Secondary<br/>1%</div>
+            <div className="text-amber-400 text-xs">Bậc 2<br/>1%</div>
           </Html>
           <Html position={[0.5, 2.5, 0]} distanceFactor={10}>
-            <div className="text-red-400 text-xs">Apex<br/>0.1%</div>
+            <div className="text-red-400 text-xs">Đầu bảng<br/>0.1%</div>
           </Html>
         </group>
 
-        {/* Energy flow arrows */}
+        {/* Mũi tên dòng năng lượng */}
         <group position={[6, 0.5, -4]}>
           <Html position={[0, 3, 0]} distanceFactor={12}>
             <div className="bg-gray-900/90 text-white px-2 py-1 rounded text-xs">
-              Energy Flow →
+              Dòng năng lượng →
             </div>
           </Html>
 
@@ -550,86 +550,86 @@ export default function EcosystemSceneComponent({
           </Html>
         </group>
 
-        {/* Food web diagram */}
+        {/* Sơ đồ lưới thức ăn */}
         <Html position={[-6, 4.5, 0]} distanceFactor={12}>
           <div className="bg-gray-900/95 text-white px-3 py-2 rounded text-xs">
-            <div className="font-bold mb-2 text-teal-400">Trophic Levels</div>
+            <div className="font-bold mb-2 text-teal-400">Các bậc dinh dưỡng</div>
             <div className="space-y-1">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                <span>Level 1: Producers (Plants)</span>
+                <span>Bậc 1: Sinh vật sản xuất (Thực vật)</span>
               </div>
-              <div className="ml-4 text-gray-500">↓ sunlight energy</div>
+              <div className="ml-4 text-gray-500">↓ năng lượng mặt trời</div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-                <span>Level 2: Primary (Herbivores)</span>
+                <span>Bậc 2: Tiêu thụ bậc 1 (Ăn cỏ)</span>
               </div>
-              <div className="ml-4 text-gray-500">↓ 10% energy transfer</div>
+              <div className="ml-4 text-gray-500">↓ 10% truyền năng lượng</div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-amber-500"></div>
-                <span>Level 3: Secondary (Predators)</span>
+                <span>Bậc 3: Tiêu thụ bậc 2 (Săn mồi)</span>
               </div>
-              <div className="ml-4 text-gray-500">↓ 1% energy remaining</div>
+              <div className="ml-4 text-gray-500">↓ 1% năng lượng còn lại</div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                <span>Level 4: Apex (Top Predators)</span>
+                <span>Bậc 4: Đầu bảng (Săn mồi đỉnh cao)</span>
               </div>
             </div>
           </div>
         </Html>
 
-        {/* Main stats */}
+        {/* Thống kê chính */}
         <Html position={[0, 4, 0]} distanceFactor={12}>
           <div className="bg-teal-600/90 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-lg">
-            Generation: {displayData.generation} | Total Energy: {displayData.totalEnergy} units
+            Thế hệ: {displayData.generation} | Tổng năng lượng: {displayData.totalEnergy} đơn vị
           </div>
         </Html>
 
-        {/* Population breakdown */}
+        {/* Chi tiết quần thể */}
         <Html position={[5, 4.5, -4]} distanceFactor={12}>
           <div className="bg-gray-900/90 text-white px-3 py-2 rounded text-xs space-y-1">
-            <div className="font-bold mb-2">Current Population</div>
+            <div className="font-bold mb-2">Quần thể hiện tại</div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-green-500"></div>
-              <span>Producers: {displayData.producerCount}</span>
+              <span>Sinh vật sản xuất: {displayData.producerCount}</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-              <span>Herbivores: {displayData.primaryCount}</span>
+              <span>Động vật ăn cỏ: {displayData.primaryCount}</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-amber-500"></div>
-              <span>Predators: {displayData.secondaryCount}</span>
+              <span>Động vật săn mồi: {displayData.secondaryCount}</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-red-500"></div>
-              <span>Apex: {displayData.apexCount}</span>
+              <span>Đầu bảng: {displayData.apexCount}</span>
             </div>
           </div>
         </Html>
 
-        {/* Biodiversity indicator */}
+        {/* Chỉ báo đa dạng sinh học */}
         <Html position={[-5, 3, -5]} distanceFactor={12}>
           <div className="bg-gray-900/90 text-white px-3 py-2 rounded text-xs">
-            <div className="font-bold text-purple-400">Biodiversity Index</div>
+            <div className="font-bold text-purple-400">Chỉ số đa dạng sinh học</div>
             <div className="text-lg font-bold">{displayData.biodiversityIndex}</div>
             <div className="text-xs text-gray-400">
-              {displayData.biodiversityIndex > 1.3 ? '✓ Stable' : displayData.biodiversityIndex > 0.8 ? '⚠ Moderate' : '⚠ Low Diversity'}
+              {displayData.biodiversityIndex > 1.3 ? '✓ Ổn định' : displayData.biodiversityIndex > 0.8 ? '⚠ Trung bình' : '⚠ Đa dạng thấp'}
             </div>
           </div>
         </Html>
 
-        {/* Lotka-Volterra info */}
+        {/* Thông tin Lotka-Volterra */}
         <Html position={[5, 3, 4]} distanceFactor={12}>
           <div className="bg-gray-900/90 text-white px-3 py-2 rounded text-xs max-w-[180px]">
-            <div className="font-bold text-cyan-400 mb-1">Population Cycles</div>
+            <div className="font-bold text-cyan-400 mb-1">Chu kỳ quần thể</div>
             <div className="text-gray-300 leading-relaxed">
-              Prey ↑ → Predator ↑<br />
-              Prey ↓ → Predator ↓<br />
-              Cycle repeats naturally
+              Con mồi ↑ → Săn mồi ↑<br />
+              Con mồi ↓ → Săn mồi ↓<br />
+              Chu kỳ lặp lại tự nhiên
             </div>
             <div className="mt-2 text-amber-400">
-              More species = stable ecosystem
+              Nhiều loài hơn = hệ sinh thái ổn định
             </div>
           </div>
         </Html>

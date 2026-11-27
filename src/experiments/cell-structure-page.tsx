@@ -11,6 +11,17 @@ import {
 import { ControlGroup, ControlSlider, DataGrid } from '@/components/experiment-ui/ExperimentControls';
 import CellStructureSceneComponent, { CellStructureData } from './cell-structure-scene';
 
+const ORGANELLE_LABELS: Record<string, string> = {
+  None: 'Không có',
+  Nucleus: 'Nhân tế bào',
+  Mitochondria: 'Ti thể',
+  ER: 'Lưới nội chất',
+  Golgi: 'Bộ máy Golgi',
+  Ribosomes: 'Ribosome',
+  Lysosome: 'Tiêu thể (Lysosome)',
+  Membrane: 'Màng tế bào',
+};
+
 export default function CellStructurePage() {
   const router = useRouter();
   const [isPlaying, setIsPlaying] = useState(true);
@@ -63,7 +74,7 @@ export default function CellStructurePage() {
   const parameterControls = useMemo(
     () => (
       <>
-        <ControlGroup title="Display Options">
+        <ControlGroup title="Tùy chọn hiển thị">
           <div className="space-y-3">
             <label className="flex items-center gap-2 text-sm">
               <input
@@ -72,7 +83,7 @@ export default function CellStructurePage() {
                 onChange={(e) => setShowLabels(e.target.checked)}
                 className="w-4 h-4 accent-[#06d6a0]"
               />
-              <span className="text-gray-300">Show Labels</span>
+              <span className="text-gray-300">Hiển thị nhãn</span>
             </label>
             <label className="flex items-center gap-2 text-sm">
               <input
@@ -81,21 +92,21 @@ export default function CellStructurePage() {
                 onChange={(e) => setRotationEnabled(e.target.checked)}
                 className="w-4 h-4 accent-[#06d6a0]"
               />
-              <span className="text-gray-300">Auto Rotation</span>
+              <span className="text-gray-300">Tự động xoay</span>
             </label>
           </div>
         </ControlGroup>
 
-        <ControlGroup title="Organelles">
+        <ControlGroup title="Các bào quan">
           <div className="space-y-2">
             {[
-              { key: 'nucleus', label: 'Nucleus', state: showNucleus, setter: setShowNucleus },
-              { key: 'mitochondria', label: 'Mitochondria', state: showMitochondria, setter: setShowMitochondria },
-              { key: 'er', label: 'Endoplasmic Reticulum', state: showER, setter: setShowER },
-              { key: 'golgi', label: 'Golgi Apparatus', state: showGolgi, setter: setShowGolgi },
-              { key: 'ribosomes', label: 'Ribosomes', state: showRibosomes, setter: setShowRibosomes },
-              { key: 'lysosomes', label: 'Lysosomes', state: showLysosomes, setter: setShowLysosomes },
-              { key: 'membrane', label: 'Cell Membrane', state: showMembrane, setter: setShowMembrane },
+              { key: 'nucleus', label: 'Nhân tế bào', state: showNucleus, setter: setShowNucleus },
+              { key: 'mitochondria', label: 'Ti thể', state: showMitochondria, setter: setShowMitochondria },
+              { key: 'er', label: 'Lưới nội chất', state: showER, setter: setShowER },
+              { key: 'golgi', label: 'Bộ máy Golgi', state: showGolgi, setter: setShowGolgi },
+              { key: 'ribosomes', label: 'Ribosome', state: showRibosomes, setter: setShowRibosomes },
+              { key: 'lysosomes', label: 'Tiêu thể (Lysosome)', state: showLysosomes, setter: setShowLysosomes },
+              { key: 'membrane', label: 'Màng tế bào', state: showMembrane, setter: setShowMembrane },
             ].map((org) => (
               <label key={org.key} className="flex items-center gap-2 text-sm">
                 <input
@@ -114,7 +125,7 @@ export default function CellStructurePage() {
           onClick={() => router.push('/experiments/cell-structure/details')}
           className="w-full mt-4 px-4 py-2 bg-[#06d6a0]/20 hover:bg-[#06d6a0]/30 text-[#06d6a0] rounded-lg border border-[#06d6a0]/50 transition-colors text-sm font-medium"
         >
-          View Details
+          Xem chi tiết
         </button>
       </>
     ),
@@ -136,9 +147,9 @@ export default function CellStructurePage() {
     () => (
       <DataGrid
         data={{
-          organelles: { value: cellData.organelleCount, unit: 'total', color: '#06d6a0', decimals: 0 },
-          selected: { value: 1, unit: cellData.selectedOrganelle, color: '#3b82f6', decimals: 0 },
-          status: { value: isPlaying ? 1 : 0, unit: isPlaying ? 'Active' : 'Paused', color: '#22c55e', decimals: 0 },
+          organelles: { value: cellData.organelleCount, unit: 'tổng số', color: '#06d6a0', decimals: 0 },
+          selected: { value: 1, unit: ORGANELLE_LABELS[cellData.selectedOrganelle] || cellData.selectedOrganelle, color: '#3b82f6', decimals: 0 },
+          status: { value: isPlaying ? 1 : 0, unit: isPlaying ? 'Đang chạy' : 'Tạm dừng', color: '#22c55e', decimals: 0 },
         }}
         columns={2}
       />
@@ -158,8 +169,8 @@ export default function CellStructurePage() {
   return (
     <div className="w-full h-screen relative">
       <ExperimentContainer
-        title="Animal Cell Structure"
-        description="Explore the organelles of an animal cell in 3D - Click to highlight"
+        title="Cấu trúc tế bào động vật"
+        description="Khám phá các bào quan của tế bào động vật trong không gian 3D - Nhấp để làm nổi bật"
         cameraPosition={[0, 2, 10]}
         backgroundColor="#050510"
         controls={null}
@@ -204,7 +215,7 @@ export default function CellStructurePage() {
           onClick={() => setShowControls(true)}
           className="fixed top-20 right-4 z-20 px-4 py-2 bg-[#06d6a0]/20 hover:bg-[#06d6a0]/30 text-[#06d6a0] rounded-lg border border-[#06d6a0]/50 transition-colors text-sm font-medium"
         >
-          Show Controls
+          Hiện bảng điều khiển
         </button>
       )}
     </div>

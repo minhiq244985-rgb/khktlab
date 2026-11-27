@@ -236,7 +236,7 @@ function LightBulb({ power, isBurned, position }: LightBulbProps) {
       {/* Power label */}
       <Html position={[1.5, 0, 0]} center distanceFactor={10}>
         <div className="text-[10px] text-amber-300 bg-black/80 px-2 py-1 rounded whitespace-nowrap pointer-events-none select-none border border-amber-500/30">
-          💡 {isBurned ? "BURNT!" : `P = ${power.toFixed(1)}W`}
+          💡 {isBurned ? "ĐÃ CHÁY!" : `P = ${power.toFixed(1)}W`}
         </div>
       </Html>
     </group>
@@ -316,7 +316,7 @@ function Motor({ current, position }: MotorProps) {
         <div className="text-[10px] text-blue-300 bg-black/80 px-2 py-1 rounded whitespace-nowrap pointer-events-none select-none border border-blue-500/30">
           ⚙️ I = {current.toFixed(2)}A
           <br />
-          {rpm.toFixed(0)} RPM
+          {rpm.toFixed(0)} vòng/phút
         </div>
       </Html>
     </group>
@@ -468,7 +468,7 @@ function PowerMeter({ power, position }: PowerMeterProps) {
 
       {/* Label */}
       <Html position={[0, 0.5, 0.2]} center distanceFactor={12}>
-        <div className="text-[9px] text-gray-400 font-semibold">POWER METER</div>
+        <div className="text-[9px] text-gray-400 font-semibold whitespace-nowrap">CÔNG SUẤT KẾ</div>
       </Html>
 
       {/* Power value */}
@@ -701,14 +701,14 @@ export function OhmsLawSceneComponent({
       <DigitalDisplay
         value={voltage}
         unit="V"
-        label="VOLTMETER"
+        label="VÔN KẾ"
         color="#06b6d4"
         position={voltmeterPosition}
       />
       <DigitalDisplay
         value={currentRef.current}
         unit="A"
-        label="AMMETER"
+        label="AMPE KẾ"
         color="#8b5cf6"
         position={ammeterPosition}
       />
@@ -755,7 +755,7 @@ export function OhmsLawSceneComponent({
         <Html position={[0, 0, 0.1]} center>
           <div className="bg-gradient-to-r from-slate-900/90 to-slate-800/90 text-white px-5 py-2.5 rounded-xl border border-slate-600/50 whitespace-nowrap">
             <div className="font-mono text-sm space-y-1">
-              <div className="text-amber-400 font-semibold">Ohm's Law</div>
+              <div className="text-amber-400 font-semibold">Định luật Ohm</div>
               <div className="text-slate-300">
                 <span className="text-amber-300">V</span> = {voltage.toFixed(1)}V |{" "}
                 <span className="text-blue-300">I</span> = {currentRef.current.toFixed(3)}A |{" "}

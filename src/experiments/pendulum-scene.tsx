@@ -135,7 +135,7 @@ function EnergyBars3D({ kineticEnergy, potentialEnergy, totalEnergy, position = 
           anchorX="center"
           anchorY="middle"
         >
-          KE
+          Động năng
         </Text>
         <Text
           position={[0, keHeight + 0.7, 0]}
@@ -162,7 +162,7 @@ function EnergyBars3D({ kineticEnergy, potentialEnergy, totalEnergy, position = 
           anchorX="center"
           anchorY="middle"
         >
-          PE
+          Thế năng
         </Text>
         <Text
           position={[0, peHeight + 0.7, 0]}
@@ -189,7 +189,7 @@ function EnergyBars3D({ kineticEnergy, potentialEnergy, totalEnergy, position = 
           anchorX="center"
           anchorY="middle"
         >
-          Total
+          Cơ năng
         </Text>
         <Text
           position={[0, teHeight + 0.7, 0]}
@@ -210,7 +210,7 @@ function EnergyBars3D({ kineticEnergy, potentialEnergy, totalEnergy, position = 
         anchorX="center"
         anchorY="middle"
       >
-        Energy (J)
+        Năng lượng (J)
       </Text>
     </group>
   );
@@ -281,9 +281,6 @@ export function PendulumSceneComponent({
 
   // Bob radius scales with mass (visual hint)
   const bobRadius = 0.5 + mass * 0.08;
-
-  // Calculate initial total energy for energy bars max reference
-  const initialTotalEnergy = mass * gravity * length * (1 - Math.cos(initialAngle));
 
   // Reset
   useEffect(() => {

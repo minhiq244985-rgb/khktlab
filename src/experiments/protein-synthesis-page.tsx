@@ -26,16 +26,15 @@ export default function ProteinSynthesisPage() {
   const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
 
   const [proteinData, setProteinData] = useState<ProteinSynthesisData>({
-    phase: 'Transcription',
-    step: 'DNA in Nucleus',
+    phase: 'Phiên mã',
+    step: 'DNA trong nhân',
     codonBeingRead: 'AUG',
     aminoAcidAdded: 'Met',
     proteinLength: 0,
-    description: 'DNA double helix in nucleus with RNA Polymerase',
+    description: 'Phân tử DNA kép trong nhân với RNA Polymerase',
     nucleotidesTranscribed: 0,
   });
 
-  // Auto-play through steps
   useEffect(() => {
     if (autoPlay && isPlaying) {
       autoPlayRef.current = setTimeout(() => {
@@ -62,12 +61,12 @@ export default function ProteinSynthesisPage() {
     setStep(0);
     setAutoPlay(false);
     setProteinData({
-      phase: 'Transcription',
-      step: 'DNA in Nucleus',
+      phase: 'Phiên mã',
+      step: 'DNA trong nhân',
       codonBeingRead: 'AUG',
       aminoAcidAdded: 'Met',
       proteinLength: 0,
-      description: 'DNA double helix in nucleus with RNA Polymerase',
+      description: 'Phân tử DNA kép trong nhân với RNA Polymerase',
       nucleotidesTranscribed: 0,
     });
   }, []);
@@ -83,9 +82,9 @@ export default function ProteinSynthesisPage() {
   const parameterControls = useMemo(
     () => (
       <>
-        <ControlGroup title="Simulation Control">
+        <ControlGroup title="Điều khiển mô phỏng">
           <ControlSlider
-            label="Speed"
+            label="Tốc độ"
             value={speed}
             min={0.1}
             max={3}
@@ -93,14 +92,14 @@ export default function ProteinSynthesisPage() {
             onChange={setSpeed}
           />
           <div className="mt-3 space-y-2">
-            <label className="text-xs text-gray-400 block mb-2">Protein Synthesis Phase</label>
+            <label className="text-xs text-gray-400 block mb-2">Giai đoạn tổng hợp Protein</label>
             {[
-              'DNA in Nucleus',
-              'mRNA Synthesis',
-              'mRNA Processing & Export',
-              'Translation Initiation',
-              'Elongation',
-              'Termination & Folding'
+              'DNA trong nhân',
+              'Tổng hợp mRNA',
+              'Xử lý & Xuất mRNA',
+              'Khởi đầu dịch mã',
+              'Kéo dài chuỗi',
+              'Kết thúc & Cuộn gấp'
             ].map((s, i) => (
               <button
                 key={s}
@@ -123,11 +122,11 @@ export default function ProteinSynthesisPage() {
                 : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
             }`}
           >
-            {autoPlay ? '⏸ Auto Playing' : '▶ Auto Play Steps'}
+            {autoPlay ? '⏸ Đang tự động chạy' : '▶ Tự động chạy các bước'}
           </button>
         </ControlGroup>
 
-        <ControlGroup title="Display Options">
+        <ControlGroup title="Tùy chọn hiển thị">
           <div className="space-y-2">
             <label className="flex items-center gap-2 text-sm">
               <input
@@ -136,7 +135,7 @@ export default function ProteinSynthesisPage() {
                 onChange={(e) => setShowLabels(e.target.checked)}
                 className="w-4 h-4 accent-[#8b5cf6]"
               />
-              <span className="text-gray-300">Show Labels</span>
+              <span className="text-gray-300">Hiển thị nhãn</span>
             </label>
           </div>
         </ControlGroup>
@@ -145,7 +144,7 @@ export default function ProteinSynthesisPage() {
           onClick={() => router.push('/experiments/protein-synthesis/details')}
           className="w-full mt-4 px-4 py-2 bg-[#8b5cf6]/20 hover:bg-[#8b5cf6]/30 text-[#8b5cf6] rounded-lg border border-[#8b5cf6]/50 transition-colors text-sm font-medium"
         >
-          View Details
+          Xem chi tiết
         </button>
       </>
     ),
@@ -156,13 +155,13 @@ export default function ProteinSynthesisPage() {
     () => (
       <DataGrid
         data={{
-          phase: { value: 0, unit: proteinData.phase, color: '#8b5cf6', decimals: 0 },
-          step: { value: 0, unit: proteinData.step, color: '#f59e0b', decimals: 0 },
+          giaiDoan: { value: 0, unit: proteinData.phase, color: '#8b5cf6', decimals: 0 },
+          buoc: { value: 0, unit: proteinData.step, color: '#f59e0b', decimals: 0 },
           codon: { value: 0, unit: proteinData.codonBeingRead, color: '#f97316', decimals: 0 },
-          aminoAcid: { value: 0, unit: proteinData.aminoAcidAdded, color: '#22c55e', decimals: 0 },
+          axitAmin: { value: 0, unit: proteinData.aminoAcidAdded, color: '#22c55e', decimals: 0 },
           protein: { value: proteinData.proteinLength, unit: 'AA', color: '#3b82f6', decimals: 0 },
-          nucleotides: { value: proteinData.nucleotidesTranscribed, unit: 'nt', color: '#06b6d4', decimals: 0 },
-          status: { value: isPlaying ? 1 : 0, unit: isPlaying ? 'Active' : 'Paused', color: '#22c55e', decimals: 0 },
+          nucleotide: { value: proteinData.nucleotidesTranscribed, unit: 'nt', color: '#06b6d4', decimals: 0 },
+          trangThai: { value: isPlaying ? 1 : 0, unit: isPlaying ? 'Đang chạy' : 'Đã tạm dừng', color: '#22c55e', decimals: 0 },
         }}
         columns={2}
       />
@@ -182,8 +181,8 @@ export default function ProteinSynthesisPage() {
   return (
     <div className="w-full h-screen relative">
       <ExperimentContainer
-        title="Protein Synthesis"
-        description="Visualize transcription and translation - Central Dogma of Biology"
+        title="Tổng hợp Protein"
+        description="Mô phỏng phiên mã và dịch mã - Dogma trung tâm của sinh học"
         cameraPosition={[0, 0, 14]}
         backgroundColor="#050510"
         controls={null}
@@ -222,7 +221,7 @@ export default function ProteinSynthesisPage() {
           onClick={() => setShowControls(true)}
           className="fixed top-20 right-4 z-20 px-4 py-2 bg-[#8b5cf6]/20 hover:bg-[#8b5cf6]/30 text-[#8b5cf6] rounded-lg border border-[#8b5cf6]/50 transition-colors text-sm font-medium"
         >
-          Show Controls
+          Hiện bảng điều khiển
         </button>
       )}
     </div>

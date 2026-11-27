@@ -42,7 +42,7 @@ const SPECIAL_ANGLES: Record<number, { sin: string; cos: string; tan: string }> 
   30: { sin: "1/2", cos: "√3/2", tan: "1/√3" },
   45: { sin: "√2/2", cos: "√2/2", tan: "1" },
   60: { sin: "√3/2", cos: "1/2", tan: "√3" },
-  90: { sin: "1", cos: "0", tan: "undefined" },
+  90: { sin: "1", cos: "0", tan: "không xác định" },
   120: { sin: "√3/2", cos: "-1/2", tan: "-√3" },
   135: { sin: "√2/2", cos: "-√2/2", tan: "-1" },
   150: { sin: "1/2", cos: "-√3/2", tan: "-1/√3" },
@@ -50,7 +50,7 @@ const SPECIAL_ANGLES: Record<number, { sin: string; cos: string; tan: string }> 
   210: { sin: "-1/2", cos: "-√3/2", tan: "1/√3" },
   225: { sin: "-√2/2", cos: "-√2/2", tan: "1" },
   240: { sin: "-√3/2", cos: "-1/2", tan: "√3" },
-  270: { sin: "-1", cos: "0", tan: "undefined" },
+  270: { sin: "-1", cos: "0", tan: "không xác định" },
   300: { sin: "-√3/2", cos: "1/2", tan: "-√3" },
   315: { sin: "-√2/2", cos: "√2/2", tan: "-1" },
   330: { sin: "-1/2", cos: "√3/2", tan: "-1/√3" },
@@ -174,8 +174,8 @@ export function TrigonometrySceneComponent({
 
   const getQuadrant = (ang: number) => {
     const normalized = ((ang % 360) + 360) % 360;
-    if (normalized === 0 || normalized === 180 || normalized === 360) return "On Axis";
-    if (normalized === 90 || normalized === 270) return "On Axis";
+    if (normalized === 0 || normalized === 180 || normalized === 360) return "Trên trục";
+    if (normalized === 90 || normalized === 270) return "Trên trục";
     if (normalized < 90) return "I";
     if (normalized < 180) return "II";
     if (normalized < 270) return "III";
@@ -204,7 +204,7 @@ export function TrigonometrySceneComponent({
 
     let sinStr = sinVal.toFixed(4);
     let cosStr = cosVal.toFixed(4);
-    let tanStr = Math.abs(tanVal) > 100 ? "undefined" : tanVal.toFixed(4);
+    let tanStr = Math.abs(tanVal) > 100 ? "không xác định" : tanVal.toFixed(4);
 
     if (Math.abs(nearest - dataRef.current.currentAngle) < 2) {
       sinStr = `${SPECIAL_ANGLES[nearest].sin} (${sinVal.toFixed(4)})`;
@@ -425,7 +425,7 @@ export function TrigonometrySceneComponent({
           {/* Special Angles Reference Card */}
           <Html position={[0, -2.8, 0]} distanceFactor={12}>
             <div className="bg-gray-900/95 px-3 py-2 rounded-lg border border-purple-500/50 shadow-xl max-w-[280px]">
-              <div className="text-purple-400 font-bold text-xs mb-2 text-center">📐 Special Angles</div>
+              <div className="text-purple-400 font-bold text-xs mb-2 text-center">📐 Các góc đặc biệt</div>
               <div className="grid grid-cols-5 gap-1 text-[9px]">
                 <div className="text-gray-500 font-bold">°</div>
                 <div className="text-blue-400 font-bold">sin</div>
@@ -444,7 +444,7 @@ export function TrigonometrySceneComponent({
                       <div className={`text-center ${isCurrent ? 'bg-blue-600/50 rounded' : 'text-blue-400'}`}>{SPECIAL_ANGLES[a]?.sin || '-'}</div>
                       <div className={`text-center ${isCurrent ? 'bg-green-600/50 rounded' : 'text-green-400'}`}>{SPECIAL_ANGLES[a]?.cos || '-'}</div>
                       <div className={`text-center ${isCurrent ? 'bg-red-600/50 rounded' : 'text-red-400'}`}>{SPECIAL_ANGLES[a]?.tan || '-'}</div>
-                      <div className={`text-center ${isCurrent ? 'bg-orange-600/50 rounded' : 'text-orange-400'}`}>{SPECIAL_ANGLES[a]?.tan === '0' ? '∞' : SPECIAL_ANGLES[a]?.tan === '1' ? '1' : SPECIAL_ANGLES[a]?.tan === 'undefined' ? '0' : SPECIAL_ANGLES[a]?.tan === '√3' ? '1/√3' : SPECIAL_ANGLES[a]?.tan === '-√3' ? '-1/√3' : '-'}</div>
+                      <div className={`text-center ${isCurrent ? 'bg-orange-600/50 rounded' : 'text-orange-400'}`}>{SPECIAL_ANGLES[a]?.tan === '0' ? '∞' : SPECIAL_ANGLES[a]?.tan === '1' ? '1' : SPECIAL_ANGLES[a]?.tan === 'không xác định' ? '0' : SPECIAL_ANGLES[a]?.tan === '√3' ? '1/√3' : SPECIAL_ANGLES[a]?.tan === '-√3' ? '-1/√3' : '-'}</div>
                     </React.Fragment>
                   );
                 })}
@@ -531,18 +531,18 @@ export function TrigonometrySceneComponent({
               </Text>
             )}
             <Text position={[0, -2.3, 0]} fontSize={0.08} color="#9ca3af" anchorX="center">
-              Angle →
+              Góc →
             </Text>
 
             {/* Graph info panel */}
             <Html position={[0, 3, 0]} distanceFactor={12}>
               <div className="bg-gray-900/95 px-3 py-2 rounded-lg border border-blue-500/50 shadow-xl max-w-[200px]">
-                <div className="text-blue-400 font-bold text-xs mb-2 text-center">📈 Wave Graph</div>
+                <div className="text-blue-400 font-bold text-xs mb-2 text-center">📈 Đồ thị Sóng</div>
                 <div className="text-[9px] text-gray-400 space-y-1">
-                  <div>• Amplitude: 1</div>
-                  <div>• Period: 2π (360°)</div>
-                  <div>• Horizontal axis: angle</div>
-                  <div>• Vertical axis: value</div>
+                  <div>• Biên độ: 1</div>
+                  <div>• Chu kỳ: 2π (360°)</div>
+                  <div>• Trục hoành: góc</div>
+                  <div>• Trục tung: giá trị</div>
                 </div>
               </div>
             </Html>
@@ -557,7 +557,7 @@ export function TrigonometrySceneComponent({
               θ = {currentAngle.toFixed(1)}° = {rad.toFixed(3)} rad
             </div>
             <div className="text-purple-400 text-xs text-center mt-1">
-              Quadrant: {getQuadrant(currentAngle)}
+              Góc phần tư: {getQuadrant(currentAngle)}
             </div>
           </div>
         </Html>

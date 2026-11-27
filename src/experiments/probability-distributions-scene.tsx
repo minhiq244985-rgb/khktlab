@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useRef, useState, useEffect, useCallback } from "react";
 import { useFrame } from "@react-three/fiber";
@@ -21,7 +21,6 @@ export interface ProbabilitySceneProps {
   onDataChange?: (data: ProbabilityData) => void;
 }
 
-// Box-Muller transform for normal distribution
 function randomNormal(mean = 0, stdDev = 1) {
   const u1 = Math.random();
   const u2 = Math.random();
@@ -29,7 +28,6 @@ function randomNormal(mean = 0, stdDev = 1) {
   return z * stdDev + mean;
 }
 
-// Binomial random
 function randomBinomial(n: number, p: number) {
   let successes = 0;
   for (let i = 0; i < n; i++) {
@@ -38,7 +36,6 @@ function randomBinomial(n: number, p: number) {
   return successes;
 }
 
-// Poisson random
 function randomPoisson(lambda: number) {
   const L = Math.exp(-lambda);
   let k = 0;
@@ -50,15 +47,10 @@ function randomPoisson(lambda: number) {
   return k - 1;
 }
 
-// Uniform random
 function randomUniform(min: number, max: number) {
   return Math.random() * (max - min) + min;
 }
 
-/**
- * Probability Distributions scene component
- * Visualizes distributions with animated random data generation
- */
 export function ProbabilitySceneComponent({
   distributionType,
   mean,
@@ -92,7 +84,6 @@ export function ProbabilitySceneComponent({
     const data = dataRef.current;
     data.frameCount++;
 
-    // Add new samples every frame
     for (let i = 0; i < 3; i++) {
       let sample: number;
       switch (distributionType) {
@@ -114,13 +105,11 @@ export function ProbabilitySceneComponent({
       data.samples.push(sample);
     }
 
-    // Keep sample size manageable
     const maxSamples = Math.min(sampleSize * 5, 2000);
     if (data.samples.length > maxSamples) {
       data.samples = data.samples.slice(-maxSamples);
     }
 
-    // Update histogram every frame
     const bins = 50;
     let minVal = -4, maxVal = 4;
 
@@ -149,18 +138,15 @@ export function ProbabilitySceneComponent({
       maxCount
     }));
 
-    // Update React state every 8 frames
     if (data.frameCount % 8 === 0) {
       updateReactState();
     }
 
-    // Gentle rotation
     if (groupRef.current) {
       groupRef.current.rotation.y = Math.sin(data.frameCount * 0.005) * 0.1;
     }
   });
 
-  // Generate theoretical curve points
   const curvePoints = useRef<{ points: [number, number, number][]; color: string }[]>([]);
 
   useEffect(() => {
@@ -241,7 +227,6 @@ export function ProbabilitySceneComponent({
       <pointLight position={[-10, 5, -10]} intensity={0.5} color="#06b6d4" />
 
       <group ref={groupRef}>
-        {/* Histogram bars */}
         {data.histogram.map((bin, i) => {
           const barWidth = 0.12;
           const maxHeight = 3.5;
@@ -258,49 +243,28 @@ export function ProbabilitySceneComponent({
           return (
             <mesh key={i} position={[bin.x, height / 2, 0]}>
               <boxGeometry args={[barWidth, height, barWidth]} />
-              <meshStandardMaterial
-                color={color}
-                emissive={color}
-                emissiveIntensity={0.3}
-                metalness={0.3}
-                roughness={0.4}
-              />
+              <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.3} metalness={0.3} roughness={0.4} />
             </mesh>
           );
         })}
 
-        {/* Theoretical curve */}
         {curvePoints.current.map((curve, i) => (
-          <Line
-            key={i}
-            points={curve.points}
-            color={curve.color}
-            lineWidth={3}
-            opacity={0.8}
-            transparent
-          />
+          <Line key={i} points={curve.points} color={curve.color} lineWidth={3} opacity={0.8} transparent />
         ))}
       </group>
 
-      {/* Base plane */}
       <mesh position={[0, -0.05, 0]}>
         <planeGeometry args={[12, 8]} />
         <meshStandardMaterial color="#0a0a1a" />
       </mesh>
 
-      {/* Axes */}
       <gridHelper args={[20, 20, "#1a1a3e", "#1a1a3e"]} position={[0, -0.1, 0]} />
       <Line points={[[-6, 0, 0], [6, 0, 0]]} color="#666" lineWidth={2} />
       <Line points={[[0, -0.5, 0], [0, 4, 0]]} color="#666" lineWidth={2} />
 
-      {/* Distribution label */}
       <mesh position={[0, 4.5, 0]}>
         <planeGeometry args={[6, 0.6]} />
-        <meshBasicMaterial
-          color={distributionType === "uniform" ? "#a855f7" : "#06b6d4"}
-          transparent
-          opacity={0.8}
-        />
+        <meshBasicMaterial color={distributionType === "uniform" ? "#a855f7" : "#06b6d4"} transparent opacity={0.8} />
       </mesh>
     </>
   );

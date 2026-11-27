@@ -62,9 +62,9 @@ export default function AcidBaseReactionsPage() {
 
   const parameterControls = (
     <div className="space-y-4">
-      <ControlGroup title="Concentrations">
+      <ControlGroup title="Nồng độ dung dịch">
         <ControlSlider
-          label="Acid Concentration"
+          label="Nồng độ Axit"
           value={acidConcentration}
           unit="M"
           min={1}
@@ -75,7 +75,7 @@ export default function AcidBaseReactionsPage() {
           decimals={1}
         />
         <ControlSlider
-          label="Base Concentration"
+          label="Nồng độ Bazơ"
           value={baseConcentration}
           unit="M"
           min={1}
@@ -87,7 +87,7 @@ export default function AcidBaseReactionsPage() {
         />
       </ControlGroup>
 
-      <ControlGroup title="Acid Type">
+      <ControlGroup title="Loại Axit">
         <div className="grid grid-cols-3 gap-2">
           {(['HCl', 'H2SO4', 'HNO3'] as const).map((type) => (
             <button
@@ -105,7 +105,7 @@ export default function AcidBaseReactionsPage() {
         </div>
       </ControlGroup>
 
-      <ControlGroup title="Mode">
+      <ControlGroup title="Chế độ">
         <div className="grid grid-cols-2 gap-2">
           <button
             onClick={() => { setStepMode(false); setCurrentStep(1); }}
@@ -115,7 +115,7 @@ export default function AcidBaseReactionsPage() {
                 : 'bg-gray-200/50 text-gray-700 hover:bg-gray-300/50'
             }`}
           >
-            Auto
+            Tự động
           </button>
           <button
             onClick={() => { setStepMode(true); setCurrentStep(1); }}
@@ -125,7 +125,7 @@ export default function AcidBaseReactionsPage() {
                 : 'bg-gray-200/50 text-gray-700 hover:bg-gray-300/50'
             }`}
           >
-            Step
+            Từng bước
           </button>
         </div>
       </ControlGroup>
@@ -136,7 +136,7 @@ export default function AcidBaseReactionsPage() {
           disabled={currentStep >= 5}
           className="w-full py-2.5 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 disabled:from-gray-500 disabled:to-gray-600 text-white font-medium text-sm rounded-lg transition-all flex items-center justify-center gap-2 disabled:opacity-50"
         >
-          {currentStep >= 5 ? '✓ Complete' : `Step ${currentStep}/5 - Mix`}
+          {currentStep >= 5 ? '✓ Hoàn thành' : `Bước ${currentStep}/5 - Trộn`}
         </button>
       )}
 
@@ -144,7 +144,7 @@ export default function AcidBaseReactionsPage() {
         onClick={() => router.push('/experiments/acid-base-reactions/details')}
         className="w-full py-2.5 bg-gradient-to-r from-red-100 to-red-200 hover:from-red-200 hover:to-red-300 text-red-700 font-medium text-sm rounded-lg transition-all border border-red-300/50 flex items-center justify-center gap-2"
       >
-        📖 View Experiment Details
+        📖 Xem chi tiết thí nghiệm
       </button>
     </div>
   );
@@ -156,24 +156,24 @@ export default function AcidBaseReactionsPage() {
           pH: { value: data.pH, unit: '', color: data.pH > 7 ? '#3b82f6' : data.pH < 7 ? '#ef4444' : '#22c55e', decimals: 2 },
           temperature: { value: data.temperature, unit: 'K', color: data.temperature > 310 ? '#ef4444' : '#22c55e', decimals: 1 },
           progress: { value: data.reactionProgress * 100, unit: '%', color: '#8b5cf6', decimals: 1 },
-          products: { value: data.productsFormed, unit: 'molecules', color: '#06b6d4', decimals: 0 },
+          products: { value: data.productsFormed, unit: 'phân tử', color: '#06b6d4', decimals: 0 },
         }}
         columns={2}
       />
       <div className="mt-3 p-3 bg-gray-800/50 rounded-lg">
         <div className="flex items-center justify-between">
-          <span className="text-gray-400 text-sm">Step:</span>
+          <span className="text-gray-400 text-sm">Bước:</span>
           <span className="font-mono text-purple-400">
-            {stepMode ? `${currentStep}/5` : 'Auto'}
+            {stepMode ? `${currentStep}/5` : 'Tự động'}
           </span>
         </div>
         <div className="flex items-center justify-between mt-2">
-          <span className="text-gray-400 text-sm">Status:</span>
+          <span className="text-gray-400 text-sm">Trạng thái:</span>
           <span className="font-mono text-green-400 text-sm">
-            {data.currentStep === 1 ? 'Reactants' :
-             data.currentStep === 2 ? 'Pouring...' :
-             data.currentStep === 3 ? 'Reacting...' :
-             data.currentStep === 4 ? 'Products' :
+            {data.currentStep === 1 ? 'Chất tham gia' :
+             data.currentStep === 2 ? 'Đang rót...' :
+             data.currentStep === 3 ? 'Đang phản ứng...' :
+             data.currentStep === 4 ? 'Sản phẩm' :
              'NaOH + HCl → NaCl + H₂O'}
           </span>
         </div>
@@ -184,8 +184,8 @@ export default function AcidBaseReactionsPage() {
   return (
     <>
       <ExperimentContainer
-        title="Acid-Base Reactions"
-        description="Neutralization reaction: HCl + NaOH → NaCl + H₂O"
+        title="Phản ứng Axit - Bazơ"
+        description="Phản ứng trung hòa: HCl + NaOH → NaCl + H₂O"
         cameraPosition={[0, 2, 10]}
         backgroundColor="#050510"
         controls={null}
@@ -211,7 +211,7 @@ export default function AcidBaseReactionsPage() {
       />
 
       <FloatingControlPanel
-        title="⚙️ Acid-Base Parameters"
+        title="⚙️ Thông số Axit - Bazơ"
         initialPosition={{ x: 20, y: 80 }}
       >
         {parameterControls}

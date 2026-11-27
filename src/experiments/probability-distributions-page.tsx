@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -41,7 +41,7 @@ export default function ProbabilityDistributionsPage() {
 
   const parameterControls = (
     <div className="space-y-4">
-      <ControlGroup title="Distribution Type">
+      <ControlGroup title="Loại phân phối">
         <div className="grid grid-cols-2 gap-2">
           {DISTRIBUTIONS.map((dist) => (
             <button
@@ -53,15 +53,15 @@ export default function ProbabilityDistributionsPage() {
                   : "bg-gray-200 text-gray-700 hover:bg-gray-300"
               }`}
             >
-              {dist}
+              {dist === "normal" ? "Chuẩn" : dist === "binomial" ? "Nhị thức" : dist === "poisson" ? "Poisson" : "Đều"}
             </button>
           ))}
         </div>
       </ControlGroup>
 
-      <ControlGroup title="Parameters">
+      <ControlGroup title="Tham số">
         <ControlSlider
-          label="Mean (μ)"
+          label="Trung bình (μ)"
           value={mean}
           unit=""
           min={-3}
@@ -72,7 +72,7 @@ export default function ProbabilityDistributionsPage() {
           decimals={1}
         />
         <ControlSlider
-          label="Std Dev (σ)"
+          label="Độ lệch chuẩn (σ)"
           value={stdDev}
           unit=""
           min={0.5}
@@ -83,7 +83,7 @@ export default function ProbabilityDistributionsPage() {
           decimals={1}
         />
         <ControlSlider
-          label="Sample Size"
+          label="Cỡ mẫu"
           value={sampleSize}
           unit="n"
           min={10}
@@ -99,7 +99,7 @@ export default function ProbabilityDistributionsPage() {
         onClick={() => router.push("/experiments/probability-distributions/details")}
         className="w-full py-2.5 bg-gradient-to-r from-cyan-100 to-cyan-200 hover:from-cyan-200 hover:to-cyan-300 text-cyan-700 font-medium text-sm rounded-lg transition-all border border-cyan-300/50 flex items-center justify-center gap-2"
       >
-        📖 View Experiment Details
+        📖 Xem chi tiết thí nghiệm
       </button>
     </div>
   );
@@ -108,9 +108,9 @@ export default function ProbabilityDistributionsPage() {
     <>
       <DataGrid
         data={{
-          mean: { value: data.mean, unit: "μ", color: "#06b6d4", decimals: 1 },
-          stdDev: { value: data.stdDev, unit: "σ", color: "#0891b2", decimals: 1 },
-          sampleSize: { value: data.sampleSize, unit: "n", color: "#0e7490", decimals: 0 },
+          trungBinh: { value: data.mean, unit: "μ", color: "#06b6d4", decimals: 1 },
+          doLechChuan: { value: data.stdDev, unit: "σ", color: "#0891b2", decimals: 1 },
+          coMau: { value: data.sampleSize, unit: "n", color: "#0e7490", decimals: 0 },
         }}
         columns={1}
       />
@@ -119,21 +119,21 @@ export default function ProbabilityDistributionsPage() {
           {distributionType === "normal" && "f(x) = (1/σ√2π) × e^(-½((x-μ)/σ)²)"}
           {distributionType === "binomial" && "P(X=k) = C(n,k) × p^k × (1-p)^(n-k)"}
           {distributionType === "poisson" && "P(X=k) = (λ^k × e^(-λ)) / k!"}
-          {distributionType === "uniform" && "f(x) = 1/(b-a) for a ≤ x ≤ b"}
+          {distributionType === "uniform" && "f(x) = 1/(b-a) với a ≤ x ≤ b"}
         </div>
       </div>
     </>
   ) : (
     <div className="text-center text-gray-500 text-sm py-8">
-      Waiting for simulation data...
+      Đang chờ dữ liệu mô phỏng...
     </div>
   );
 
   return (
     <>
       <ExperimentContainer
-        title="Probability Distributions"
-        description="Explore Normal, Binomial, and Poisson distributions"
+        title="Phân Phối Xác Suất"
+        description="Khám phá phân phối Chuẩn, Nhị thức và Poisson"
         cameraPosition={[15, 10, 15]}
         backgroundColor="#050510"
         controls={null}
@@ -151,7 +151,7 @@ export default function ProbabilityDistributionsPage() {
 
       <SimulationController isPlaying={isPlaying} onPlayPause={handlePlayPause} onReset={handleReset} speed={simulationSpeed} onSpeedChange={setSimulationSpeed} />
 
-      <FloatingControlPanel title="⚙️ Distribution Settings" initialPosition={{ x: 20, y: 80 }}>
+      <FloatingControlPanel title="⚙️ Cài đặt phân phối" initialPosition={{ x: 20, y: 80 }}>
         {parameterControls}
       </FloatingControlPanel>
 

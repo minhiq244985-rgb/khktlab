@@ -24,7 +24,7 @@ export default function AtomicStructurePage() {
   const [resetTrigger, setResetTrigger] = useState(0);
 
   // Physics parameters
-  const [atomicNumber, setAtomicNumber] = useState(6); // Start with Carbon
+  const [atomicNumber, setAtomicNumber] = useState(6); // Bắt đầu với Cacbon
   const [showElectronShells, setShowElectronShells] = useState(true);
 
   const handlePlayPause = () => setIsPlaying((p) => !p);
@@ -46,22 +46,22 @@ export default function AtomicStructurePage() {
 
   // Quick select elements
   const quickSelectElements = [
-    { z: 1, label: "H", name: "Hydrogen" },
-    { z: 2, label: "He", name: "Helium" },
-    { z: 6, label: "C", name: "Carbon" },
-    { z: 8, label: "O", name: "Oxygen" },
+    { z: 1, label: "H", name: "Hiđro" },
+    { z: 2, label: "He", name: "Heli" },
+    { z: 6, label: "C", name: "Cacbon" },
+    { z: 8, label: "O", name: "Oxi" },
     { z: 10, label: "Ne", name: "Neon" },
-    { z: 11, label: "Na", name: "Sodium" },
+    { z: 11, label: "Na", name: "Natri" },
     { z: 18, label: "Ar", name: "Argon" },
-    { z: 20, label: "Ca", name: "Calcium" },
+    { z: 20, label: "Ca", name: "Canxi" },
   ];
 
   // === PARAMETER CONTROLS ===
   const parameterControls = (
     <div className="space-y-4">
-      <ControlGroup title="Atomic Parameters">
+      <ControlGroup title="Thông số nguyên tử">
         <ControlSlider
-          label="Atomic Number (Z)"
+          label="Số hiệu nguyên tử (Z)"
           value={atomicNumber}
           unit=""
           min={1}
@@ -73,13 +73,13 @@ export default function AtomicStructurePage() {
         />
         <div className="text-center py-2 px-3 bg-gradient-to-r from-red-50 to-purple-50 rounded-lg border border-red-200">
           <div className="text-lg font-bold text-gray-800">{getElementName(atomicNumber)}</div>
-          <div className="text-xs text-gray-600">{data?.elementName || "Element"}</div>
+          <div className="text-xs text-gray-600">{data?.elementName || "Nguyên tố"}</div>
         </div>
       </ControlGroup>
 
-      <ControlGroup title="Display Options">
+      <ControlGroup title="Tùy chọn hiển thị">
         {[
-          { label: "Electron Shells", checked: showElectronShells, onChange: setShowElectronShells },
+          { label: "Lớp vỏ electron", checked: showElectronShells, onChange: setShowElectronShells },
         ].map((opt) => (
           <label key={opt.label} className="flex items-center justify-between text-sm text-gray-700 cursor-pointer py-2 px-3 bg-gray-100/50 rounded-lg border border-gray-300/50">
             <span>{opt.label}</span>
@@ -92,7 +92,7 @@ export default function AtomicStructurePage() {
         ))}
       </ControlGroup>
 
-      <ControlGroup title="Quick Select">
+      <ControlGroup title="Chọn nhanh nguyên tố">
         <div className="grid grid-cols-4 gap-2">
           {quickSelectElements.map((el) => (
             <button
@@ -115,7 +115,7 @@ export default function AtomicStructurePage() {
         onClick={() => router.push("/experiments/atomic-structure/details")}
         className="w-full py-2.5 bg-gradient-to-r from-red-100 to-purple-100 hover:from-red-200 hover:to-purple-200 text-red-700 font-medium text-sm rounded-lg transition-all border border-red-300/50 flex items-center justify-center gap-2"
       >
-        📖 View Experiment Details
+        📖 Xem chi tiết thí nghiệm
       </button>
     </div>
   );
@@ -124,7 +124,7 @@ export default function AtomicStructurePage() {
   const dataPanelContent = data ? (
     <>
       <div className="p-3 bg-gradient-to-r from-red-900/30 to-purple-900/30 rounded-lg border border-red-700/30">
-        <div className="text-xs text-gray-400 mb-1">Element</div>
+        <div className="text-xs text-gray-400 mb-1">Nguyên tố</div>
         <div className="text-2xl font-bold text-white">{data.elementName}</div>
         <div className="text-lg text-gray-300">{data.symbol} (Z={data.atomicNumber})</div>
       </div>
@@ -141,12 +141,12 @@ export default function AtomicStructurePage() {
       <div className="mt-3 space-y-2">
 
         <div className="p-3 bg-gray-800/50 rounded-lg">
-          <div className="text-xs text-gray-400 mb-1">Electron Configuration</div>
+          <div className="text-xs text-gray-400 mb-1">Cấu hình electron</div>
           <div className="font-mono text-cyan-400 text-sm">{data.electronConfig}</div>
         </div>
 
         <div className="p-3 bg-gray-800/50 rounded-lg">
-          <div className="text-xs text-gray-400 mb-1">Shell Electrons</div>
+          <div className="text-xs text-gray-400 mb-1">Số electron từng lớp</div>
           <div className="space-y-1">
             {data.shellElectrons.map((shell) => (
               <div key={shell.shell} className="flex justify-between items-center text-sm">
@@ -160,15 +160,15 @@ export default function AtomicStructurePage() {
     </>
   ) : (
     <div className="text-center text-gray-500 text-sm py-8">
-      Loading atom data...
+      Đang tải dữ liệu nguyên tử...
     </div>
   );
 
   return (
     <>
       <ExperimentContainer
-        title="Atomic Structure"
-        description="Explore the Bohr model of the atom with interactive 3D visualization"
+        title="Cấu trúc nguyên tử"
+        description="Khám phá mô hình nguyên tử Bohr với hình ảnh trực quan 3D tương tác"
         cameraPosition={[12, 8, 12]}
         backgroundColor="#050510"
         controls={null}
@@ -193,7 +193,7 @@ export default function AtomicStructurePage() {
       />
 
       <FloatingControlPanel
-        title="⚛️ Atomic Controls"
+        title="⚛️ Điều khiển nguyên tử"
         initialPosition={{ x: 20, y: 80 }}
       >
         {parameterControls}

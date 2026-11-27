@@ -39,8 +39,8 @@ interface Molecule {
 }
 
 /**
- * CELLULAR RESPIRATION - Complete Rebuild
- * 4 stages with immersive 3D visualization
+ * HÔ HẤP TẾ BÀO
+ * 4 giai đoạn với mô phỏng trực quan 3D sinh động
  */
 export default function CellularRespirationSceneComponent({
   onDataChange,
@@ -69,26 +69,26 @@ export default function CellularRespirationSceneComponent({
 
   // React state
   const [data, setData] = useState<CellularRespirationData>({
-    stage: 'Glycolysis',
+    stage: 'Đường phân',
     atpProduced: 0,
     glucoseRemaining: 100,
     co2Produced: 0,
     nadhCount: 0,
     fadh2Count: 0,
-    description: 'Glucose (6C) splits into 2 pyruvate (3C) in cytoplasm. Net: 2 ATP + 2 NADH.',
+    description: 'Glucose (6C) phân tách thành 2 pyruvate (3C) trong tế bào chất. Thu ròng: 2 ATP + 2 NADH.',
     atpFromGlycolysis: 0,
     atpFromPyruvate: 0,
     atpFromKrebs: 0,
     atpFromETC: 0,
   });
 
-  const stages = ['Glycolysis', 'Pyruvate Oxidation', 'Krebs Cycle', 'Electron Transport Chain'];
+  const stages = ['Đường phân', 'Oxi hóa Pyruvate', 'Chu trình Krebs', 'Chuỗi chuyền electron'];
 
   const stageDescriptions = [
-    'Glucose (6C) splits into 2 pyruvate (3C) in cytoplasm. Net: 2 ATP + 2 NADH produced.',
-    'Each pyruvate (3C) → Acetyl-CoA (2C) + CO₂. 2 NADH produced for entire glucose.',
-    'Acetyl-CoA enters Krebs Cycle. Produces 2 ATP, 6 NADH, 2 FADH₂, and 4 CO₂ per glucose.',
-    'Electrons flow through protein complexes. ATP synthase produces ~32-34 ATP. O₂ → H₂O.',
+    'Glucose (6C) phân tách thành 2 pyruvate (3C) trong tế bào chất. Thu ròng: 2 ATP + 2 NADH.',
+    'Mỗi pyruvate (3C) → Acetyl-CoA (2C) + CO₂. Tạo ra 2 NADH cho mỗi phân tử glucose.',
+    'Acetyl-CoA đi vào chu trình Krebs. Tạo ra 2 ATP, 6 NADH, 2 FADH₂ và 4 CO₂ mỗi glucose.',
+    'Electron di chuyển qua các phức hợp protein. ATP synthase tổng hợp ~32-34 ATP. O₂ → H₂O.',
   ];
 
   // Hexagonal glucose ring vertices
@@ -115,10 +115,10 @@ export default function CellularRespirationSceneComponent({
   // ETC protein complex positions on inner membrane
   const etcComplexes = useMemo(() => {
     const complexes: { id: string; pos: THREE.Vector3; color: string; label: string; isATPSynthase: boolean }[] = [
-      { id: 'I', pos: new THREE.Vector3(1.6, 2, 0), color: '#f59e0b', label: 'I', isATPSynthase: false },
-      { id: 'II', pos: new THREE.Vector3(-1.8, 1.2, 0), color: '#8b5cf6', label: 'II', isATPSynthase: false },
-      { id: 'III', pos: new THREE.Vector3(1.8, -0.4, 0), color: '#ef4444', label: 'III', isATPSynthase: false },
-      { id: 'IV', pos: new THREE.Vector3(-1.6, -1.6, 0), color: '#06b6d4', label: 'IV', isATPSynthase: false },
+      { id: 'I', pos: new THREE.Vector3(1.6, 2, 0), color: '#f59e0b', label: 'Phức hợp I', isATPSynthase: false },
+      { id: 'II', pos: new THREE.Vector3(-1.8, 1.2, 0), color: '#8b5cf6', label: 'Phức hợp II', isATPSynthase: false },
+      { id: 'III', pos: new THREE.Vector3(1.8, -0.4, 0), color: '#ef4444', label: 'Phức hợp III', isATPSynthase: false },
+      { id: 'IV', pos: new THREE.Vector3(-1.6, -1.6, 0), color: '#06b6d4', label: 'Phức hợp IV', isATPSynthase: false },
       { id: 'ATP', pos: new THREE.Vector3(0, 0, 0), color: '#22c55e', label: 'ATP Synthase', isATPSynthase: true },
     ];
     return complexes;
@@ -278,7 +278,6 @@ export default function CellularRespirationSceneComponent({
 
             // Produce NADH (blue carrier)
             nadhCountRef.current += 0.5;
-            // Pyruvate oxidation produces no net ATP, but let's cap at 2 for display consistency
             atpPyruvateRef.current = Math.min(2, atpPyruvateRef.current + 0.5);
 
             const nadh: Molecule = {
@@ -372,7 +371,6 @@ export default function CellularRespirationSceneComponent({
         if (mol.type === 'proton') {
           // Protons pumped through membrane
           const innerMembraneRadius = 1.6;
-          const outerRadius = 2.3;
           const currentRadius = Math.sqrt(mol.position.x ** 2 + (mol.position.z / 0.7) ** 2);
 
           if (currentRadius > innerMembraneRadius) {
@@ -384,11 +382,8 @@ export default function CellularRespirationSceneComponent({
             mol.velocity.add(dirToSynthase);
 
             // When proton passes through ATP synthase, produce ATP
-            // Stop ATP production when caps are reached
             if (Math.abs(mol.position.x) < 0.3 && Math.random() < 0.08) {
-              // Check if we've reached the ATP caps before producing more
               if (atpCountRef.current >= 38 || atpETCRef.current >= 34) {
-                // ATP production complete - don't create more molecules
                 mol.active = false;
                 return;
               }
@@ -425,10 +420,8 @@ export default function CellularRespirationSceneComponent({
 
         if (mol.type === 'electron') {
           mol.animProgress += delta * 0.6 * simulationSpeed;
-          // Move through complexes
           if (mol.animProgress >= 1) {
             mol.active = false;
-            // Electron accepted by oxygen
           }
         }
 
@@ -508,8 +501,8 @@ export default function CellularRespirationSceneComponent({
 
             {showLabels && (
               <Html position={[-5.5, 3.5, 0]} distanceFactor={12}>
-                <div className="bg-blue-600/95 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-lg border-2 border-blue-400">
-                  🫧 Cytoplasm - Glycolysis
+                <div className="bg-blue-600/95 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-lg border-2 border-blue-400 whitespace-nowrap">
+                  🫧 Tế bào chất - Đường phân
                 </div>
               </Html>
             )}
@@ -572,8 +565,8 @@ export default function CellularRespirationSceneComponent({
             {/* Matrix label */}
             {showLabels && (
               <Html position={[0, 0, 0]} distanceFactor={10}>
-                <div className="bg-amber-600/90 text-white px-2 py-1 rounded text-xs font-medium">
-                  Mitochondrial Matrix
+                <div className="bg-amber-600/90 text-white px-2 py-1 rounded text-xs font-medium whitespace-nowrap">
+                  Chất nền ti thể
                 </div>
               </Html>
             )}
@@ -585,8 +578,8 @@ export default function CellularRespirationSceneComponent({
           <>
             {showLabels && (
               <Html position={[0, 4, 0]} distanceFactor={12}>
-                <div className="bg-orange-500/95 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-lg border-2 border-orange-400">
-                  Pyruvate Oxidation
+                <div className="bg-orange-500/95 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-lg border-2 border-orange-400 whitespace-nowrap">
+                  Oxi hóa Pyruvate
                 </div>
               </Html>
             )}
@@ -628,8 +621,8 @@ export default function CellularRespirationSceneComponent({
           <>
             {showLabels && (
               <Html position={[0, 4, 0]} distanceFactor={12}>
-                <div className="bg-green-600/95 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-lg border-2 border-green-400">
-                  🔄 Krebs Cycle (Citric Acid Cycle)
+                <div className="bg-green-600/95 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-lg border-2 border-green-400 whitespace-nowrap">
+                  🔄 Chu trình Krebs (Chu trình Axit Citric)
                 </div>
               </Html>
             )}
@@ -679,8 +672,8 @@ export default function CellularRespirationSceneComponent({
             {showLabels && (
               <>
                 <Html position={[2, 2, 0]} distanceFactor={12}>
-                  <div className="bg-gray-900/90 px-3 py-2 rounded text-xs border border-gray-700">
-                    <div className="text-gray-400">Outputs per glucose:</div>
+                  <div className="bg-gray-900/90 px-3 py-2 rounded text-xs border border-gray-700 whitespace-nowrap">
+                    <div className="text-gray-400">Sản phẩm mỗi glucose:</div>
                     <div className="text-green-400">• 2 ATP</div>
                     <div className="text-blue-400">• 6 NADH</div>
                     <div className="text-purple-400">• 2 FADH₂</div>
@@ -697,8 +690,8 @@ export default function CellularRespirationSceneComponent({
           <>
             {showLabels && (
               <Html position={[0, 4.5, 0]} distanceFactor={12}>
-                <div className="bg-cyan-600/95 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-lg border-2 border-cyan-400">
-                  ⚡ Electron Transport Chain
+                <div className="bg-cyan-600/95 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-lg border-2 border-cyan-400 whitespace-nowrap">
+                  ⚡ Chuỗi chuyền electron
                 </div>
               </Html>
             )}
@@ -759,8 +752,8 @@ export default function CellularRespirationSceneComponent({
             {/* H+ labels for proton gradient */}
             {showLabels && (
               <Html position={[2.5, 2, 0]} distanceFactor={12}>
-                <div className="bg-yellow-600/90 text-white px-2 py-1 rounded text-xs font-bold">
-                  H⁺ Gradient
+                <div className="bg-yellow-600/90 text-white px-2 py-1 rounded text-xs font-bold whitespace-nowrap">
+                  Bậc thang H⁺
                 </div>
               </Html>
             )}
@@ -785,7 +778,7 @@ export default function CellularRespirationSceneComponent({
             {/* Water formation indicator */}
             {showLabels && (
               <Html position={[-2, -3, 0]} distanceFactor={12}>
-                <div className="bg-blue-600/90 text-white px-2 py-1 rounded text-xs font-bold">
+                <div className="bg-blue-600/90 text-white px-2 py-1 rounded text-xs font-bold whitespace-nowrap">
                   O₂ + e⁻ → H₂O
                 </div>
               </Html>
@@ -971,41 +964,41 @@ export default function CellularRespirationSceneComponent({
           <>
             {/* Stage indicator */}
             <Html position={[0, -5.5, 0]} distanceFactor={12}>
-              <div className="bg-red-600/95 text-white px-5 py-2 rounded-lg text-base font-bold shadow-lg border-2 border-red-400">
-                Stage {stage + 1}: {stages[stage]}
+              <div className="bg-red-600/95 text-white px-5 py-2 rounded-lg text-base font-bold shadow-lg border-2 border-red-400 whitespace-nowrap">
+                Giai đoạn {stage + 1}: {stages[stage]}
               </div>
             </Html>
 
             {/* ATP breakdown panel */}
             <Html position={[-5.5, -3.5, 0]} distanceFactor={12}>
               <div className="bg-gray-900/95 px-4 py-3 rounded-lg shadow-lg border border-gray-700 min-w-[200px]">
-                <div className="text-white font-bold text-sm mb-3">⚡ ATP Production</div>
+                <div className="text-white font-bold text-sm mb-3">⚡ Năng lượng ATP tạo ra</div>
                 <div className="space-y-2 text-xs">
                   <div className="flex justify-between text-gray-400">
-                    <span>Glycolysis:</span>
+                    <span>Đường phân:</span>
                     <span className="text-blue-400 font-bold">{data.atpFromGlycolysis} ATP</span>
                   </div>
                   <div className="flex justify-between text-gray-400">
-                    <span>Pyruvate Ox:</span>
+                    <span>Oxi hóa Pyruvate:</span>
                     <span className="text-orange-400 font-bold">{data.atpFromPyruvate} ATP</span>
                   </div>
                   <div className="flex justify-between text-gray-400">
-                    <span>Krebs Cycle:</span>
+                    <span>Chu trình Krebs:</span>
                     <span className="text-green-400 font-bold">{data.atpFromKrebs} ATP</span>
                   </div>
                   <div className="flex justify-between text-gray-400">
-                    <span>ETC:</span>
+                    <span>Chuỗi chuyền e⁻:</span>
                     <span className="text-cyan-400 font-bold">{data.atpFromETC} ATP</span>
                   </div>
                   <div className="border-t border-gray-700 pt-2 mt-2 flex justify-between text-white font-bold text-sm">
-                    <span>Total:</span>
+                    <span>Tổng cộng:</span>
                     <span className={`${data.atpProduced >= 38 ? 'text-yellow-400' : 'text-green-400'}`}>
                       {data.atpProduced >= 38 ? '✓ ' : ''}{data.atpProduced}/38 ATP
                     </span>
                   </div>
                   {data.atpProduced >= 38 && (
                     <div className="mt-2 text-xs text-yellow-400 font-bold text-center animate-pulse">
-                      🎉 Cellular Respiration Complete!
+                      🎉 Hoàn thành hô hấp tế bào!
                     </div>
                   )}
                 </div>
@@ -1015,10 +1008,10 @@ export default function CellularRespirationSceneComponent({
             {/* Molecule count panel */}
             <Html position={[5, -3.5, 0]} distanceFactor={12}>
               <div className="bg-gray-900/95 px-4 py-3 rounded-lg shadow-lg border border-gray-700 min-w-[180px]">
-                <div className="text-white font-bold text-sm mb-3">🧪 Molecules</div>
+                <div className="text-white font-bold text-sm mb-3">🧪 Phân tử</div>
                 <div className="space-y-2 text-xs">
                   <div className="flex justify-between text-gray-400">
-                    <span>CO₂ Produced:</span>
+                    <span>CO₂ tạo thành:</span>
                     <span className="text-gray-300 font-bold">{data.co2Produced}</span>
                   </div>
                   <div className="flex justify-between text-gray-400">
@@ -1035,7 +1028,7 @@ export default function CellularRespirationSceneComponent({
 
             {/* Description panel */}
             <Html position={[0, 5.5, 0]} distanceFactor={12}>
-              <div className="bg-gray-800/95 text-white px-4 py-2 rounded-lg text-xs max-w-[300px] shadow-lg border border-gray-700 text-center">
+              <div className="bg-gray-800/95 text-white px-4 py-2 rounded-lg text-xs max-w-[320px] shadow-lg border border-gray-700 text-center">
                 {data.description}
               </div>
             </Html>

@@ -44,9 +44,9 @@ export default function GasLawsPage() {
   const parameterControls = (
     <div className="space-y-4">
       {/* Physics Parameters */}
-      <ControlGroup title="Gas Law Parameters">
+      <ControlGroup title="Thông số định luật khí">
         <ControlSlider
-          label="Temperature (T)"
+          label="Nhiệt độ (T)"
           value={temperature}
           unit="K"
           min={100}
@@ -57,7 +57,7 @@ export default function GasLawsPage() {
           decimals={0}
         />
         <ControlSlider
-          label="Volume (V)"
+          label="Thể tích (V)"
           value={volume}
           unit="L"
           min={1}
@@ -68,7 +68,7 @@ export default function GasLawsPage() {
           decimals={1}
         />
         <ControlSlider
-          label="Particles (n)"
+          label="Số hạt (n)"
           value={numParticles}
           unit=""
           min={20}
@@ -85,7 +85,7 @@ export default function GasLawsPage() {
         onClick={() => router.push("/experiments/gas-laws/details")}
         className="w-full py-2.5 bg-gradient-to-r from-emerald-100 to-emerald-200 hover:from-emerald-200 hover:to-emerald-300 text-emerald-700 font-medium text-sm rounded-lg transition-all border border-emerald-300/50 flex items-center justify-center gap-2"
       >
-        📖 View Experiment Details
+        📖 Xem chi tiết thí nghiệm
       </button>
     </div>
   );
@@ -103,15 +103,15 @@ export default function GasLawsPage() {
     />
   ) : (
     <div className="text-center text-gray-500 text-sm py-8">
-      Waiting for simulation data...
+      Đang chờ dữ liệu mô phỏng...
     </div>
   );
 
   return (
     <>
       <ExperimentContainer
-        title="Gas Laws (Ideal Gas)"
-        description="Explore PV = nRT with interactive particle simulation"
+        title="Định luật chất khí (Khí lý tưởng)"
+        description="Khám phá PV = nRT bằng mô phỏng hạt tương tác"
         cameraPosition={[30, 22, 30]}
         backgroundColor="#050510"
         controls={null}
@@ -137,7 +137,7 @@ export default function GasLawsPage() {
 
       {/* Parameter Controls - Toggleable */}
       <FloatingControlPanel
-        title="⚙️ Gas Law Parameters"
+        title="⚙️ Thông số định luật khí"
         initialPosition={{ x: 20, y: 80 }}
       >
         {parameterControls}

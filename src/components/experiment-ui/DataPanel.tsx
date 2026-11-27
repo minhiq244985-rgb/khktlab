@@ -10,16 +10,6 @@ export interface DataPanelProps {
   defaultCollapsed?: boolean;
 }
 
-/**
- * FLOATING TOGGLEABLE DATA PANEL
- * - Small floating panel for real-time data
- * - Toggle button to show/hide
- * - Draggable around the screen
- * - Touch-friendly
- * - Stays within viewport bounds
- * - Dark semi-transparent design
- * - Collapsible with smooth animation
- */
 export function DataPanel({
   children,
   isVisible: controlledVisible,
@@ -37,10 +27,8 @@ export function DataPanel({
   const dragOffset = useRef({ x: 0, y: 0 });
   const panelRef = useRef<HTMLDivElement>(null);
 
-  // Use controlled or internal visibility state
   const isVisible = controlledVisible !== undefined ? controlledVisible : internalVisible;
 
-  // Detect mobile + set position after mount (avoids hydration mismatch)
   useEffect(() => {
     const checkMobile = () => {
       const mobile = window.innerWidth < 768;
@@ -63,7 +51,6 @@ export function DataPanel({
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Handle visibility toggle
   const handleToggle = useCallback(() => {
     if (onToggle) {
       onToggle();
@@ -72,7 +59,6 @@ export function DataPanel({
     }
   }, [onToggle]);
 
-  // Mouse drag handlers
   const handleMouseDown = useCallback((e: ReactMouseEvent) => {
     if ((e.target as HTMLElement).closest("button, input")) return;
     e.preventDefault();
@@ -83,7 +69,6 @@ export function DataPanel({
     };
   }, [position]);
 
-  // Touch drag handlers
   const handleTouchStart = useCallback((e: ReactTouchEvent) => {
     if ((e.target as HTMLElement).closest("button, input")) return;
     const touch = e.touches[0];
@@ -100,7 +85,6 @@ export function DataPanel({
       const newX = e.clientX - dragOffset.current.x;
       const newY = e.clientY - dragOffset.current.y;
 
-      // Constrain to viewport
       const panelWidth = panelRef.current?.offsetWidth || (isMobile ? window.innerWidth - 20 : 300);
       const panelHeight = panelRef.current?.offsetHeight || (isCollapsed ? 60 : 200);
 
@@ -146,7 +130,6 @@ export function DataPanel({
   if (!mounted) return null;
 
   if (!isVisible) {
-    // Render just a small toggle button when hidden
     return (
       <div
         className="fixed z-30 touch-none select-none"
@@ -158,7 +141,7 @@ export function DataPanel({
         <button
           onClick={handleToggle}
           className="w-10 h-10 bg-gray-900/90 backdrop-blur-xl border border-gray-600/50 rounded-full shadow-2xl flex items-center justify-center text-white hover:bg-gray-800 transition-colors"
-          title="Show Data"
+          title="Hiển thị dữ liệu"
         >
           📊
         </button>
@@ -183,28 +166,28 @@ export function DataPanel({
       onTouchStart={handleTouchStart}
     >
       <div className="w-full bg-gray-900/90 backdrop-blur-xl border border-gray-600/50 rounded-xl shadow-2xl overflow-hidden">
-        {/* Header */}
+        {/* Tiêu đề */}
         <div className="flex items-center justify-between bg-gradient-to-r from-cyan-600 to-blue-600 py-2 px-3 sm:px-4 -mx-0.5 border-b border-gray-600/50 shrink-0">
-          <h2 className="text-sm sm:text-base font-bold text-white">📊 Data</h2>
+          <h2 className="text-sm sm:text-base font-bold text-white">📊 Số Liệu</h2>
           <div className="flex items-center gap-1">
             <button
               onClick={() => setIsCollapsed(!isCollapsed)}
               className="text-white hover:text-gray-200 text-sm p-1 transition-colors"
-              aria-label={isCollapsed ? "Expand" : "Collapse"}
+              aria-label={isCollapsed ? "Mở rộng" : "Thu gọn"}
             >
               {isCollapsed ? "▼" : "▲"}
             </button>
             <button
               onClick={handleToggle}
               className="text-white hover:text-gray-200 text-sm p-1 transition-colors"
-              aria-label="Hide"
+              aria-label="Ẩn"
             >
               ✕
             </button>
           </div>
         </div>
 
-        {/* Content */}
+        {/* Nội dung */}
         {!isCollapsed && (
           <div className="p-3 sm:p-4 space-y-3 max-h-[50vh] sm:max-h-[calc(100vh-150px)] overflow-y-auto">
             {children}

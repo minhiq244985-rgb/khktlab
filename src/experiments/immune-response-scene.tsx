@@ -502,34 +502,34 @@ export default function ImmuneResponseSceneComponent({
         {/* Labels */}
         <Html position={[0, -5.5, 0]} distanceFactor={10}>
           <div className="bg-orange-500/90 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-lg">
-            Immune Response Battle
+            Trận chiến miễn dịch
             <div className="text-xs mt-1 opacity-80">
-              {data.virusCount} viruses • {data.antibodyCount} antibodies • {data.tCellCount} T-cells
+              {data.virusCount} virus • {data.antibodyCount} kháng thể • {data.tCellCount} tế bào T
             </div>
           </div>
         </Html>
 
         <Html position={[0, 5, 0]} distanceFactor={10}>
           <div className="bg-red-600/90 text-white px-3 py-1 rounded text-xs font-medium">
-            Blood Vessel Environment
+            Môi trường mạch máu
           </div>
         </Html>
 
         {/* Legend */}
         <Html position={[-5, 3, 0]} distanceFactor={10}>
           <div className="bg-gray-900/90 text-white px-3 py-2 rounded text-xs space-y-1.5">
-            <div className="font-bold text-sm mb-2">Immune Components</div>
+            <div className="font-bold text-sm mb-2">Thành phần miễn dịch</div>
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 rounded-full bg-red-500"></div>
               <span>Virus</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 rounded bg-blue-500"></div>
-              <span>Antibody</span>
+              <span>Kháng thể</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 rounded-full bg-green-500"></div>
-              <span>T-Cell</span>
+              <span>Tế bào T</span>
             </div>
           </div>
         </Html>
@@ -537,12 +537,12 @@ export default function ImmuneResponseSceneComponent({
         {/* Battle status */}
         <Html position={[5, 3, 0]} distanceFactor={10}>
           <div className="bg-gray-900/90 text-white px-3 py-2 rounded text-xs">
-            <div className="font-bold text-sm mb-2">Battle Status</div>
+            <div className="font-bold text-sm mb-2">Tình trạng trận chiến</div>
             <div className={data.virusCount < 5 ? 'text-green-400' : 'text-red-400'}>
-              {data.virusCount < 5 ? '✓ Winning' : '⚠ Fighting'}
+              {data.virusCount < 5 ? '✓ Đang thắng' : '⚠ Đang chiến đấu'}
             </div>
             <div className="text-xs opacity-70 mt-1">
-              {data.antibodyCount > data.virusCount ? 'Antibodies dominant' : 'Virus spreading'}
+              {data.antibodyCount > data.virusCount ? 'Kháng thể chiếm ưu thế' : 'Virus đang lây lan'}
             </div>
           </div>
         </Html>

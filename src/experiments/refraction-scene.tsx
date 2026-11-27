@@ -171,14 +171,14 @@ export function RefractionSceneComponent({
 
   // Get medium name based on refractive index
   const getMediumName = (n: number): string => {
-    if (n <= 1.01) return "Air";
-    if (n <= 1.35) return "Water";
-    if (n <= 1.6) return "Glass";
-    if (n <= 1.8) return "Oil";
-    return "Diamond";
+    if (n <= 1.01) return "Không khí";
+    if (n <= 1.35) return "Nước";
+    if (n <= 1.6) return "Thủy tinh";
+    if (n <= 1.8) return "Dầu";
+    return "Kim cương";
   };
 
-  const medium1Name = "Air";
+  const medium1Name = "Không khí";
   const medium2Name = getMediumName(n2_val);
 
   return (
@@ -358,17 +358,17 @@ export function RefractionSceneComponent({
       {isTIR && (
         <group position={[8, -6, 1]}>
           <mesh>
-            <planeGeometry args={[10, 2.5]} />
+            <planeGeometry args={[12, 2.5]} />
             <meshBasicMaterial color="#dc2626" transparent opacity={0.9} />
           </mesh>
           <Text
             position={[0, 0, 0.01]}
-            fontSize={0.9}
+            fontSize={0.85}
             color="#ffffff"
             anchorX="center"
             anchorY="middle"
           >
-            TOTAL INTERNAL REFLECTION
+            PHẢN XẠ TOÀN PHẦN
           </Text>
         </group>
       )}
@@ -382,7 +382,7 @@ export function RefractionSceneComponent({
           anchorX="left"
           anchorY="middle"
         >
-          Critical angle: {(criticalAngle * 180 / Math.PI).toFixed(1)}°
+          Góc giới hạn: {(criticalAngle * 180 / Math.PI).toFixed(1)}°
         </Text>
       )}
 

@@ -30,7 +30,7 @@ interface Particle {
   side: 'left' | 'right';
 }
 
-// Safe clamp helper - ensures no negative or zero values for geometry
+// Hàm giới hạn an toàn - đảm bảo không có giá trị âm hoặc bằng 0 cho hình học
 const safeGeom = (value: number, min: number = 0.001): number => Math.max(min, Math.abs(value));
 
 const MAX_PARTICLES = 400;
@@ -63,7 +63,7 @@ export default function DiffusionSceneComponent({
     gradientIndex: 100,
   });
 
-  // Initialize particles on reset
+  // Khởi tạo các hạt khi đặt lại
   useEffect(() => {
     const leftCount = Math.min(Math.floor(70 * particleCount), MAX_PARTICLES * 0.7);
     const rightCount = Math.min(Math.floor(20 * particleCount), MAX_PARTICLES * 0.3);
@@ -72,7 +72,7 @@ export default function DiffusionSceneComponent({
     const colors = new Float32Array(MAX_PARTICLES * 3);
     colorsRef.current = colors;
 
-    // Left side particles (red - high concentration)
+    // Hạt phía bên trái (màu đỏ - nồng độ cao)
     for (let i = 0; i < leftCount; i++) {
       newParticles.push({
         position: new THREE.Vector3(
@@ -89,7 +89,7 @@ export default function DiffusionSceneComponent({
       });
     }
 
-    // Right side particles (blue - low concentration)
+    // Hạt phía bên phải (màu xanh lam - nồng độ thấp)
     for (let i = 0; i < rightCount; i++) {
       newParticles.push({
         position: new THREE.Vector3(
@@ -136,7 +136,7 @@ export default function DiffusionSceneComponent({
       colors[i * 3 + 2] = Math.min(1, blueIntensity * 0.9);
     }
 
-    // Reuse existing color attribute instead of creating new one
+    // Tái sử dụng thuộc tính màu hiện có thay vì tạo mới
     let colorAttr = colorAttributeRef.current;
     if (!colorAttr) {
       colorAttr = new THREE.BufferAttribute(colors, 3);
@@ -246,7 +246,6 @@ export default function DiffusionSceneComponent({
   const concentrationGraphPoints = useMemo(() => {
     const leftCount = data.leftConcentration;
     const rightCount = data.rightConcentration;
-    // Add extra safety to prevent zero or negative values
     const maxCount = Math.max(leftCount, rightCount, 10);
     const leftH = safeGeom(Math.max(0.1, (leftCount / maxCount) * 2));
     const rightH = safeGeom(Math.max(0.1, (rightCount / maxCount) * 2));
@@ -282,7 +281,7 @@ export default function DiffusionSceneComponent({
       <pointLight position={[0, 0, 0]} intensity={0.4} color="#6366f1" />
 
       <group ref={groupRef}>
-        {/* Left chamber */}
+        {/* Buồng bên trái */}
         <mesh position={[-2.5, 0, 0]}>
           <boxGeometry args={[safeGeom(5), safeGeom(5), safeGeom(5)]} />
           <meshPhysicalMaterial
@@ -294,7 +293,7 @@ export default function DiffusionSceneComponent({
           />
         </mesh>
 
-        {/* Right chamber */}
+        {/* Buồng bên phải */}
         <mesh position={[2.5, 0, 0]}>
           <boxGeometry args={[safeGeom(5), safeGeom(5), safeGeom(5)]} />
           <meshPhysicalMaterial
@@ -306,7 +305,7 @@ export default function DiffusionSceneComponent({
           />
         </mesh>
 
-        {/* Semi-permeable membrane */}
+        {/* Màng bán thấm */}
         <group position={[0, 0, 0]}>
           <mesh>
             <planeGeometry args={[safeGeom(0.15), safeGeom(5), 8, 16]} />
@@ -327,7 +326,7 @@ export default function DiffusionSceneComponent({
             />
           </mesh>
 
-          {/* Membrane pores - safely sized */}
+          {/* Lỗ màng */}
           {Array.from({ length: 8 }).map((_, i) => {
             const y = -2 + (i * 4) / 7;
             const poreRadius = safeGeom(poreSize * 0.08, 0.03);
@@ -355,7 +354,7 @@ export default function DiffusionSceneComponent({
           })}
         </group>
 
-        {/* Particles using instanced mesh */}
+        {/* Các hạt sử dụng instanced mesh */}
         <instancedMesh ref={particlesMeshRef} args={[undefined, undefined, MAX_PARTICLES]}>
           <sphereGeometry args={[safeGeom(1), 12, 12]} />
           <meshStandardMaterial
@@ -368,7 +367,7 @@ export default function DiffusionSceneComponent({
           />
         </instancedMesh>
 
-        {/* Labels */}
+        {/* Nhãn */}
         <group position={[-2.5, 3.2, 0]}>
           <mesh>
             <boxGeometry args={[safeGeom(1.8), safeGeom(0.3), safeGeom(0.05)]} />
@@ -383,7 +382,7 @@ export default function DiffusionSceneComponent({
           </mesh>
         </group>
 
-        {/* Diffusion arrows - iterate over pairs, not individual points */}
+        {/* Mũi tên hướng khuếch tán */}
         {Array.from({ length: diffusionArrows.length / 2 }).map((_, i) => (
           <group key={`arrow-${i}`}>
             <Line
@@ -402,7 +401,7 @@ export default function DiffusionSceneComponent({
           </group>
         ))}
 
-        {/* Concentration graph */}
+        {/* Biểu đồ nồng độ */}
         <group position={[0, -1, 3.5]}>
           <mesh>
             <boxGeometry args={[safeGeom(3), safeGeom(2.5), safeGeom(0.1)]} />
@@ -439,7 +438,7 @@ export default function DiffusionSceneComponent({
           </mesh>
         </group>
 
-        {/* Equilibrium indicator */}
+        {/* Chỉ báo trạng thái cân bằng */}
         <group position={[0, -3.5, 0]}>
           <mesh>
             <boxGeometry args={[safeGeom(5), safeGeom(0.25), safeGeom(0.1)]} />
@@ -467,7 +466,7 @@ export default function DiffusionSceneComponent({
           </mesh>
         </group>
 
-        {/* Temperature visualization */}
+        {/* Trực quan nhiệt độ */}
         <group position={[-4, 2, 0]}>
           <mesh>
             <boxGeometry args={[safeGeom(0.8), safeGeom(0.8), safeGeom(0.1)]} />
@@ -483,7 +482,7 @@ export default function DiffusionSceneComponent({
           </mesh>
         </group>
 
-        {/* Equilibrium status */}
+        {/* Trạng thái cân bằng */}
         {data.equilibrium >= 95 && (
           <group position={[0, 2, 0]}>
             <mesh>

@@ -19,11 +19,11 @@ import {
 
 /** Gravity presets */
 const GRAVITY_PRESETS = [
-  { label: "Earth", value: 9.81, emoji: "🌍" },
-  { label: "Moon", value: 1.62, emoji: "🌙" },
-  { label: "Mars", value: 3.72, emoji: "🔴" },
-  { label: "Jupiter", value: 24.79, emoji: "🟠" },
-  { label: "ISS", value: 0.0001, emoji: "🛸" },
+  { label: "Trái Đất", value: 9.81, emoji: "🌍" },
+  { label: "Mặt Trăng", value: 1.62, emoji: "🌙" },
+  { label: "Sao Hỏa", value: 3.72, emoji: "🔴" },
+  { label: "Sao Mộc", value: 24.79, emoji: "🟠" },
+  { label: "Trạm ISS", value: 0.0001, emoji: "🛸" },
 ];
 
 export default function PendulumExperimentPage() {
@@ -62,16 +62,16 @@ export default function PendulumExperimentPage() {
   const parameterControls = (
     <div className="space-y-4">
       {/* Physics Parameters */}
-      <ControlGroup title="Physics Parameters">
-        <ControlSlider label="Length (L)" value={length} unit="m" min={2} max={20} step={0.5} color="#a855f7" onChange={setLength} decimals={1} />
-        <ControlSlider label="Mass (m)" value={mass} unit="kg" min={0.5} max={15} step={0.5} color="#06d6a0" onChange={setMass} decimals={1} />
-        <ControlSlider label="Initial Angle" value={initialAngle} unit="°" min={5} max={170} step={1} color="#3b82f6" onChange={setInitialAngle} decimals={0} />
-        <ControlSlider label="Damping" value={damping} unit="" min={0} max={0.1} step={0.001} color="#f59e0b" onChange={setDamping} decimals={3} />
+      <ControlGroup title="Thông số vật lý">
+        <ControlSlider label="Chiều dài dây (L)" value={length} unit="m" min={2} max={20} step={0.5} color="#a855f7" onChange={setLength} decimals={1} />
+        <ControlSlider label="Khối lượng (m)" value={mass} unit="kg" min={0.5} max={15} step={0.5} color="#06d6a0" onChange={setMass} decimals={1} />
+        <ControlSlider label="Góc lệch ban đầu" value={initialAngle} unit="°" min={5} max={170} step={1} color="#3b82f6" onChange={setInitialAngle} decimals={0} />
+        <ControlSlider label="Lực cản / Tắt dần" value={damping} unit="" min={0} max={0.1} step={0.001} color="#f59e0b" onChange={setDamping} decimals={3} />
 
         {/* Gravity with presets */}
         <div className="mt-2 space-y-2">
           <div className="flex justify-between text-sm">
-            <span className="text-gray-700">Gravity (g)</span>
+            <span className="text-gray-700">Gia tốc trọng trường (g)</span>
             <span className="font-mono text-pink-600">{gravity.toFixed(2)} m/s²</span>
           </div>
           <input
@@ -99,12 +99,12 @@ export default function PendulumExperimentPage() {
       </ControlGroup>
 
       {/* Display Options */}
-      <ControlGroup title="Display Options">
+      <ControlGroup title="Tùy chọn hiển thị">
         {[
-          { label: "Motion Trail", checked: showTrail, onChange: setShowTrail },
-          { label: "Force Vectors", checked: showVectors, onChange: setShowVectors },
-          { label: "Angle Arc", checked: showAngleArc, onChange: setShowAngleArc },
-          { label: "Protractor", checked: showProtractor, onChange: setShowProtractor },
+          { label: "Vệt quỹ đạo", checked: showTrail, onChange: setShowTrail },
+          { label: "Vectơ lực", checked: showVectors, onChange: setShowVectors },
+          { label: "Cung góc lệch", checked: showAngleArc, onChange: setShowAngleArc },
+          { label: "Thước đo góc", checked: showProtractor, onChange: setShowProtractor },
         ].map((opt) => (
           <label key={opt.label} className="flex items-center justify-between text-sm text-gray-700 cursor-pointer py-2 px-3 bg-gray-100/50 rounded-lg border border-gray-300/50">
             <span>{opt.label}</span>
@@ -122,7 +122,7 @@ export default function PendulumExperimentPage() {
         onClick={() => router.push("/experiments/pendulum/details")}
         className="w-full py-2.5 bg-gradient-to-r from-purple-100 to-purple-200 hover:from-purple-200 hover:to-purple-300 text-purple-700 font-medium text-sm rounded-lg transition-all border border-purple-300/50 flex items-center justify-center gap-2"
       >
-        📖 View Experiment Details
+        📖 Xem chi tiết thí nghiệm
       </button>
     </div>
   );
@@ -152,15 +152,15 @@ export default function PendulumExperimentPage() {
     </>
   ) : (
     <div className="text-center text-gray-500 text-sm py-8">
-      Waiting for simulation data...
+      Đang chờ dữ liệu mô phỏng...
     </div>
   );
 
   return (
     <>
       <ExperimentContainer
-        title="Simple Pendulum"
-        description="Explore oscillatory motion, energy conservation, and gravitational effects"
+        title="Con lắc đơn"
+        description="Khám phá dao động điều hòa, bảo toàn cơ năng và tác động của trọng lực"
         cameraPosition={[30, 20, 30]}
         backgroundColor="#050510"
         controls={null}
@@ -195,7 +195,7 @@ export default function PendulumExperimentPage() {
 
       {/* Parameter Controls - Toggleable */}
       <FloatingControlPanel
-        title="⚙️ Pendulum Parameters"
+        title="⚙️ Thông số con lắc"
         initialPosition={{ x: 20, y: 80 }}
       >
         {parameterControls}

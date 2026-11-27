@@ -31,13 +31,13 @@ interface Molecule {
 }
 
 const PH_COLORS = [
-  { ph: 1, color: new THREE.Color('#ff0000') },    // Red
-  { ph: 3, color: new THREE.Color('#ff8800') },    // Orange
-  { ph: 5, color: new THREE.Color('#ffff00') },    // Yellow
-  { ph: 7, color: new THREE.Color('#00ff00') },    // Green
-  { ph: 9, color: new THREE.Color('#00ffff') },    // Cyan
-  { ph: 11, color: new THREE.Color('#0000ff') },   // Blue
-  { ph: 14, color: new THREE.Color('#8000ff') },   // Purple
+  { ph: 1, color: new THREE.Color('#ff0000') },    // Đỏ
+  { ph: 3, color: new THREE.Color('#ff8800') },    // Cam
+  { ph: 5, color: new THREE.Color('#ffff00') },    // Vàng
+  { ph: 7, color: new THREE.Color('#00ff00') },    // Xanh lá
+  { ph: 9, color: new THREE.Color('#00ffff') },    // Xanh lơ
+  { ph: 11, color: new THREE.Color('#0000ff') },   // Xanh dương
+  { ph: 14, color: new THREE.Color('#8000ff') },   // Tím
 ];
 
 export function AcidBaseReactionsSceneComponent({

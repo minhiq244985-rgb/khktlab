@@ -51,9 +51,9 @@ export default function TitrationPage() {
   // === PARAMETER CONTROLS ===
   const parameterControls = (
     <div className="space-y-4">
-      <ControlGroup title="Acid Parameters">
+      <ControlGroup title="Tham số axit">
         <div className="mb-3">
-          <label className="text-xs text-gray-400 mb-2 block">Acid Type</label>
+          <label className="text-xs text-gray-400 mb-2 block">Loại axit</label>
           <div className="grid grid-cols-2 gap-2">
             <button
               onClick={() => setAcidType("HCl")}
@@ -63,7 +63,7 @@ export default function TitrationPage() {
                   : "bg-gray-200/50 text-gray-700 hover:bg-gray-300/50"
               }`}
             >
-              HCl (Strong)
+              HCl (Mạnh)
             </button>
             <button
               onClick={() => setAcidType("CH3COOH")}
@@ -73,12 +73,12 @@ export default function TitrationPage() {
                   : "bg-gray-200/50 text-gray-700 hover:bg-gray-300/50"
               }`}
             >
-              CH₃COOH (Weak)
+              CH₃COOH (Yếu)
             </button>
           </div>
         </div>
         <ControlSlider
-          label="Acid Concentration"
+          label="Nồng độ axit"
           value={acidConcentration}
           unit="M"
           min={0.01}
@@ -90,9 +90,9 @@ export default function TitrationPage() {
         />
       </ControlGroup>
 
-      <ControlGroup title="Base Parameters">
+      <ControlGroup title="Tham số bazơ">
         <div className="mb-3">
-          <label className="text-xs text-gray-400 mb-2 block">Base Type</label>
+          <label className="text-xs text-gray-400 mb-2 block">Loại bazơ</label>
           <div className="grid grid-cols-2 gap-2">
             <button
               onClick={() => setBaseType("NaOH")}
@@ -117,7 +117,7 @@ export default function TitrationPage() {
           </div>
         </div>
         <ControlSlider
-          label="Base Concentration"
+          label="Nồng độ bazơ"
           value={baseConcentration}
           unit="M"
           min={0.01}
@@ -129,7 +129,7 @@ export default function TitrationPage() {
         />
       </ControlGroup>
 
-      <ControlGroup title="Indicator Type">
+      <ControlGroup title="Chất chỉ thị">
         <div className="grid grid-cols-2 gap-2">
           <button
             onClick={() => setIndicatorType("universal")}
@@ -139,7 +139,7 @@ export default function TitrationPage() {
                 : "bg-gray-200/50 text-gray-700 hover:bg-gray-300/50"
             }`}
           >
-            🌈 Universal
+            🌈 Vạn năng
           </button>
           <button
             onClick={() => setIndicatorType("phenolphthalein")}
@@ -159,7 +159,7 @@ export default function TitrationPage() {
                 : "bg-gray-200/50 text-gray-700 hover:bg-gray-300/50"
             }`}
           >
-            🍊 Methyl Orange
+            🍊 Metyl da cam
           </button>
           <button
             onClick={() => setIndicatorType("bromothymol")}
@@ -174,9 +174,9 @@ export default function TitrationPage() {
         </div>
       </ControlGroup>
 
-      <ControlGroup title="Drip Control">
+      <ControlGroup title="Điều khiển nhỏ giọt">
         <ControlSlider
-          label="Drip Speed"
+          label="Tốc độ nhỏ giọt"
           value={dripSpeed}
           unit=""
           min={0.1}
@@ -195,7 +195,7 @@ export default function TitrationPage() {
               : "bg-gradient-to-r from-violet-600 to-violet-700 hover:from-violet-500 hover:to-violet-600 text-white"
           }`}
         >
-          💧 Add One Drop
+          💧 Thêm một giọt
         </button>
       </ControlGroup>
 
@@ -203,7 +203,7 @@ export default function TitrationPage() {
         onClick={() => router.push("/experiments/titration/details")}
         className="w-full py-2.5 bg-gradient-to-r from-violet-100 to-violet-200 hover:from-violet-200 hover:to-violet-300 text-violet-700 font-medium text-sm rounded-lg transition-all border border-violet-300/50 flex items-center justify-center gap-2"
       >
-        📖 View Experiment Details
+        📖 Xem chi tiết thí nghiệm
       </button>
     </div>
   );
@@ -214,11 +214,11 @@ export default function TitrationPage() {
       <DataGrid
         data={{
           ph: { value: data.currentPH, unit: "pH", color: data.currentPH > 7 ? "#3b82f6" : data.currentPH < 7 ? "#ef4444" : "#22c55e", decimals: 2 },
-          volume: { value: data.volumeAdded, unit: "mL", color: "#8b5cf6", decimals: 2 },
-          drops: { value: data.dropsAdded, unit: "drops", color: "#06d6a0", decimals: 0 },
-          equivPoint: { value: data.equivalencePointVolume, unit: "mL", color: "#f59e0b", decimals: 1 },
-          acidConc: { value: data.acidConcentration, unit: "M", color: "#ef4444", decimals: 2 },
-          baseConc: { value: data.baseConcentration, unit: "M", color: "#3b82f6", decimals: 2 },
+          volume: { value: data.volumeAdded, unit: "mL (Đã thêm)", color: "#8b5cf6", decimals: 2 },
+          drops: { value: data.dropsAdded, unit: "giọt", color: "#06d6a0", decimals: 0 },
+          equivPoint: { value: data.equivalencePointVolume, unit: "mL (Điểm tương đương)", color: "#f59e0b", decimals: 1 },
+          acidConc: { value: data.acidConcentration, unit: "M (Axit)", color: "#ef4444", decimals: 2 },
+          baseConc: { value: data.baseConcentration, unit: "M (Bazơ)", color: "#3b82f6", decimals: 2 },
         }}
         columns={2}
       />
@@ -226,12 +226,12 @@ export default function TitrationPage() {
       {/* Acid/Base strength badges */}
       <div className="mt-3 grid grid-cols-2 gap-2">
         <div className="p-2 bg-gray-800/50 rounded-lg">
-          <div className="text-xs text-gray-400">Acid</div>
+          <div className="text-xs text-gray-400">Axit</div>
           <div className="text-xs font-bold text-red-400">{data.acidType}</div>
           <div className="text-xs text-gray-500">{data.acidStrength}</div>
         </div>
         <div className="p-2 bg-gray-800/50 rounded-lg">
-          <div className="text-xs text-gray-400">Base</div>
+          <div className="text-xs text-gray-400">Bazơ</div>
           <div className="text-xs font-bold text-blue-400">{data.baseType}</div>
           <div className="text-xs text-gray-500">{data.baseStrength}</div>
         </div>
@@ -240,7 +240,7 @@ export default function TitrationPage() {
       {/* Status indicator */}
       <div className="mt-3 p-3 bg-gray-800/50 rounded-lg">
         <div className="flex items-center justify-between">
-          <span className="text-gray-400 text-sm">Solution:</span>
+          <span className="text-gray-400 text-sm">Dung dịch:</span>
           <span
             className={`font-bold text-sm ${
               data.isNearEquivalence
@@ -253,19 +253,19 @@ export default function TitrationPage() {
             }`}
           >
             {data.isNearEquivalence
-              ? "⚡ Near Equivalence!"
+              ? "⚡ Gần điểm tương đương!"
               : data.currentPH > 7
-                ? "🔵 Basic"
+                ? "🔵 Môi trường bazơ"
                 : data.currentPH < 7
-                  ? "🔴 Acidic"
-                  : "🟢 Neutral"}
+                  ? "🔴 Môi trường axit"
+                  : "🟢 Trung tính"}
           </span>
         </div>
 
         {/* Progress to equivalence */}
         <div className="mt-2">
           <div className="flex justify-between text-xs text-gray-500 mb-1">
-            <span>Progress</span>
+            <span>Tiến độ</span>
             <span>{Math.min(100, (data.volumeAdded / data.equivalencePointVolume) * 100).toFixed(0)}%</span>
           </div>
           <div className="w-full bg-gray-700 rounded-full h-2">
@@ -286,48 +286,48 @@ export default function TitrationPage() {
         {/* Equivalence point reached */}
         {data.isPastEquivalence && !data.isNearEquivalence && (
           <div className="mt-2 text-xs text-amber-400 font-medium text-center">
-            ✓ Equivalence point reached at {data.equivalencePointVolume.toFixed(1)} mL
+            ✓ Đã đạt điểm tương đương tại {data.equivalencePointVolume.toFixed(1)} mL
           </div>
         )}
       </div>
 
       {/* Indicator info */}
       <div className="mt-2 p-2 bg-gray-800/30 rounded-lg">
-        <div className="text-xs text-gray-400">Indicator: {data.indicatorType}</div>
+        <div className="text-xs text-gray-400">Chất chỉ thị: {data.indicatorType}</div>
         {data.indicatorType === "universal" && (
           <div className="text-xs text-gray-500 mt-1">
-            Shows full pH spectrum
+            Hiển thị đầy đủ thang màu pH
           </div>
         )}
         {data.indicatorType === "phenolphthalein" && (
           <div className="text-xs text-gray-500 mt-1">
-            Colorless → Pink (pH 8.2)
+            Không màu → Hồng (pH 8.2)
           </div>
         )}
         {data.indicatorType === "methyl-orange" && (
           <div className="text-xs text-gray-500 mt-1">
-            Red → Yellow (pH 3.1-4.4)
+            Đỏ → Vàng (pH 3.1-4.4)
           </div>
         )}
         {data.indicatorType === "bromothymol" && (
           <div className="text-xs text-gray-500 mt-1">
-            Yellow → Blue (pH 6.0-7.6)
+            Vàng → Xanh lam (pH 6.0-7.6)
           </div>
         )}
       </div>
     </>
   ) : (
     <div className="text-center text-gray-500 text-sm py-8">
-      <div className="animate-pulse">Initializing titration...</div>
-      <div className="text-xs mt-2">Add drops to begin</div>
+      <div className="animate-pulse">Đang khởi tạo chuẩn độ...</div>
+      <div className="text-xs mt-2">Thêm giọt để bắt đầu</div>
     </div>
   );
 
   return (
     <>
       <ExperimentContainer
-        title="Acid-Base Titration"
-        description="Determine unknown concentrations through acid-base titration"
+        title="Chuẩn độ axit - bazơ"
+        description="Xác định nồng độ dung dịch thông qua thí nghiệm chuẩn độ axit - bazơ"
         cameraPosition={[8, 6, 8]}
         backgroundColor="#050510"
         controls={null}
@@ -356,7 +356,7 @@ export default function TitrationPage() {
       />
 
       <FloatingControlPanel
-        title="⚗️ Titration Controls"
+        title="⚗️ Điều khiển chuẩn độ"
         initialPosition={{ x: 20, y: 80 }}
       >
         {parameterControls}

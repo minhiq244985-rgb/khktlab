@@ -48,9 +48,9 @@ export default function WaveInterferencePage() {
   // Parameter controls
   const parameterControls = (
     <div className="space-y-4">
-      <ControlGroup title="Wave Parameters">
+      <ControlGroup title="Thông số sóng">
         <ControlSlider
-          label="Frequency"
+          label="Tần số"
           value={frequency}
           unit="Hz"
           min={0.5}
@@ -61,7 +61,7 @@ export default function WaveInterferencePage() {
           decimals={1}
         />
         <ControlSlider
-          label="Wavelength"
+          label="Bước sóng"
           value={wavelength}
           unit="m"
           min={1}
@@ -72,7 +72,7 @@ export default function WaveInterferencePage() {
           decimals={2}
         />
         <ControlSlider
-          label="Amplitude"
+          label="Biên độ"
           value={amplitude}
           unit=""
           min={0.2}
@@ -83,7 +83,7 @@ export default function WaveInterferencePage() {
           decimals={1}
         />
         <ControlSlider
-          label="Source Separation"
+          label="Khoảng cách nguồn"
           value={sourceSeparation}
           unit="m"
           min={2}
@@ -95,9 +95,9 @@ export default function WaveInterferencePage() {
         />
       </ControlGroup>
 
-      <ControlGroup title="Display Options">
+      <ControlGroup title="Tùy chọn hiển thị">
         <ControlCheckbox
-          label="Show Interference Nodes"
+          label="Hiển thị nút giao thoa"
           checked={showNodes}
           onChange={setShowNodes}
           color="#00cc88"
@@ -108,7 +108,7 @@ export default function WaveInterferencePage() {
         onClick={() => router.push("/experiments/wave-interference/details")}
         className="w-full py-2.5 bg-gradient-to-r from-red-100 via-purple-100 to-blue-100 hover:from-red-200 hover:via-purple-200 hover:to-blue-200 text-gray-700 font-medium text-sm rounded-lg transition-all border border-gray-300/50 flex items-center justify-center gap-2"
       >
-        📖 View Experiment Details
+        📖 Xem chi tiết thí nghiệm
       </button>
     </div>
   );
@@ -129,15 +129,15 @@ export default function WaveInterferencePage() {
     />
   ) : (
     <div className="text-center text-gray-500 text-sm py-8">
-      Initializing simulation...
+      Đang khởi tạo mô phỏng...
     </div>
   );
 
   return (
     <>
       <ExperimentContainer
-        title="Wave Interference"
-        description="Observe constructive and destructive interference patterns from two wave sources"
+        title="Giao thoa sóng"
+        description="Quan sát các hình ảnh giao thoa cực đại (tăng cường) và cực tiểu (triệt tiêu) từ hai nguồn sóng"
         cameraPosition={[30, 22, 30]}
         backgroundColor="#050510"
         controls={null}
@@ -167,7 +167,7 @@ export default function WaveInterferencePage() {
 
       {/* Parameter Controls */}
       <FloatingControlPanel
-        title="⚙️ Parameters"
+        title="⚙️ Thông số"
         initialPosition={{ x: 20, y: 80 }}
       >
         {parameterControls}

@@ -21,18 +21,18 @@ export default function DoubleSlitPage() {
   const [data, setData] = useState<DoubleSlitData | null>(null);
   const [showDataPanel, setShowDataPanel] = useState(true);
 
-  // Simulation controls
+  // Điều khiển mô phỏng
   const [isPlaying, setIsPlaying] = useState(true);
   const [simulationSpeed, setSimulationSpeed] = useState(1);
   const [resetTrigger, setResetTrigger] = useState(0);
 
-  // Quantum parameters
+  // Tham số lượng tử
   const [wavelength, setWavelength] = useState(500);
   const [slitSeparation, setSlitSeparation] = useState(2);
   const [slitWidth, setSlitWidth] = useState(0.3);
   const [particleRate, setParticleRate] = useState(3);
 
-  // Display options
+  // Tùy chọn hiển thị
   const [showParticles, setShowParticles] = useState(true);
   const [showWaveView, setShowWaveView] = useState(false);
 
@@ -43,15 +43,15 @@ export default function DoubleSlitPage() {
     setSimulationSpeed(1);
   };
 
-  // Color based on wavelength
+  // Màu sắc theo bước sóng
   const wavelengthColor = `hsl(${540 - wavelength * 0.6}, 100%, 50%)`;
 
-  // === PARAMETER CONTROLS ===
+  // === ĐIỀU KHIỂN THAM SỐ ===
   const parameterControls = (
     <div className="space-y-4">
-      <ControlGroup title="Quantum Parameters">
+      <ControlGroup title="Tham số lượng tử">
         <ControlSlider
-          label="Wavelength (λ)"
+          label="Bước sóng (λ)"
           value={wavelength}
           unit="nm"
           min={380}
@@ -62,7 +62,7 @@ export default function DoubleSlitPage() {
           decimals={0}
         />
         <ControlSlider
-          label="Slit Separation (d)"
+          label="Khoảng cách hai khe (d)"
           value={slitSeparation}
           unit="mm"
           min={0.5}
@@ -73,7 +73,7 @@ export default function DoubleSlitPage() {
           decimals={1}
         />
         <ControlSlider
-          label="Slit Width (a)"
+          label="Độ rộng khe (a)"
           value={slitWidth}
           unit="mm"
           min={0.1}
@@ -84,7 +84,7 @@ export default function DoubleSlitPage() {
           decimals={2}
         />
         <ControlSlider
-          label="Fire Rate"
+          label="Tốc độ bắn hạt"
           value={particleRate}
           unit="/s"
           min={1}
@@ -96,10 +96,10 @@ export default function DoubleSlitPage() {
         />
       </ControlGroup>
 
-      <ControlGroup title="Display Options">
+      <ControlGroup title="Tùy chọn hiển thị">
         {[
-          { label: "Show Particles", checked: showParticles, onChange: setShowParticles },
-          { label: "Theory Curve", checked: showWaveView, onChange: setShowWaveView },
+          { label: "Hiện hạt", checked: showParticles, onChange: setShowParticles },
+          { label: "Đường cong lý thuyết", checked: showWaveView, onChange: setShowWaveView },
         ].map((opt) => (
           <label key={opt.label} className="flex items-center justify-between text-sm text-gray-700 cursor-pointer py-2 px-3 bg-gray-100/50 rounded-lg border border-gray-300/50">
             <span>{opt.label}</span>
@@ -117,12 +117,12 @@ export default function DoubleSlitPage() {
         onClick={() => router.push("/experiments/double-slit/details")}
         className="w-full py-2.5 bg-gradient-to-r from-purple-100 to-purple-200 hover:from-purple-200 hover:to-purple-300 text-purple-700 font-medium text-sm rounded-lg transition-all border border-purple-300/50 flex items-center justify-center gap-2"
       >
-        📖 View Experiment Details
+        📖 Xem chi tiết thí nghiệm
       </button>
     </div>
   );
 
-  // === DATA PANEL CONTENT ===
+  // === NỘI DUNG BẢNG DỮ LIỆU ===
   const dataPanelContent = data ? (
     <>
       <DataGrid
@@ -136,7 +136,7 @@ export default function DoubleSlitPage() {
       />
       <div className="mt-3 p-3 bg-gray-800/50 rounded-lg border border-gray-700">
         <p className="text-xs text-gray-400 leading-relaxed">
-          <strong className="text-purple-400">Wave-Particle Duality:</strong> Individual particles hit randomly but accumulate to form an interference pattern.
+          <strong className="text-purple-400">Lưỡng tính sóng - hạt:</strong> Từng hạt va chạm ngẫu nhiên nhưng tích lũy tạo thành vân giao thoa.
         </p>
         <p className="text-xs text-gray-500 mt-2 font-mono">
           I(y) = cos²(π·d·y/λ·L) · sinc²(π·a·y/λ·L)
@@ -145,15 +145,15 @@ export default function DoubleSlitPage() {
     </>
   ) : (
     <div className="text-center text-gray-500 text-sm py-8">
-      Starting simulation...
+      Đang khởi động mô phỏng...
     </div>
   );
 
   return (
     <>
       <ExperimentContainer
-        title="Double-Slit Experiment"
-        description="Quantum mechanics: particles build up wave interference patterns"
+        title="Thí nghiệm hai khe"
+        description="Cơ học lượng tử: các hạt tích lũy tạo thành vân giao thoa sóng"
         cameraPosition={[25, 15, 25]}
         backgroundColor="#050510"
         controls={null}
@@ -182,7 +182,7 @@ export default function DoubleSlitPage() {
       />
 
       <FloatingControlPanel
-        title="⚛️ Quantum Parameters"
+        title="⚛️ Tham số lượng tử"
         initialPosition={{ x: 20, y: 80 }}
       >
         {parameterControls}

@@ -33,15 +33,15 @@ export default function CrystalLatticePage() {
   };
 
   const latticeInfo: Record<"FCC" | "BCC" | "HCP" | "diamond", { name: string; examples: string }> = {
-    FCC: { name: "Face-Centered Cubic", examples: "Al, Cu, Au, Ag" },
-    BCC: { name: "Body-Centered Cubic", examples: "Fe, Cr, W, Na" },
-    HCP: { name: "Hexagonal Close-Packed", examples: "Mg, Zn, Ti, Co" },
-    diamond: { name: "Diamond Cubic", examples: "C (diamond), Si, Ge" },
+    FCC: { name: "Lập phương tâm mặt (FCC)", examples: "Al, Cu, Au, Ag" },
+    BCC: { name: "Lập phương tâm khối (BCC)", examples: "Fe, Cr, W, Na" },
+    HCP: { name: "Lục giác xếp chặt (HCP)", examples: "Mg, Zn, Ti, Co" },
+    diamond: { name: "Cấu trúc kim cương", examples: "C (kim cương), Si, Ge" },
   };
 
   const parameterControls = (
     <div className="space-y-4">
-      <ControlGroup title="Crystal Structure">
+      <ControlGroup title="Cấu trúc tinh thể">
         <div className="grid grid-cols-2 gap-2">
           {(["FCC", "BCC", "HCP", "diamond"] as const).map((type) => (
             <button
@@ -63,10 +63,10 @@ export default function CrystalLatticePage() {
         </div>
       </ControlGroup>
 
-      <ControlGroup title="Display Options">
+      <ControlGroup title="Tùy chọn hiển thị">
         {[
-          { label: "Unit Cell Wireframe", checked: showUnitCell, onChange: setShowUnitCell },
-          { label: "Atomic Bonds", checked: showBonds, onChange: setShowBonds },
+          { label: "Khung ô đơn vị", checked: showUnitCell, onChange: setShowUnitCell },
+          { label: "Liên kết nguyên tử", checked: showBonds, onChange: setShowBonds },
         ].map((opt) => (
           <label key={opt.label} className="flex items-center justify-between text-sm text-gray-700 cursor-pointer py-2 px-3 bg-gray-100/50 rounded-lg border border-gray-300/50">
             <span>{opt.label}</span>
@@ -83,7 +83,7 @@ export default function CrystalLatticePage() {
         onClick={() => router.push("/experiments/crystal-lattice/details")}
         className="w-full py-2.5 bg-gradient-to-r from-purple-100 to-purple-200 hover:from-purple-200 hover:to-purple-300 text-purple-700 font-medium text-sm rounded-lg transition-all border border-purple-300/50 flex items-center justify-center gap-2"
       >
-        📖 View Experiment Details
+        📖 Xem chi tiết thí nghiệm
       </button>
     </div>
   );
@@ -92,29 +92,29 @@ export default function CrystalLatticePage() {
     <>
       <DataGrid
         data={{
-          totalAtoms: { value: data.totalAtoms, unit: "atoms", color: "#a855f7", decimals: 0 },
-          atomsPerCell: { value: data.atomsPerCell, unit: "atoms/cell", color: "#ec4899", decimals: 0 },
+          totalAtoms: { value: data.totalAtoms, unit: "nguyên tử", color: "#a855f7", decimals: 0 },
+          atomsPerCell: { value: data.atomsPerCell, unit: "nguyên tử/ô", color: "#ec4899", decimals: 0 },
           coordinationNumber: { value: data.coordinationNumber, unit: "", color: "#8b5cf6", decimals: 0 },
           packingEfficiency: { value: data.packingEfficiency * 100, unit: "%", color: "#22c55e", decimals: 0 },
         }}
         columns={2}
       />
       <div className="mt-3 p-3 bg-gray-800/50 rounded-lg">
-        <div className="text-xs text-gray-400 mb-1">Structure Type</div>
+        <div className="text-xs text-gray-400 mb-1">Loại cấu trúc</div>
         <div className="text-purple-400 text-sm font-medium">{latticeInfo[data.latticeType].name}</div>
       </div>
     </>
   ) : (
     <div className="text-center text-gray-500 text-sm py-8">
-      Waiting for simulation data...
+      Đang chờ dữ liệu mô phỏng...
     </div>
   );
 
   return (
     <>
       <ExperimentContainer
-        title="Crystal Lattice"
-        description="Explore the atomic arrangement in crystalline solids"
+        title="Mạng tinh thể"
+        description="Khám phá sự sắp xếp nguyên tử trong chất rắn kết tinh"
         cameraPosition={[10, 8, 10]}
         backgroundColor="#050510"
         controls={null}
@@ -138,7 +138,7 @@ export default function CrystalLatticePage() {
       />
 
       <FloatingControlPanel
-        title="⚙️ Lattice Parameters"
+        title="⚙️ Tham số mạng tinh thể"
         initialPosition={{ x: 20, y: 80 }}
       >
         {parameterControls}

@@ -7,9 +7,6 @@ export interface ControlGroupProps {
   children: ReactNode;
 }
 
-/**
- * Grouped controls section
- */
 export function ControlGroup({ title, children }: ControlGroupProps) {
   return (
     <div className="mb-4 last:mb-0">
@@ -30,9 +27,6 @@ export interface ControlItemProps {
   color?: string;
 }
 
-/**
- * Individual control display item
- */
 export function ControlItem({ label, value, unit, color = "#a855f7" }: ControlItemProps) {
   const displayValue = typeof value === "number" ? value.toFixed(2) : value;
 
@@ -60,9 +54,6 @@ export interface ControlSliderProps {
   disabled?: boolean;
 }
 
-/**
- * Interactive slider control
- */
 export function ControlSlider({ label, value, unit, min, max, step, color = "#a855f7", onChange, decimals = 2, disabled = false }: ControlSliderProps) {
   return (
     <div className={`space-y-1 ${disabled ? "opacity-50" : ""}`}>
@@ -93,11 +84,7 @@ export interface DataGridProps {
   columns?: 1 | 2 | 3;
 }
 
-/**
- * Grid layout for data display
- */
 export function DataGrid({ data, columns = 1 }: DataGridProps) {
-  // Use a lookup object to avoid dynamic Tailwind classes
   const colClasses: Record<number, string> = {
     1: "grid-cols-1",
     2: "grid-cols-2",
@@ -133,9 +120,6 @@ export interface EnergyBarProps {
   maxEnergy?: number;
 }
 
-/**
- * Energy bar visualization
- */
 export function EnergyBar({ kinetic, potential, total, maxEnergy }: EnergyBarProps) {
   const max = maxEnergy || total * 1.2;
 
@@ -143,7 +127,7 @@ export function EnergyBar({ kinetic, potential, total, maxEnergy }: EnergyBarPro
     <div className="space-y-2">
       <div>
         <div className="flex justify-between text-xs mb-1">
-          <span className="text-orange-400">Kinetic (KE)</span>
+          <span className="text-orange-400">Động năng (Wđ)</span>
           <span className="font-mono text-orange-400 text-xs">{kinetic.toFixed(2)} J</span>
         </div>
         <div className="h-1.5 bg-gray-700 rounded-full overflow-hidden">
@@ -155,7 +139,7 @@ export function EnergyBar({ kinetic, potential, total, maxEnergy }: EnergyBarPro
       </div>
       <div>
         <div className="flex justify-between text-xs mb-1">
-          <span className="text-blue-400">Potential (PE)</span>
+          <span className="text-blue-400">Thế năng (Wt)</span>
           <span className="font-mono text-blue-400 text-xs">{potential.toFixed(2)} J</span>
         </div>
         <div className="h-1.5 bg-gray-700 rounded-full overflow-hidden">
@@ -167,7 +151,7 @@ export function EnergyBar({ kinetic, potential, total, maxEnergy }: EnergyBarPro
       </div>
       <div>
         <div className="flex justify-between text-xs mb-1">
-          <span className="text-green-400">Total (E)</span>
+          <span className="text-green-400">Cơ năng (W)</span>
           <span className="font-mono text-green-400 text-xs">{total.toFixed(2)} J</span>
         </div>
         <div className="h-1.5 bg-gray-700 rounded-full overflow-hidden">
@@ -180,10 +164,6 @@ export function EnergyBar({ kinetic, potential, total, maxEnergy }: EnergyBarPro
     </div>
   );
 }
-
-// ============================================================================
-// NEW UNIVERSAL CONTROL COMPONENTS
-// ============================================================================
 
 export interface DropdownOption {
   label: string;
@@ -201,10 +181,6 @@ export interface ControlDropdownProps<T extends string = string> {
   disabled?: boolean;
 }
 
-/**
- * Dropdown control for selecting from a list of options
- * Replaces Leva's select/options controls
- */
 export function ControlDropdown<T extends string = string>({
   label,
   value,
@@ -304,10 +280,6 @@ export interface ControlButtonProps {
   size?: "sm" | "md" | "lg";
 }
 
-/**
- * Button control for actions (Start, Reset, Add Drop, etc.)
- * Replaces Leva's button controls
- */
 export function ControlButton({
   label,
   onClick,
@@ -352,10 +324,6 @@ export interface ControlCheckboxProps {
   disabled?: boolean;
 }
 
-/**
- * Checkbox control for boolean toggles
- * Replaces Leva's boolean controls
- */
 export function ControlCheckbox({
   label,
   checked,
@@ -408,9 +376,6 @@ export interface ControlPresetButtonsProps {
   displayValue?: (value: number | string) => string;
 }
 
-/**
- * Preset buttons for quick selection (like gravity presets)
- */
 export function ControlPresetButtons({
   label,
   value,
@@ -457,14 +422,11 @@ export function ControlPresetButtons({
 
 export interface ControlProgressBarProps {
   label: string;
-  value: number; // 0 to 1
+  value: number;
   color?: string;
   showPercentage?: boolean;
 }
 
-/**
- * Progress bar for showing reaction/animation progress
- */
 export function ControlProgressBar({
   label,
   value,

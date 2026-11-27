@@ -36,13 +36,13 @@ export interface TitrationSceneProps {
 
 // Acid-base dissociation constants
 const ACID_PROPERTIES: Record<string, { Ka: number; pKa: number; strength: string }> = {
-  HCl: { Ka: 1e7, pKa: -7, strength: "Strong Acid" },
-  CH3COOH: { Ka: 1.8e-5, pKa: 4.76, strength: "Weak Acid" },
+  HCl: { Ka: 1e7, pKa: -7, strength: "Axit mạnh" },
+  CH3COOH: { Ka: 1.8e-5, pKa: 4.76, strength: "Axit yếu" },
 };
 
 const BASE_PROPERTIES: Record<string, { strength: string }> = {
-  NaOH: { strength: "Strong Base" },
-  KOH: { strength: "Strong Base" },
+  NaOH: { strength: "Bazơ mạnh" },
+  KOH: { strength: "Bazơ mạnh" },
 };
 
 /**

@@ -26,8 +26,8 @@ export interface CalculusSceneProps {
 }
 
 /**
- * Calculus Visualizer scene component
- * Visualizes derivatives, integrals, and tangent lines
+ * Thành phần cảnh Mô phỏng Giải tích
+ * Trực quan hóa đạo hàm, tích phân và đường tiếp tuyến
  */
 export function CalculusSceneComponent({
   functionType,

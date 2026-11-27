@@ -17,11 +17,11 @@ type StepMode = "autoplay" | "step-through";
 type Electrolyte = "water" | "nacl" | "cuso4";
 
 const STEP_INFO = [
-  { id: 1, title: "Setup", description: "Battery connected to electrodes in electrolyte solution" },
-  { id: 2, title: "Current Flows", description: "Electrons flow from battery through wires to electrodes" },
-  { id: 3, title: "Reactions Begin", description: "Water molecules split at electrode surfaces" },
-  { id: 4, title: "Gases Form", description: "H₂ bubbles form at cathode (-), O₂ at anode (+)" },
-  { id: 5, title: "Collection", description: "Gases collected in test tubes - H₂:O₂ ratio = 2:1" },
+  { id: 1, title: "Thiết lập", description: "Pin được nối với các điện cực trong dung dịch điện phân" },
+  { id: 2, title: "Dòng điện chạy qua", description: "Electron di chuyển từ pin qua dây dẫn đến các điện cực" },
+  { id: 3, title: "Phản ứng bắt đầu", description: "Các phân tử nước phân tách tại bề mặt điện cực" },
+  { id: 4, title: "Khí hình thành", description: "Bọt khí H₂ hình thành ở catốt (-), O₂ ở anốt (+)" },
+  { id: 5, title: "Thu khí", description: "Khí được thu trong ống nghiệm - tỷ lệ H₂:O₂ = 2:1" },
 ];
 
 export default function ElectrolysisPage() {
@@ -29,16 +29,16 @@ export default function ElectrolysisPage() {
   const [data, setData] = useState<ElectrolysisData | null>(null);
   const [showDataPanel, setShowDataPanel] = useState(true);
 
-  // Simulation controls
+  // Điều khiển mô phỏng
   const [isPlaying, setIsPlaying] = useState(true);
   const [simulationSpeed, setSimulationSpeed] = useState(1);
   const [resetTrigger, setResetTrigger] = useState(0);
 
-  // Physics parameters
+  // Thông số vật lý
   const [voltage, setVoltage] = useState(6);
   const [electrolyte, setElectrolyte] = useState<Electrolyte>("water");
 
-  // Step-by-step mode
+  // Chế độ từng bước
   const [stepMode, setStepMode] = useState<StepMode>("step-through");
   const [currentStep, setCurrentStep] = useState(1);
   const [autoPlayTimer, setAutoPlayTimer] = useState<NodeJS.Timeout | null>(null);
@@ -65,7 +65,7 @@ export default function ElectrolysisPage() {
       setAutoPlayTimer(null);
     }
     if (mode === "autoplay") {
-      // Start auto-advancing through steps
+      // Bắt đầu tự động chuyển qua các bước
       setCurrentStep(1);
       const timer = setInterval(() => {
         setCurrentStep((s) => {
@@ -91,17 +91,17 @@ export default function ElectrolysisPage() {
 
   const getElectrolyteLabel = (e: Electrolyte): string => {
     switch (e) {
-      case "water": return "Pure Water (H₂O)";
-      case "nacl": return "Salt Solution (NaCl)";
-      case "cuso4": return "Copper Sulfate (CuSO₄)";
+      case "water": return "Nước tinh khiết (H₂O)";
+      case "nacl": return "Dung dịch muối (NaCl)";
+      case "cuso4": return "Đồng sunfat (CuSO₄)";
     }
   };
 
-  // === PARAMETER CONTROLS ===
+  // === ĐIỀU KHIỂN THÔNG SỐ ===
   const parameterControls = (
     <div className="space-y-4">
-      {/* Step Mode Selection */}
-      <ControlGroup title="Simulation Mode">
+      {/* Chọn chế độ bước */}
+      <ControlGroup title="Chế độ mô phỏng">
         <div className="grid grid-cols-2 gap-2">
           <button
             onClick={() => handleStepModeChange("step-through")}
@@ -111,7 +111,7 @@ export default function ElectrolysisPage() {
                 : "bg-gray-200/50 text-gray-700 hover:bg-gray-300/50"
             }`}
           >
-            📝 Step-Through
+            📝 Từng bước
           </button>
           <button
             onClick={() => handleStepModeChange("autoplay")}
@@ -121,14 +121,14 @@ export default function ElectrolysisPage() {
                 : "bg-gray-200/50 text-gray-700 hover:bg-gray-300/50"
             }`}
           >
-            ▶️ Auto-Play
+            ▶️ Tự động chạy
           </button>
         </div>
       </ControlGroup>
 
-      {/* Step Navigation (only in step-through mode) */}
+      {/* Điều hướng bước (chỉ ở chế độ từng bước) */}
       {stepMode === "step-through" && (
-        <ControlGroup title="Step Navigation">
+        <ControlGroup title="Điều hướng bước">
           <div className="flex gap-1 flex-wrap">
             {[1, 2, 3, 4, 5].map((step) => (
               <button
@@ -151,10 +151,10 @@ export default function ElectrolysisPage() {
         </ControlGroup>
       )}
 
-      {/* Voltage Control */}
-      <ControlGroup title="Voltage">
+      {/* Điều khiển điện áp */}
+      <ControlGroup title="Điện áp">
         <ControlSlider
-          label="Voltage"
+          label="Điện áp"
           value={voltage}
           unit="V"
           min={1}
@@ -166,8 +166,8 @@ export default function ElectrolysisPage() {
         />
       </ControlGroup>
 
-      {/* Electrolyte Selection */}
-      <ControlGroup title="Electrolyte Solution">
+      {/* Chọn chất điện phân */}
+      <ControlGroup title="Dung dịch điện phân">
         <div className="space-y-2">
           {(["water", "nacl", "cuso4"] as Electrolyte[]).map((e) => (
             <button
@@ -185,10 +185,10 @@ export default function ElectrolysisPage() {
         </div>
       </ControlGroup>
 
-      {/* Simulation Speed */}
-      <ControlGroup title="Simulation Speed">
+      {/* Tốc độ mô phỏng */}
+      <ControlGroup title="Tốc độ mô phỏng">
         <ControlSlider
-          label="Speed"
+          label="Tốc độ"
           value={simulationSpeed}
           unit="×"
           min={0.25}
@@ -204,12 +204,12 @@ export default function ElectrolysisPage() {
         onClick={() => router.push("/experiments/electrolysis/details")}
         className="w-full py-2.5 bg-gradient-to-r from-blue-100 to-blue-200 hover:from-blue-200 hover:to-blue-300 text-blue-700 font-medium text-sm rounded-lg transition-all border border-blue-300/50 flex items-center justify-center gap-2"
       >
-        📖 View Experiment Details
+        📖 Xem chi tiết thí nghiệm
       </button>
     </div>
   );
 
-  // === DATA PANEL CONTENT ===
+  // === NỘI DUNG BẢNG DỮ LIỆU ===
   const dataPanelContent = data ? (
     <div className="space-y-4">
       <DataGrid
@@ -222,15 +222,15 @@ export default function ElectrolysisPage() {
         columns={2}
       />
 
-      {/* Reaction Status */}
+      {/* Trạng thái phản ứng */}
       <div className="bg-gray-50/80 rounded-lg p-3 space-y-2">
-        <div className="text-xs font-semibold text-gray-600 uppercase tracking-wide">Status</div>
+        <div className="text-xs font-semibold text-gray-600 uppercase tracking-wide">Trạng thái</div>
         <div className="text-sm font-medium text-gray-800">{data.reactionStatus}</div>
 
-        {/* Step indicator */}
+        {/* Chỉ báo bước */}
         <div className="pt-2 border-t border-gray-200">
           <div className="flex items-center justify-between text-xs">
-            <span className="text-gray-500">Current Step</span>
+            <span className="text-gray-500">Bước hiện tại</span>
             <span className="font-bold text-blue-600">{currentStep}/5</span>
           </div>
           <div className="mt-1 flex gap-1">
@@ -245,31 +245,31 @@ export default function ElectrolysisPage() {
           </div>
         </div>
 
-        {/* Gas Ratio */}
+        {/* Tỷ lệ khí */}
         {data.h2Volume > 0 && data.o2Volume > 0 && (
           <div className="pt-2 border-t border-gray-200">
             <div className="flex items-center justify-between text-xs">
-              <span className="text-gray-500">H₂:O₂ Ratio</span>
+              <span className="text-gray-500">Tỷ lệ H₂:O₂</span>
               <span className="font-bold text-green-600">
                 {(data.h2Volume / Math.max(data.o2Volume, 0.1)).toFixed(1)}:1
               </span>
             </div>
-            <div className="text-xs text-gray-400 mt-1">Expected: 2:1</div>
+            <div className="text-xs text-gray-400 mt-1">Lý thuyết: 2:1</div>
           </div>
         )}
       </div>
 
-      {/* Electrode Reactions Reference */}
+      {/* Tham chiếu phản ứng điện cực */}
       {currentStep >= 3 && (
         <div className="bg-blue-50/80 rounded-lg p-3 space-y-2">
-          <div className="text-xs font-semibold text-blue-800 uppercase tracking-wide">Reactions</div>
+          <div className="text-xs font-semibold text-blue-800 uppercase tracking-wide">Các phản ứng</div>
           <div className="space-y-1.5 text-xs">
             <div className="flex items-start gap-2">
-              <span className="text-blue-600 font-bold shrink-0">Cathode (−):</span>
+              <span className="text-blue-600 font-bold shrink-0">Catốt (−):</span>
               <span className="text-gray-700">2H₂O + 2e⁻ → H₂(g) + 2OH⁻</span>
             </div>
             <div className="flex items-start gap-2">
-              <span className="text-red-600 font-bold shrink-0">Anode (+):</span>
+              <span className="text-red-600 font-bold shrink-0">Anốt (+):</span>
               <span className="text-gray-700">2H₂O → O₂(g) + 4H⁺ + 4e⁻</span>
             </div>
           </div>
@@ -278,15 +278,15 @@ export default function ElectrolysisPage() {
     </div>
   ) : (
     <div className="text-center text-gray-500 text-sm py-8">
-      Waiting for simulation data...
+      Đang chờ dữ liệu mô phỏng...
     </div>
   );
 
   return (
     <>
       <ExperimentContainer
-        title="Electrolysis of Water"
-        description="Learn how electricity splits water into hydrogen and oxygen gas"
+        title="Điện phân nước"
+        description="Tìm hiểu cách dòng điện tách nước thành khí hiđro và oxi"
         cameraPosition={[12, 10, 12]}
         backgroundColor="#050510"
         controls={null}
@@ -310,7 +310,7 @@ export default function ElectrolysisPage() {
       />
 
       <FloatingControlPanel
-        title="⚡ Electrolysis Controls"
+        title="⚡ Điều khiển điện phân"
         initialPosition={{ x: 20, y: 80 }}
       >
         {parameterControls}

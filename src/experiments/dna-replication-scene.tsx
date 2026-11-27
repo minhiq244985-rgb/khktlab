@@ -24,16 +24,16 @@ interface DNAReplicationSceneProps {
   step?: number;
 }
 
-// Nucleotide colors as specified: A=red, T=yellow, G=blue, C=cyan
+// Màu các nuclêôtit: A=đỏ, T=vàng, G=xanh lam, C=xanh ngọc
 const BASE_COLORS = {
-  A: '#ef4444', // Red
-  T: '#fbbf24', // Yellow
-  G: '#3b82f6', // Blue
-  C: '#06b6d4', // Cyan
+  A: '#ef4444', // Đỏ
+  T: '#fbbf24', // Vàng
+  G: '#3b82f6', // Xanh lam
+  C: '#06b6d4', // Xanh ngọc
 };
 
-const ORIGINAL_STRAND_COLOR = '#3b82f6'; // Blue
-const NEW_STRAND_COLOR = '#22c55e'; // Green
+const ORIGINAL_STRAND_COLOR = '#3b82f6'; // Xanh lam
+const NEW_STRAND_COLOR = '#22c55e'; // Xanh lá
 
 const COMPLEMENTARY: Record<string, string> = {
   A: 'T',
@@ -42,35 +42,35 @@ const COMPLEMENTARY: Record<string, string> = {
   C: 'G',
 };
 
-// DNA sequence for the template (20 base pairs)
+// Trình tự DNA mạch khuôn (20 cặp bazơ)
 const DNA_SEQUENCE = 'ATGCGATCGATCGATCGATC';
 
-// Step definitions with detailed descriptions
+// Định nghĩa các bước với mô tả chi tiết
 const STEPS = [
   {
-    name: 'Initiation',
-    stage: 'Original DNA',
-    desc: 'Double-stranded DNA molecule intact. Helicase enzyme approaches origin of replication.',
+    name: 'Khởi đầu',
+    stage: 'DNA ban đầu',
+    desc: 'Phân tử DNA mạch kép còn nguyên vẹn. Enzyme helicase tiến tới điểm khởi đầu nhân đôi.',
   },
   {
-    name: 'Unwinding',
-    stage: 'Replication Fork',
-    desc: 'Helicase breaks hydrogen bonds between base pairs, creating replication fork. Strands separate.',
+    name: 'Tháo xoắn',
+    stage: 'Chạc ba nhân đôi',
+    desc: 'Helicase bẻ gãy liên kết hydro giữa các cặp bazơ, tạo chạc ba nhân đôi. Hai mạch tách nhau.',
   },
   {
-    name: 'Primer Binding',
-    stage: 'Primase Activity',
-    desc: 'Primase synthesizes short RNA primers. DNA polymerases can now attach and begin synthesis.',
+    name: 'Gắn đoạn mồi',
+    stage: 'Hoạt động của Primase',
+    desc: 'Primase tổng hợp các đoạn mồi RNA ngắn. DNA polymerase giờ có thể gắn vào và bắt đầu tổng hợp.',
   },
   {
-    name: 'Elongation',
+    name: 'Kéo dài mạch',
     stage: 'DNA Polymerase',
-    desc: 'Leading strand: continuous synthesis 5\'→3\'. Lagging strand: Okazaki fragments. New strands in green.',
+    desc: 'Mạch dẫn: tổng hợp liên tục theo chiều 5'→3'. Mạch muộn: các đoạn Okazaki. Mạch mới màu xanh lá.',
   },
   {
-    name: 'Completion',
-    stage: 'Two Daughter DNA',
-    desc: 'Semi-conservative replication complete! Each DNA has one original (blue) + one new strand (green).',
+    name: 'Hoàn tất',
+    stage: 'Hai DNA con',
+    desc: 'Nhân đôi bán bảo toàn hoàn tất! Mỗi phân tử DNA gồm 1 mạch cũ (xanh lam) + 1 mạch mới (xanh lá).',
   },
 ];
 
@@ -85,7 +85,7 @@ export default function DNAReplicationSceneComponent({
 }: DNAReplicationSceneProps) {
   const groupRef = useRef<THREE.Group>(null);
 
-  // Physics state in refs
+  // Trạng thái vật lý lưu trong ref
   const timeRef = useRef(0);
   const rotationRef = useRef(0);
   const helicasePosRef = useRef(0);
@@ -94,13 +94,13 @@ export default function DNAReplicationSceneComponent({
   const laggingProgressRef = useRef(0);
   const unwindingAmountRef = useRef(0);
 
-  // React state for UI updates (throttled)
+  // Trạng thái React cập nhật giao diện (giới hạn tần suất)
   const [nucleotidesAdded, setNucleotidesAdded] = useState(0);
   const [leadingStrand, setLeadingStrand] = useState(0);
   const [laggingStrand, setLaggingStrand] = useState(0);
   const frameCountRef = useRef(0);
 
-  // Reset physics state
+  // Đặt lại trạng thái vật lý
   useEffect(() => {
     timeRef.current = 0;
     rotationRef.current = 0;
@@ -114,7 +114,7 @@ export default function DNAReplicationSceneComponent({
     setLaggingStrand(0);
   }, [resetTrigger, step]);
 
-  // Generate base pair data
+  // Tạo dữ liệu cặp bazơ
   const basePairs = useMemo(() => {
     const pairs: any[] = [];
     for (let i = 0; i < 20; i++) {
@@ -133,7 +133,7 @@ export default function DNAReplicationSceneComponent({
     return pairs;
   }, []);
 
-  // Calculate strand position with helix rotation and unwinding
+  // Tính vị trí mạch theo độ xoắn và độ tháo xoắn
   const getStrandPosition = useCallback((
     index: number,
     angle: number,
@@ -144,7 +144,7 @@ export default function DNAReplicationSceneComponent({
     const baseAngle = angle + rotationRef.current + (strand === 0 ? 0 : Math.PI);
     const distFromHelicase = Math.abs(index - 10);
 
-    // Unwinding happens at helicase position and propagates
+    // Tháo xoắn diễn ra tại vị trí helicase và lan truyền
     let unwindAmount = 0;
     if (helicasePos > 0 && distFromHelicase < helicasePos + 2) {
       const progress = 1 - (distFromHelicase / (helicasePos + 2));
@@ -159,7 +159,7 @@ export default function DNAReplicationSceneComponent({
     );
   }, []);
 
-  // Generate backbone points
+  // Tạo các điểm khung xương mạch
   const generateBackbonePoints = useCallback((
     strand: 0 | 1,
     separation: number = 0,
@@ -176,7 +176,7 @@ export default function DNAReplicationSceneComponent({
     return points;
   }, [basePairs, getStrandPosition]);
 
-  // Throttled state updates (every 8 frames)
+  // Cập nhật trạng thái có chu kỳ (mỗi 8 khung hình)
   useFrame((state, delta) => {
     frameCountRef.current++;
 
@@ -184,38 +184,38 @@ export default function DNAReplicationSceneComponent({
       timeRef.current += delta * simulationSpeed * speed;
       rotationRef.current += delta * 0.08 * simulationSpeed;
 
-      // Step-based animations
+      // Hoạt ảnh theo từng bước
       if (step === 1) {
-        // Helicase unwinding
+        // Helicase tháo xoắn
         helicasePosRef.current = Math.min(12, helicasePosRef.current + delta * 3 * simulationSpeed * speed);
         unwindingAmountRef.current = Math.min(3, unwindingAmountRef.current + delta * 2 * simulationSpeed * speed);
       } else if (step === 2) {
-        // Primase adding primers
+        // Primase gắn đoạn mồi
         helicasePosRef.current = 10;
         unwindingAmountRef.current = 3;
         primerProgressRef.current = Math.min(100, primerProgressRef.current + delta * 20 * simulationSpeed * speed);
       } else if (step === 3) {
-        // Polymerase elongation
+        // Polymerase kéo dài mạch
         unwindingAmountRef.current = 3;
-        // Leading strand continuous (5' to 3' following helicase)
+        // Mạch dẫn liên tục (5' đến 3' theo chiều helicase)
         leadingProgressRef.current = Math.min(100, leadingProgressRef.current + delta * 12 * simulationSpeed * speed);
-        // Lagging strand Okazaki fragments
+        // Mạch muộn tạo các đoạn Okazaki
         laggingProgressRef.current = Math.min(100, laggingProgressRef.current + delta * 8 * simulationSpeed * speed);
       } else if (step === 4) {
-        // Complete
+        // Hoàn tất
         unwindingAmountRef.current = 3;
         leadingProgressRef.current = 100;
         laggingProgressRef.current = 100;
       }
 
-      // Calculate nucleotides added
+      // Tính số nuclêôtit đã thêm
       const totalNucleotides = Math.floor(
         ((leadingProgressRef.current + laggingProgressRef.current) / 100) * 20
       );
       const leading = Math.floor((leadingProgressRef.current / 100) * 20);
       const lagging = Math.floor((laggingProgressRef.current / 100) * 20);
 
-      // Update React state every 8 frames
+      // Cập nhật trạng thái React mỗi 8 khung hình
       if (frameCountRef.current % 8 === 0) {
         setNucleotidesAdded(totalNucleotides);
         setLeadingStrand(leading);
@@ -249,26 +249,9 @@ export default function DNAReplicationSceneComponent({
       <OrbitControls enableDamping dampingFactor={0.05} />
 
       <group ref={groupRef}>
-        {/* Main step indicator */}
-        {showLabels && (
-          <Html position={[0, 9, 0]} distanceFactor={10}>
-            <div className="bg-gray-900/95 px-4 py-3 rounded-xl border border-gray-700 shadow-xl">
-              <div className="text-white text-lg font-bold">
-                {step + 1}. {STEPS[step].name}
-              </div>
-              <div className="text-gray-300 text-sm mt-1">{STEPS[step].desc}</div>
-              {step === 3 && (
-                <div className="text-gray-400 text-xs mt-2">
-                  Leading: {leadingStrand}/20 | Lagging: {laggingStrand}/20
-                </div>
-              )}
-            </div>
-          </Html>
-        )}
-
-        {/* ===== DNA DOUBLE HELIX ===== */}
+        {/* ===== CHUỖI XOẮN KÉP DNA ===== */}
         <group>
-          {/* Original backbones (blue lines) */}
+          {/* Khung xương mạch ban đầu (đường xanh lam) */}
           <Line
             points={generateBackbonePoints(0, currentSeparation, currentHelicasePos)}
             color={ORIGINAL_STRAND_COLOR}
@@ -284,19 +267,19 @@ export default function DNAReplicationSceneComponent({
             transparent
           />
 
-          {/* Base pairs */}
+          {/* Các cặp bazơ */}
           {basePairs.map((pair) => {
             const pos1 = getStrandPosition(pair.index, pair.angle, 0, currentSeparation, currentHelicasePos);
             const pos2 = getStrandPosition(pair.index, pair.angle, 1, currentSeparation, currentHelicasePos);
             const isSeparated = currentSeparation > 0.5;
             const helicaseProgress = step === 1 ? currentHelicasePos : step > 1 ? 12 : 0;
 
-            // Check if this base pair has been replicated
+            // Kiểm tra cặp bazơ đã được nhân đôi chưa
             const isReplicated = step >= 3 && pair.index < (leadingProgressRef.current / 100) * 20;
 
             return (
               <group key={pair.index}>
-                {/* Original bases on both strands */}
+                {/* Bazơ ban đầu trên cả hai mạch */}
                 <mesh position={pos1}>
                   <sphereGeometry args={[Math.max(0.01, 0.18), 12, 12]} />
                   <meshStandardMaterial
@@ -314,7 +297,7 @@ export default function DNAReplicationSceneComponent({
                   />
                 </mesh>
 
-                {/* Hydrogen bonds (disappear as unwound) */}
+                {/* Liên kết hydro (biến mất khi tháo xoắn) */}
                 {!isSeparated && pair.index < helicaseProgress && (
                   <Line
                     points={[pos1, pos2]}
@@ -325,7 +308,7 @@ export default function DNAReplicationSceneComponent({
                   />
                 )}
 
-                {/* RNA Primers (Step 2) - orange */}
+                {/* Đoạn mồi RNA (Bước 2) - màu cam */}
                 {step === 2 && pair.index % 4 === 0 && pair.index < (primerProgressRef.current / 100) * 20 && (
                   <>
                     <mesh position={pos1.clone().multiplyScalar(1.08)}>
@@ -347,10 +330,10 @@ export default function DNAReplicationSceneComponent({
                   </>
                 )}
 
-                {/* New complementary strands (Step 3 & 4) - green */}
+                {/* Mạch bổ sung mới (Bước 3 & 4) - màu xanh lá */}
                 {isReplicated && (
                   <>
-                    {/* New strand matching original strand 1 */}
+                    {/* Mạch mới khớp mạch gốc 1 */}
                     <mesh position={pos1.clone().multiplyScalar(1.2)}>
                       <sphereGeometry args={[Math.max(0.01, 0.14), 10, 10]} />
                       <meshStandardMaterial
@@ -361,7 +344,7 @@ export default function DNAReplicationSceneComponent({
                         emissiveIntensity={0.3}
                       />
                     </mesh>
-                    {/* New strand matching original strand 2 */}
+                    {/* Mạch mới khớp mạch gốc 2 */}
                     <mesh position={pos2.clone().multiplyScalar(1.2)}>
                       <sphereGeometry args={[Math.max(0.01, 0.14), 10, 10]} />
                       <meshStandardMaterial
@@ -379,10 +362,10 @@ export default function DNAReplicationSceneComponent({
           })}
         </group>
 
-        {/* ===== HELICASE ENZYME (Step 1) ===== */}
+        {/* ===== ENZYME HELICASE (Bước 1) ===== */}
         {step === 1 && showLabels && (
           <group position={[0, 0, 0]}>
-            {/* Helicase body - wedge shape */}
+            {/* Thân helicase - dạng nêm */}
             <mesh position={[0, 0, 2.2]}>
               <coneGeometry args={[1.2, 2, 16]} />
               <meshStandardMaterial
@@ -392,7 +375,7 @@ export default function DNAReplicationSceneComponent({
                 roughness={0.3}
               />
             </mesh>
-            {/* Helicase base */}
+            {/* Đế helicase */}
             <mesh position={[0, 0, 1.2]} rotation={[Math.PI / 2, 0, 0]}>
               <cylinderGeometry args={[0.8, 1, 0.5, 16]} />
               <meshStandardMaterial
@@ -409,10 +392,10 @@ export default function DNAReplicationSceneComponent({
           </group>
         )}
 
-        {/* ===== PRIMASE ENZYMES (Step 2) ===== */}
+        {/* ===== ENZYME PRIMASE (Bước 2) ===== */}
         {step === 2 && showLabels && (
           <>
-            {/* Primase on leading strand side */}
+            {/* Primase ở phía mạch dẫn */}
             <group position={[2, 2, 0]}>
               <mesh>
                 <sphereGeometry args={[Math.max(0.01, 0.6), 16, 16]} />
@@ -428,7 +411,7 @@ export default function DNAReplicationSceneComponent({
                 </div>
               </Html>
             </group>
-            {/* Primase on lagging strand side */}
+            {/* Primase ở phía mạch muộn */}
             <group position={[-2, -2, 0]}>
               <mesh>
                 <sphereGeometry args={[Math.max(0.01, 0.6), 16, 16]} />
@@ -447,10 +430,10 @@ export default function DNAReplicationSceneComponent({
           </>
         )}
 
-        {/* ===== DNA POLYMERASE ENZYMES (Step 3) ===== */}
+        {/* ===== ENZYME DNA POLYMERASE (Bước 3) ===== */}
         {step === 3 && showLabels && (
           <>
-            {/* Leading strand polymerase (continuous synthesis) */}
+            {/* Polymerase trên mạch dẫn (tổng hợp liên tục) */}
             <group position={[2.5, 3, 0]}>
               <mesh>
                 <sphereGeometry args={[Math.max(0.01, 0.8), 16, 16]} />
@@ -468,11 +451,11 @@ export default function DNAReplicationSceneComponent({
               </Html>
               <Html position={[0, -1.2, 0]} distanceFactor={10}>
                 <div className="bg-green-900/90 text-white px-1.5 py-0.5 rounded text-[10px]">
-                  Leading strand (5'→3')
+                  Mạch dẫn (5&apos;→3&apos;)
                 </div>
               </Html>
             </group>
-            {/* Lagging strand polymerase (Okazaki fragments) */}
+            {/* Polymerase trên mạch muộn (các đoạn Okazaki) */}
             <group position={[-2.5, -3, 0]}>
               <mesh>
                 <sphereGeometry args={[Math.max(0.01, 0.8), 16, 16]} />
@@ -490,29 +473,29 @@ export default function DNAReplicationSceneComponent({
               </Html>
               <Html position={[0, 1.2, 0]} distanceFactor={10}>
                 <div className="bg-green-900/90 text-white px-1.5 py-0.5 rounded text-[10px]">
-                  Lagging (Okazaki)
+                  Mạch muộn (Okazaki)
                 </div>
               </Html>
             </group>
           </>
         )}
 
-        {/* ===== LEGEND ===== */}
+        {/* ===== CHÚ THÍCH ===== */}
         {showLabels && step >= 3 && (
           <Html position={[6, -5, 0]} distanceFactor={10}>
             <div className="bg-gray-900/95 px-3 py-2 rounded-lg border border-gray-700 text-xs shadow-lg">
-              <div className="text-white font-bold mb-2">Strand Colors</div>
+              <div className="text-white font-bold mb-2">Màu mạch DNA</div>
               <div className="space-y-1.5">
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-1 rounded" style={{ backgroundColor: ORIGINAL_STRAND_COLOR }} />
-                  <span className="text-gray-300">Original strand</span>
+                  <span className="text-gray-300">Mạch ban đầu</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-1 rounded" style={{ backgroundColor: NEW_STRAND_COLOR }} />
-                  <span className="text-gray-300">New strand</span>
+                  <span className="text-gray-300">Mạch mới</span>
                 </div>
               </div>
-              <div className="text-white font-bold mt-3 mb-2">Base Pairs</div>
+              <div className="text-white font-bold mt-3 mb-2">Cặp bazơ</div>
               <div className="grid grid-cols-2 gap-x-3 gap-y-1">
                 <div className="flex items-center gap-1">
                   <div className="w-2 h-2 rounded-full" style={{ backgroundColor: BASE_COLORS.A }} />
@@ -535,12 +518,12 @@ export default function DNAReplicationSceneComponent({
           </Html>
         )}
 
-        {/* ===== SEMI-CONSERVATIVE LABEL (Step 4) ===== */}
+        {/* ===== NHÃN BÁN BẢO TOÀN (Bước 4) ===== */}
         {step === 4 && showLabels && (
           <Html position={[-5, 0, 0]} distanceFactor={10}>
             <div className="bg-gradient-to-br from-green-600 to-blue-600 text-white px-3 py-2 rounded-lg text-sm font-bold shadow-lg border-2 border-white/30">
-              ✓ Semi-Conservative
-              <div className="text-xs font-normal mt-1">Each DNA = 1 old + 1 new strand</div>
+              ✓ Bán bảo toàn
+              <div className="text-xs font-normal mt-1">Mỗi DNA = 1 mạch cũ + 1 mạch mới</div>
             </div>
           </Html>
         )}

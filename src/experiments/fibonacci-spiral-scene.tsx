@@ -22,8 +22,8 @@ export interface FibonacciSpiralSceneProps {
 }
 
 /**
- * Fibonacci Spiral scene component
- * Visualizes the golden spiral from the Fibonacci sequence in 3D
+ * Thành phần cảnh Xoắn ốc Fibonacci
+ * Trực quan hóa đường xoắn ốc vàng từ dãy số Fibonacci trong không gian 3D
  */
 export function FibonacciSpiralSceneComponent({
   pointsCount,
@@ -37,20 +37,20 @@ export function FibonacciSpiralSceneComponent({
   const groupRef = useRef<THREE.Group>(null);
   const frameCountRef = useRef(0);
 
-  // Physics state in refs
+  // Trạng thái vật lý trong refs
   const timeRef = useRef(0);
   const rotationRef = useRef(0);
 
-  // React state for UI updates (throttled)
+  // Trạng thái React để cập nhật UI (được điều tiết)
   const [currentAngle, setCurrentAngle] = useState(0);
 
   const goldenRatio = (1 + Math.sqrt(5)) / 2;
 
-  // Generate Fibonacci spiral points
+  // Tạo các điểm xoắn ốc Fibonacci
   const spiralPoints = useMemo(() => {
     const pts: THREE.Vector3[] = [];
     for (let i = 0; i < pointsCount; i++) {
-      const phi = i * 137.508 * (Math.PI / 180); // Golden angle
+      const phi = i * 137.508 * (Math.PI / 180); // Góc vàng
       const r = scale * Math.sqrt(i) * 0.5;
 
       pts.push(new THREE.Vector3(
@@ -62,7 +62,7 @@ export function FibonacciSpiralSceneComponent({
     return pts;
   }, [pointsCount, scale]);
 
-  // Generate connecting line segments
+  // Tạo các đoạn thẳng nối
   const connectingLines = useMemo(() => {
     const lines: { points: [number, number, number][]; color: string; index: number }[] = [];
     for (let i = 1; i < spiralPoints.length; i++) {
@@ -83,7 +83,7 @@ export function FibonacciSpiralSceneComponent({
     return lines;
   }, [spiralPoints]);
 
-  // Generate Fibonacci numbers
+  // Tạo dãy số Fibonacci
   const fibonacciNumbers = useMemo(() => {
     const fibs = [0, 1];
     for (let i = 2; i < 15; i++) {
@@ -92,7 +92,7 @@ export function FibonacciSpiralSceneComponent({
     return fibs;
   }, []);
 
-  // Report data changes
+  // Báo cáo thay đổi dữ liệu
   useEffect(() => {
     setCurrentAngle(rotationRef.current);
     onDataChange?.({
@@ -111,7 +111,7 @@ export function FibonacciSpiralSceneComponent({
 
     groupRef.current.rotation.y = rotationRef.current;
 
-    // Update React state every 8 frames
+    // Cập nhật trạng thái React sau mỗi 8 khung hình
     if (frameCountRef.current % 8 === 0) {
       setCurrentAngle(rotationRef.current);
       onDataChange?.({
@@ -124,11 +124,11 @@ export function FibonacciSpiralSceneComponent({
 
   return (
     <>
-      {/* Grid for reference */}
+      {/* Lưới tham chiếu */}
       <gridHelper args={[30, 30, "#1a1a3e", "#1a1a3e"]} position={[0, -3, 0]} />
 
       <group ref={groupRef}>
-        {/* Fibonacci spiral spheres */}
+        {/* Các quả cầu xoắn ốc Fibonacci */}
         {showSpheres && spiralPoints.map((point, index) => {
           const size = 0.08 + (index / pointsCount) * 0.15;
           const color = new THREE.Color().setHSL((index * 0.02) % 1, 0.7, 0.6);
@@ -146,12 +146,12 @@ export function FibonacciSpiralSceneComponent({
           );
         })}
 
-        {/* Connecting lines showing the spiral */}
+        {/* Các đường nối hiển thị đường xoắn ốc */}
         {showLines && connectingLines.map(({ points, color, index }) => (
           <Line key={`line-${index}`} points={points} color={color} lineWidth={1} opacity={0.5} transparent />
         ))}
 
-        {/* Golden spiral curve */}
+        {/* Đường cong xoắn ốc vàng */}
         <Line
           points={spiralPoints.map(p => [p.x, p.y, p.z] as [number, number, number])}
           color="#fbbf24"
@@ -160,7 +160,7 @@ export function FibonacciSpiralSceneComponent({
           transparent
         />
 
-        {/* Golden rectangle visualization */}
+        {/* Trực quan hóa hình chữ nhật vàng */}
         <group position={[5, 2, 0]}>
           {Array.from({ length: 6 }, (_, i) => {
             const fibNum = fibonacciNumbers[i] || 1;
@@ -186,7 +186,7 @@ export function FibonacciSpiralSceneComponent({
           })}
         </group>
 
-        {/* Nautilus shell approximation */}
+        {/* Mô phỏng gần đúng vỏ ốc anh vũ */}
         <group position={[-5, -1, 0]}>
           {Array.from({ length: 60 }, (_, i) => {
             const angle = i * 0.3;
@@ -205,7 +205,7 @@ export function FibonacciSpiralSceneComponent({
           })}
         </group>
 
-        {/* Sunflower-like pattern */}
+        {/* Mô hình giống hoa hướng dương */}
         <group position={[0, -2, 3]}>
           {Array.from({ length: Math.min(pointsCount, 100) }, (_, i) => {
             const phi = i * 137.508 * (Math.PI / 180);
@@ -224,7 +224,7 @@ export function FibonacciSpiralSceneComponent({
           })}
         </group>
 
-        {/* Pinecone-like spiral */}
+        {/* Xoắn ốc giống quả thông */}
         <group position={[0, 1, -3]}>
           {Array.from({ length: Math.min(pointsCount, 80) }, (_, i) => {
             const phi = i * 137.508 * (Math.PI / 180);
@@ -245,7 +245,7 @@ export function FibonacciSpiralSceneComponent({
         </group>
       </group>
 
-      {/* Golden ratio display */}
+      {/* Hiển thị tỷ lệ vàng */}
       <mesh position={[0, 4.5, 0]}>
         <planeGeometry args={[5, 0.6]} />
         <meshBasicMaterial color="#fbbf24" transparent opacity={0.8} />

@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useRef, useEffect, ReactNode, useCallback } from "react";
+import { useState, useRef, useEffect, ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { Canvas, useThree } from "@react-three/fiber";
-import { OrbitControls, PerspectiveCamera, Environment, ContactShadows } from "@react-three/drei";
+import { OrbitControls, PerspectiveCamera, Environment } from "@react-three/drei";
 import { ArrowLeft, Settings, BarChart3 } from "lucide-react";
 import * as THREE from "three";
 import "@/utils/text-font";
@@ -180,7 +180,7 @@ export function ExperimentContainer({
           }}
         />
 
-        {/* Enhanced Lighting */}
+        {/* Ánh sáng */}
         <ambientLight intensity={0.6} />
         <directionalLight
           position={[15, 25, 15]}
@@ -199,7 +199,6 @@ export function ExperimentContainer({
         <pointLight position={[0, 20, 0]} intensity={0.8} color="#a78bfa" />
         <pointLight position={[-20, 10, 20]} intensity={0.4} color="#f59e0b" />
 
-        {/* Fog - pushed way back */}
         {enableFog && (
           <fog attach="fog" args={["#0d0d2b", 150, 400]} />
         )}
@@ -208,7 +207,7 @@ export function ExperimentContainer({
         <group>{children}</group>
       </Canvas>
 
-      {/* Header Bar with dark theme */}
+      {/* Thanh tiêu đề trên cùng */}
       <div className="absolute top-0 left-0 right-0 z-10 p-3 sm:p-4" style={{ background: 'linear-gradient(to bottom, rgba(10, 10, 30, 0.95) 0%, rgba(10, 10, 30, 0.7) 70%, transparent 100%)', backdropFilter: 'blur(12px)' }}>
         <div className="flex items-center justify-between max-w-7xl mx-auto px-2 sm:px-0">
           <button
@@ -216,7 +215,7 @@ export function ExperimentContainer({
             className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-white text-sm font-medium transition-all duration-200 hover:scale-105 backdrop-blur-sm shadow-lg flex-shrink-0"
           >
             <ArrowLeft size={16} />
-            <span className="hidden sm:inline">Lab</span>
+            <span className="hidden sm:inline">Phòng Lab</span>
           </button>
           <div className="flex-1 min-w-0 mx-2 sm:mx-4">
             <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white tracking-tight truncate drop-shadow-lg">
@@ -231,7 +230,7 @@ export function ExperimentContainer({
         </div>
       </div>
 
-      {/* Toggle Buttons */}
+      {/* Các nút bật/tắt bảng */}
       <div className={`
         absolute top-16 sm:top-20 right-2 sm:right-4 z-20
         flex flex-row sm:flex-col gap-1 sm:gap-2
@@ -247,7 +246,7 @@ export function ExperimentContainer({
             `}
           >
             <Settings size={14} className="hidden sm:inline" />
-            {showControls ? "✓" : ""} <span className="hidden sm:inline">Controls</span>
+            {showControls ? "✓" : ""} <span className="hidden sm:inline">Điều Khiển</span>
           </button>
         )}
         {dataPanel && (
@@ -261,12 +260,12 @@ export function ExperimentContainer({
             `}
           >
             <BarChart3 size={14} className="hidden sm:inline" />
-            {showData ? "✓" : ""} <span className="hidden sm:inline">Data</span>
+            {showData ? "✓" : ""} <span className="hidden sm:inline">Số Liệu</span>
           </button>
         )}
       </div>
 
-      {/* Controls Panel */}
+      {/* Bảng điều khiển */}
       {controls && showControls && (
         <div
           className="absolute top-0 right-0 z-30 h-full w-full sm:w-80 md:w-96 bg-white/95 backdrop-blur-xl border-l border-purple-500/30 shadow-2xl overflow-y-auto"
@@ -274,7 +273,7 @@ export function ExperimentContainer({
         >
           <div className="p-4 sm:p-6">
             <div className="flex items-center justify-between mb-4 sm:mb-6 sticky top-0 bg-white/95 backdrop-blur-sm py-2 -mx-4 sm:-mx-6 px-4 sm:px-6 border-b border-purple-200">
-              <h2 className="text-lg sm:text-xl font-bold text-purple-600">Controls</h2>
+              <h2 className="text-lg sm:text-xl font-bold text-purple-600">Điều Khiển</h2>
               <button onClick={() => setShowControls(false)} className="text-gray-600 hover:text-gray-900 transition-colors text-xl sm:text-2xl p-1">✕</button>
             </div>
             {controls}
@@ -282,7 +281,7 @@ export function ExperimentContainer({
         </div>
       )}
 
-      {/* Data Panel */}
+      {/* Bảng dữ liệu */}
       {dataPanel && showData && (
         <div className={`
           absolute bottom-16 sm:bottom-20 left-2 sm:left-4 z-20
@@ -293,18 +292,18 @@ export function ExperimentContainer({
         `}>
           <div className="flex items-center gap-1.5 sm:gap-2 mb-2 sm:mb-3 pb-1.5 sm:pb-2 border-b border-blue-200">
             <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-blue-500 animate-pulse" />
-            <h3 className="text-xs sm:text-sm font-semibold text-blue-600">Real-time Data</h3>
+            <h3 className="text-xs sm:text-sm font-semibold text-blue-600">Dữ Liệu Thời Gian Thực</h3>
           </div>
           {dataPanel}
         </div>
       )}
 
-      {/* Details Panel */}
+      {/* Bảng chi tiết thí nghiệm */}
       {details && showDetails && (
         <div className="absolute top-20 right-4 z-40 w-80 sm:w-96 max-h-[70vh] bg-white border border-gray-200 rounded-xl shadow-2xl overflow-hidden transition-all duration-300">
           <div className="sticky top-0 bg-gradient-to-r from-blue-600 to-purple-600 p-3 sm:p-4 border-b border-gray-200 shrink-0">
             <div className="flex items-center justify-between">
-              <h2 className="text-base sm:text-lg font-bold text-white">Experiment Details</h2>
+              <h2 className="text-base sm:text-lg font-bold text-white">Chi Tiết Thí Nghiệm</h2>
               <button
                 onClick={() => setShowDetails(false)}
                 className="text-white hover:text-gray-200 text-lg transition-colors p-1 bg-white/20 rounded-lg hover:bg-white/30"
@@ -319,7 +318,7 @@ export function ExperimentContainer({
         </div>
       )}
 
-      {/* FLOATING SIMULATION BAR */}
+      {/* Thanh điều khiển mô phỏng nổi */}
       {simulationBar && (
         <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 sm:gap-3 bg-gray-900/90 backdrop-blur-xl border border-gray-600/50 rounded-full px-3 sm:px-5 py-2 sm:py-2.5 shadow-2xl">
           <button
@@ -329,7 +328,7 @@ export function ExperimentContainer({
                 ? "bg-orange-600 hover:bg-orange-500 text-white shadow-orange-500/40"
                 : "bg-green-600 hover:bg-green-500 text-white shadow-green-500/40"
             }`}
-            title={simulationBar.isPlaying ? "Pause" : "Play"}
+            title={simulationBar.isPlaying ? "Tạm dừng" : "Chạy"}
           >
             {simulationBar.isPlaying ? "⏸" : "▶"}
           </button>
@@ -337,7 +336,7 @@ export function ExperimentContainer({
           <button
             onClick={simulationBar.onReset}
             className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-full bg-gray-700 hover:bg-gray-600 text-white text-sm sm:text-base transition-all shadow-md"
-            title="Reset"
+            title="Đặt lại"
           >
             🔄
           </button>
@@ -345,7 +344,7 @@ export function ExperimentContainer({
           <div className="w-px h-6 bg-gray-600" />
 
           <div className="flex items-center gap-1.5 sm:gap-2">
-            <span className="text-[10px] sm:text-xs text-gray-400 hidden sm:inline">Speed</span>
+            <span className="text-[10px] sm:text-xs text-gray-400 hidden sm:inline">Tốc độ</span>
             <input
               type="range"
               min="0.1"
@@ -363,9 +362,9 @@ export function ExperimentContainer({
         </div>
       )}
 
-      {/* Instructions hint */}
+      {/* Hướng dẫn thao tác chuột */}
       <div className="absolute bottom-2 right-2 sm:bottom-4 sm:right-4 z-10 text-[10px] sm:text-xs text-gray-400 bg-black/60 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg backdrop-blur-sm hidden sm:block">
-        <span>🖱️ Drag to rotate • Scroll to zoom • Right-click to pan</span>
+        <span>🖱️ Kéo chuột để xoay • Cuộn để thu phóng • Chuột phải để di chuyển</span>
       </div>
     </div>
   );

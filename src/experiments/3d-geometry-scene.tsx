@@ -24,8 +24,8 @@ export interface Geometry3DSceneProps {
 }
 
 /**
- * 3D Geometry scene component
- * Visualizes Platonic solids with vertices, edges, and faces
+ * Thành phần cảnh Hình học 3D
+ * Trực quan hóa các khối đa diện đều Platonic với đỉnh, cạnh và mặt
  */
 export function Geometry3DSceneComponent({
   shapeType,
@@ -48,11 +48,11 @@ export function Geometry3DSceneComponent({
   // Geometry data for Platonic solids
   const geometryData = useMemo(() => {
     const shapes = {
-      tetrahedron: { vertices: 4, edges: 6, faces: 4, name: "Tetrahedron" },
-      cube: { vertices: 8, edges: 12, faces: 6, name: "Cube (Hexahedron)" },
-      octahedron: { vertices: 6, edges: 12, faces: 8, name: "Octahedron" },
-      dodecahedron: { vertices: 20, edges: 30, faces: 12, name: "Dodecahedron" },
-      icosahedron: { vertices: 12, edges: 30, faces: 20, name: "Icosahedron" },
+      tetrahedron: { vertices: 4, edges: 6, faces: 4, name: "Khối tứ diện đều" },
+      cube: { vertices: 8, edges: 12, faces: 6, name: "Khối lập phương (Lục diện đều)" },
+      octahedron: { vertices: 6, edges: 12, faces: 8, name: "Khối bát diện đều" },
+      dodecahedron: { vertices: 20, edges: 30, faces: 12, name: "Khối thập nhị diện đều" },
+      icosahedron: { vertices: 12, edges: 30, faces: 20, name: "Khối nhị thập diện đều" },
     };
     return shapes[shapeType];
   }, [shapeType]);

@@ -22,10 +22,10 @@ export default function MitosisMeiosisPage() {
   const [showLabels, setShowLabels] = useState(true);
 
   const [divisionData, setDivisionData] = useState<MitosisMeiosisData>({
-    phase: 'Prophase',
+    phase: 'Kỳ đầu',
     chromosomesCount: 46,
     daughterCells: 1,
-    description: 'Chromosomes condense and nuclear envelope dissolves.',
+    description: 'Nhiễm sắc thể co xoắn và màng nhân tiêu biến.',
   });
 
   const handlePlayPause = useCallback(() => {
@@ -50,13 +50,13 @@ export default function MitosisMeiosisPage() {
     setStage(0);
   }, []);
 
-  const mitosisPhases = ['Prophase', 'Metaphase', 'Anaphase', 'Telophase', 'Cytokinesis'];
-  const meiosisPhases = ['Prophase I', 'Metaphase I', 'Anaphase I', 'Telophase I', 'Prophase II', 'Metaphase II', 'Anaphase II', 'Telophase II'];
+  const mitosisPhases = ['Kỳ đầu', 'Kỳ giữa', 'Kỳ sau', 'Kỳ cuối', 'Phân chia tế bào chất'];
+  const meiosisPhases = ['Kỳ đầu I', 'Kỳ giữa I', 'Kỳ sau I', 'Kỳ cuối I', 'Kỳ đầu II', 'Kỳ giữa II', 'Kỳ sau II', 'Kỳ cuối II'];
 
   const parameterControls = useMemo(
     () => (
       <>
-        <ControlGroup title="Division Mode">
+        <ControlGroup title="Chế độ phân bào">
           <div className="flex gap-2">
             <button
               onClick={() => handleModeChange('mitosis')}
@@ -66,7 +66,7 @@ export default function MitosisMeiosisPage() {
                   : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
               }`}
             >
-              Mitosis
+              Nguyên phân
             </button>
             <button
               onClick={() => handleModeChange('meiosis')}
@@ -76,12 +76,12 @@ export default function MitosisMeiosisPage() {
                   : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
               }`}
             >
-              Meiosis
+              Giảm phân
             </button>
           </div>
         </ControlGroup>
 
-        <ControlGroup title="Phases">
+        <ControlGroup title="Các kỳ phân bào">
           <div className="max-h-48 overflow-y-auto space-y-1 pr-1">
             {(mode === 'mitosis' ? mitosisPhases : meiosisPhases).map((phase, i) => (
               <button
@@ -99,7 +99,7 @@ export default function MitosisMeiosisPage() {
           </div>
         </ControlGroup>
 
-        <ControlGroup title="Display">
+        <ControlGroup title="Hiển thị">
           <label className="flex items-center gap-2 text-gray-300 text-sm cursor-pointer">
             <input
               type="checkbox"
@@ -108,56 +108,56 @@ export default function MitosisMeiosisPage() {
               className="w-4 h-4 rounded"
               style={{ accentColor: mode === 'mitosis' ? '#f59e0b' : '#ec4899' }}
             />
-            Show Labels
+            Hiển thị nhãn
           </label>
         </ControlGroup>
 
-        <ControlGroup title="Key Info">
+        <ControlGroup title="Thông tin chính">
           <div className={`text-xs ${mode === 'mitosis' ? 'bg-amber-900/30' : 'bg-pink-900/30'} rounded-lg p-3 space-y-2`}>
             {mode === 'mitosis' ? (
               <>
                 <div className="flex justify-between text-gray-300">
-                  <span>Starting cells:</span>
+                  <span>Tế bào ban đầu:</span>
                   <span className="text-amber-400">1</span>
                 </div>
                 <div className="flex justify-between text-gray-300">
-                  <span>Ending cells:</span>
+                  <span>Tế bào kết thúc:</span>
                   <span className="text-amber-400">2</span>
                 </div>
                 <div className="flex justify-between text-gray-300">
-                  <span>Chromosomes:</span>
-                  <span className="text-amber-400">46 (diploid)</span>
+                  <span>Nhiễm sắc thể:</span>
+                  <span className="text-amber-400">46 (lưỡng bội)</span>
                 </div>
                 <div className="flex justify-between text-gray-300">
-                  <span>Purpose:</span>
-                  <span className="text-amber-400">Growth/Repair</span>
+                  <span>Mục đích:</span>
+                  <span className="text-amber-400">Sinh trưởng/Sửa chữa</span>
                 </div>
                 <div className="flex justify-between text-gray-300">
-                  <span>Genetic variation:</span>
-                  <span className="text-amber-400">None</span>
+                  <span>Biến dị di truyền:</span>
+                  <span className="text-amber-400">Không</span>
                 </div>
               </>
             ) : (
               <>
                 <div className="flex justify-between text-gray-300">
-                  <span>Starting cells:</span>
+                  <span>Tế bào ban đầu:</span>
                   <span className="text-pink-400">1</span>
                 </div>
                 <div className="flex justify-between text-gray-300">
-                  <span>Ending cells:</span>
+                  <span>Tế bào kết thúc:</span>
                   <span className="text-pink-400">4</span>
                 </div>
                 <div className="flex justify-between text-gray-300">
-                  <span>Chromosomes:</span>
-                  <span className="text-pink-400">23 (haploid)</span>
+                  <span>Nhiễm sắc thể:</span>
+                  <span className="text-pink-400">23 (đơn bội)</span>
                 </div>
                 <div className="flex justify-between text-gray-300">
-                  <span>Purpose:</span>
-                  <span className="text-pink-400">Gametes</span>
+                  <span>Mục đích:</span>
+                  <span className="text-pink-400">Tạo giao tử</span>
                 </div>
                 <div className="flex justify-between text-gray-300">
-                  <span>Genetic variation:</span>
-                  <span className="text-pink-400">Yes (crossing over)</span>
+                  <span>Biến dị di truyền:</span>
+                  <span className="text-pink-400">Có (trao đổi chéo)</span>
                 </div>
               </>
             )}
@@ -173,10 +173,10 @@ export default function MitosisMeiosisPage() {
       <DataGrid
         data={{
           phase: { value: 0, unit: divisionData.phase, color: mode === 'mitosis' ? '#f59e0b' : '#ec4899', decimals: 0 },
-          chromosomes: { value: divisionData.chromosomesCount, unit: 'chromosomes', color: mode === 'mitosis' ? '#fbbf24' : '#f472b6', decimals: 0 },
-          daughterCells: { value: divisionData.daughterCells, unit: 'cells', color: mode === 'mitosis' ? '#fcd34d' : '#fb7185', decimals: 0 },
-          mode: { value: 0, unit: mode === 'mitosis' ? 'Mitosis' : 'Meiosis', color: mode === 'mitosis' ? '#f59e0b' : '#ec4899', decimals: 0 },
-          status: { value: isPlaying ? 1 : 0, unit: isPlaying ? 'Active' : 'Paused', color: '#22c55e', decimals: 0 },
+          chromosomes: { value: divisionData.chromosomesCount, unit: 'NST', color: mode === 'mitosis' ? '#fbbf24' : '#f472b6', decimals: 0 },
+          daughterCells: { value: divisionData.daughterCells, unit: 'tế bào', color: mode === 'mitosis' ? '#fcd34d' : '#fb7185', decimals: 0 },
+          mode: { value: 0, unit: mode === 'mitosis' ? 'Nguyên phân' : 'Giảm phân', color: mode === 'mitosis' ? '#f59e0b' : '#ec4899', decimals: 0 },
+          status: { value: isPlaying ? 1 : 0, unit: isPlaying ? 'Đang chạy' : 'Tạm dừng', color: '#22c55e', decimals: 0 },
         }}
         columns={2}
       />
@@ -198,8 +198,8 @@ export default function MitosisMeiosisPage() {
   return (
     <div className="w-full h-screen relative">
       <ExperimentContainer
-        title="Mitosis & Meiosis"
-        description={mode === 'mitosis' ? 'Cell division for growth and repair - produces identical cells' : 'Gamete formation with crossing over - produces genetic diversity'}
+        title="Nguyên phân & Giảm phân"
+        description={mode === 'mitosis' ? 'Phân chia tế bào giúp sinh trưởng và sửa chữa - tạo ra các tế bào giống hệt nhau' : 'Hình thành giao tử kèm trao đổi chéo - tạo ra sự đa dạng di truyền'}
         cameraPosition={[0, 0, 14]}
         backgroundColor="#050510"
         controls={null}
@@ -241,7 +241,7 @@ export default function MitosisMeiosisPage() {
             borderColor: `${primaryColor}50`,
           }}
         >
-          Show Controls
+          Hiện bảng điều khiển
         </button>
       )}
     </div>

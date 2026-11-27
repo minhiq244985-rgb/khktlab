@@ -16,16 +16,6 @@ export interface ControlPanelProps {
   initialPosition?: { x: number; y: number };
 }
 
-/**
- * RESPONSIVE Control Panel with Mouse + Touch Drag Support
- * - Works on desktop (mouse) and mobile (touch)
- * - Play/Pause toggle
- * - Reset button
- * - Speed control (0.1x to 3x)
- * - Collapsible
- * - Stays within viewport bounds
- * - Performance optimized
- */
 export function ControlPanel({
   children,
   onPlayPause,
@@ -36,7 +26,7 @@ export function ControlPanel({
   showPlayPause = true,
   showReset = true,
   showSpeed = true,
-  title = "Controls",
+  title = "Điều Khiển",
   initialPosition,
 }: ControlPanelProps) {
   const [isPlaying, setIsPlaying] = useState(defaultPlaying);
@@ -45,7 +35,6 @@ export function ControlPanel({
   const [isDragging, setIsDragging] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
-  // Responsive positioning
   const [position, setPosition] = useState(() => {
     if (typeof window === "undefined") return { x: 20, y: 80 };
     const isSmallScreen = window.innerWidth < 768;
@@ -56,7 +45,6 @@ export function ControlPanel({
   const panelRef = useRef<HTMLDivElement>(null);
   const autoCollapseTimeout = useRef<NodeJS.Timeout | undefined>(undefined);
 
-  // Detect mobile
   useEffect(() => {
     const checkMobile = () => {
       const mobile = window.innerWidth < 768;
@@ -71,7 +59,6 @@ export function ControlPanel({
     return () => window.removeEventListener("resize", checkMobile);
   }, [initialPosition]);
 
-  // Auto-collapse on mobile after inactivity
   useEffect(() => {
     if (!isMobile) return;
 
@@ -79,7 +66,7 @@ export function ControlPanel({
       clearTimeout(autoCollapseTimeout.current);
       autoCollapseTimeout.current = setTimeout(() => {
         setIsCollapsed(true);
-      }, 10000); // 10 seconds of inactivity
+      }, 10000);
     };
 
     resetTimeout();
@@ -110,7 +97,6 @@ export function ControlPanel({
     onSpeedChange?.(newSpeed);
   }, [onSpeedChange]);
 
-  // Mouse drag handlers
   const handleMouseDown = useCallback((e: ReactMouseEvent) => {
     if ((e.target as HTMLElement).closest("button, input")) return;
     e.preventDefault();
@@ -121,7 +107,6 @@ export function ControlPanel({
     };
   }, [position]);
 
-  // Touch drag handlers
   const handleTouchStart = useCallback((e: ReactTouchEvent) => {
     if ((e.target as HTMLElement).closest("button, input")) return;
     const touch = e.touches[0];
@@ -138,7 +123,6 @@ export function ControlPanel({
       const newX = e.clientX - dragOffset.current.x;
       const newY = e.clientY - dragOffset.current.y;
 
-      // Constrain to viewport
       const panelWidth = panelRef.current?.offsetWidth || (isMobile ? window.innerWidth - 20 : 320);
       const panelHeight = panelRef.current?.offsetHeight || 400;
 
@@ -198,13 +182,13 @@ export function ControlPanel({
       onTouchStart={handleTouchStart}
     >
       <div className="w-full bg-linear-to-br from-gray-900/95 to-purple-900/90 backdrop-blur-xl border border-purple-500/30 rounded-xl shadow-2xl overflow-hidden">
-        {/* Header */}
+        {/* Tiêu đề */}
         <div className="flex items-center justify-between p-2 sm:p-4 border-b border-purple-500/30 bg-gray-900/50">
           <h3 className="text-sm sm:text-base font-bold text-purple-400">{title}</h3>
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
             className="text-gray-400 hover:text-white transition-colors text-sm sm:text-base p-1"
-            aria-label={isCollapsed ? "Expand" : "Collapse"}
+            aria-label={isCollapsed ? "Mở rộng" : "Thu gọn"}
           >
             {isCollapsed ? "▼" : "▲"}
           </button>
@@ -212,7 +196,7 @@ export function ControlPanel({
 
         {!isCollapsed && (
           <div className="p-3 sm:p-4 space-y-3 sm:space-y-4 max-h-[60vh] sm:max-h-[calc(100vh-200px)] overflow-y-auto">
-            {/* Playback Controls */}
+            {/* Nút điều khiển phát */}
             {(showPlayPause || showReset) && (
               <div className="flex gap-2">
                 {showPlayPause && (
@@ -226,17 +210,17 @@ export function ControlPanel({
                         : "bg-green-600 hover:bg-green-500 text-white shadow-lg shadow-green-500/30"
                       }
                     `}
-                    aria-label={isPlaying ? "Pause" : "Play"}
+                    aria-label={isPlaying ? "Tạm dừng" : "Chạy"}
                   >
                     {isPlaying ? (
                       <>
                         <span className="text-sm">⏸</span>
-                        <span className="hidden sm:inline">Pause</span>
+                        <span className="hidden sm:inline">Tạm Dừng</span>
                       </>
                     ) : (
                       <>
                         <span className="text-sm">▶</span>
-                        <span className="hidden sm:inline">Play</span>
+                        <span className="hidden sm:inline">Chạy</span>
                       </>
                     )}
                   </button>
@@ -245,20 +229,20 @@ export function ControlPanel({
                   <button
                     onClick={handleReset}
                     className="py-2 px-3 sm:py-2.5 sm:px-4 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-medium text-xs sm:text-sm transition-all shadow-lg"
-                    aria-label="Reset"
+                    aria-label="Đặt lại"
                   >
                     <span className="text-sm sm:hidden">🔄</span>
-                    <span className="hidden sm:inline">🔄 Reset</span>
+                    <span className="hidden sm:inline">🔄 Đặt Lại</span>
                   </button>
                 )}
               </div>
             )}
 
-            {/* Speed Control */}
+            {/* Điều chỉnh tốc độ */}
             {showSpeed && (
               <div className="space-y-2">
                 <div className="flex justify-between text-xs sm:text-sm">
-                  <span className="text-gray-400">Speed</span>
+                  <span className="text-gray-400">Tốc độ</span>
                   <span className="font-mono text-purple-400">
                     {speed.toFixed(1)}x
                   </span>
@@ -283,7 +267,7 @@ export function ControlPanel({
               </div>
             )}
 
-            {/* Custom Controls */}
+            {/* Các điều khiển riêng */}
             {children && (
               <div className="pt-3 sm:pt-4 border-t border-purple-500/30 space-y-2 sm:space-y-3">
                 {children}

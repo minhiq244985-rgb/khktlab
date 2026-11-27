@@ -339,11 +339,11 @@ export function ThermochemistrySceneComponent({
         )}
 
         {/* Label */}
-        <Text position={[0, 1.2, 0]} fontSize={0.15} color="#ef4444" anchorX="center">
-          EXOTHERMIC
+        <Text position={[0, 1.2, 0]} fontSize={0.14} color="#ef4444" anchorX="center">
+          TỎA NHIỆT
         </Text>
         <Text position={[0, 1.0, 0]} fontSize={0.08} color="#94a3b8" anchorX="center">
-          Releases Energy
+          Giải phóng năng lượng
         </Text>
 
         {/* Temperature display */}
@@ -432,11 +432,11 @@ export function ThermochemistrySceneComponent({
         )}
 
         {/* Label */}
-        <Text position={[0, 1.2, 0]} fontSize={0.15} color="#3b82f6" anchorX="center">
-          ENDOTHERMIC
+        <Text position={[0, 1.2, 0]} fontSize={0.14} color="#3b82f6" anchorX="center">
+          THU NHIỆT
         </Text>
         <Text position={[0, 1.0, 0]} fontSize={0.08} color="#94a3b8" anchorX="center">
-          Absorbs Energy
+          Hấp thụ năng lượng
         </Text>
 
         {/* Temperature display */}
@@ -553,11 +553,11 @@ export function ThermochemistrySceneComponent({
         </group>
 
         {/* Labels */}
-        <Text position={[-1.5, -0.2, 0.01]} fontSize={0.08} color="#ef4444" anchorX="center">
-          Exothermic: ΔH = -{energyReleased} kJ/mol
+        <Text position={[-1.5, -0.2, 0.01]} fontSize={0.075} color="#ef4444" anchorX="center">
+          Tỏa nhiệt: ΔH = -{energyReleased} kJ/mol
         </Text>
-        <Text position={[1.5, -0.2, 0.01]} fontSize={0.08} color="#3b82f6" anchorX="center">
-          Endothermic: ΔH = +{energyReleased} kJ/mol
+        <Text position={[1.5, -0.2, 0.01]} fontSize={0.075} color="#3b82f6" anchorX="center">
+          Thu nhiệt: ΔH = +{energyReleased} kJ/mol
         </Text>
       </group>
 

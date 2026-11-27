@@ -15,6 +15,14 @@ import {
 
 const SHAPES = ["tetrahedron", "cube", "octahedron", "dodecahedron", "icosahedron"] as const;
 
+const SHAPE_LABELS: Record<typeof SHAPES[number], string> = {
+  tetrahedron: "Tứ diện",
+  cube: "Lập phương",
+  octahedron: "Bát diện",
+  dodecahedron: "Thập nhị diện",
+  icosahedron: "Nhị thập diện",
+};
+
 export default function Geometry3DPage() {
   const router = useRouter();
   const [data, setData] = useState<Geometry3DData | null>(null);
@@ -41,27 +49,27 @@ export default function Geometry3DPage() {
 
   const parameterControls = (
     <div className="space-y-4">
-      <ControlGroup title="Shape Selection">
+      <ControlGroup title="Chọn hình khối">
         <div className="grid grid-cols-2 gap-2">
           {SHAPES.map((shape) => (
             <button
               key={shape}
               onClick={() => setShapeType(shape)}
-              className={`py-2 px-3 text-sm rounded-lg transition-all capitalize ${
+              className={`py-2 px-3 text-sm rounded-lg transition-all ${
                 shapeType === shape
                   ? "bg-blue-600 text-white"
                   : "bg-gray-200 text-gray-700 hover:bg-gray-300"
               }`}
             >
-              {shape}
+              {SHAPE_LABELS[shape]}
             </button>
           ))}
         </div>
       </ControlGroup>
 
-      <ControlGroup title="Display Settings">
+      <ControlGroup title="Cài đặt hiển thị">
         <ControlSlider
-          label="Rotation Speed"
+          label="Tốc độ xoay"
           value={rotationSpeed}
           unit=""
           min={0}
@@ -72,7 +80,7 @@ export default function Geometry3DPage() {
           decimals={1}
         />
         <label className="flex items-center justify-between text-sm text-gray-700 cursor-pointer py-2 px-3 bg-gray-100/50 rounded-lg border border-gray-300/50">
-          <span>Wireframe</span>
+          <span>Khung dây</span>
           <input
             type="checkbox"
             checked={wireframe}
@@ -81,7 +89,7 @@ export default function Geometry3DPage() {
           />
         </label>
         <label className="flex items-center justify-between text-sm text-gray-700 cursor-pointer py-2 px-3 bg-gray-100/50 rounded-lg border border-gray-300/50">
-          <span>Show Vertices</span>
+          <span>Hiển thị đỉnh</span>
           <input
             type="checkbox"
             checked={showVertices}
@@ -90,7 +98,7 @@ export default function Geometry3DPage() {
           />
         </label>
         <label className="flex items-center justify-between text-sm text-gray-700 cursor-pointer py-2 px-3 bg-gray-100/50 rounded-lg border border-gray-300/50">
-          <span>Show Edges</span>
+          <span>Hiển thị cạnh</span>
           <input
             type="checkbox"
             checked={showEdges}
@@ -101,12 +109,12 @@ export default function Geometry3DPage() {
       </ControlGroup>
 
       <div className="bg-blue-50/50 rounded-lg p-3 border border-blue-200/50">
-        <div className="text-xs text-gray-600 mb-2 font-medium">Euler's Formula</div>
+        <div className="text-xs text-gray-600 mb-2 font-medium">Công thức Euler</div>
         <div className="text-xs text-gray-500 font-mono">
           V - E + F = 2
         </div>
         <div className="text-xs text-gray-500 mt-1">
-          Vertices - Edges + Faces = χ
+          Đỉnh - Cạnh + Mặt = χ
         </div>
       </div>
 
@@ -114,7 +122,7 @@ export default function Geometry3DPage() {
         onClick={() => router.push("/experiments/3d-geometry/details")}
         className="w-full py-2.5 bg-gradient-to-r from-blue-100 to-blue-200 hover:from-blue-200 hover:to-blue-300 text-blue-700 font-medium text-sm rounded-lg transition-all border border-blue-300/50 flex items-center justify-center gap-2"
       >
-        📖 View Experiment Details
+        📖 Xem chi tiết thí nghiệm
       </button>
     </div>
   );
@@ -123,9 +131,9 @@ export default function Geometry3DPage() {
     <>
       <DataGrid
         data={{
-          vertices: { value: data.vertices, unit: "V", color: "#ef4444", decimals: 0 },
-          edges: { value: data.edges, unit: "E", color: "#22c55e", decimals: 0 },
-          faces: { value: data.faces, unit: "F", color: "#3b82f6", decimals: 0 },
+          vertices: { value: data.vertices, unit: "Đỉnh (V)", color: "#ef4444", decimals: 0 },
+          edges: { value: data.edges, unit: "Cạnh (E)", color: "#22c55e", decimals: 0 },
+          faces: { value: data.faces, unit: "Mặt (F)", color: "#3b82f6", decimals: 0 },
           euler: { value: data.eulerCharacteristic, unit: "χ", color: "#f59e0b", decimals: 0 },
         }}
         columns={2}
@@ -138,15 +146,15 @@ export default function Geometry3DPage() {
     </>
   ) : (
     <div className="text-center text-gray-500 text-sm py-8">
-      Waiting for simulation data...
+      Đang chờ dữ liệu mô phỏng...
     </div>
   );
 
   return (
     <>
       <ExperimentContainer
-        title="3D Geometry"
-        description="Explore Platonic solids and Euler's formula"
+        title="Hình học 3D"
+        description="Khám phá các khối đa diện đều Platonic và công thức Euler"
         cameraPosition={[8, 6, 8]}
         backgroundColor="#050510"
         controls={null}
@@ -172,7 +180,7 @@ export default function Geometry3DPage() {
       />
 
       <FloatingControlPanel
-        title="⚙️ Shape Settings"
+        title="⚙️ Cài đặt hình khối"
         initialPosition={{ x: 20, y: 80 }}
       >
         {parameterControls}

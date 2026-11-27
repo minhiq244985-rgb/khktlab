@@ -54,9 +54,9 @@ export default function EcosystemPage() {
   const parameterControls = useMemo(
     () => (
       <>
-        <ControlGroup title="Initial Populations">
+        <ControlGroup title="Quần thể ban đầu">
           <ControlSlider
-            label="Producers"
+            label="Sinh vật sản xuất"
             value={initialProducerPop}
             min={10}
             max={60}
@@ -66,7 +66,7 @@ export default function EcosystemPage() {
             decimals={0}
           />
           <ControlSlider
-            label="Primary (Herbivores)"
+            label="Bậc 1 (Động vật ăn cỏ)"
             value={initialPrimaryPop}
             min={5}
             max={30}
@@ -76,7 +76,7 @@ export default function EcosystemPage() {
             decimals={0}
           />
           <ControlSlider
-            label="Secondary (Predators)"
+            label="Bậc 2 (Động vật săn mồi)"
             value={initialSecondaryPop}
             min={2}
             max={15}
@@ -86,7 +86,7 @@ export default function EcosystemPage() {
             decimals={0}
           />
           <ControlSlider
-            label="Apex Predators"
+            label="Động vật săn mồi đầu bảng"
             value={initialApexPop}
             min={1}
             max={5}
@@ -97,9 +97,9 @@ export default function EcosystemPage() {
           />
         </ControlGroup>
 
-        <ControlGroup title="Dynamics">
+        <ControlGroup title="Động lực học">
           <ControlSlider
-            label="Reproduction Rate"
+            label="Tỷ lệ sinh sản"
             value={reproductionRate}
             min={0.1}
             max={1}
@@ -109,7 +109,7 @@ export default function EcosystemPage() {
             decimals={1}
           />
           <ControlSlider
-            label="Predation Rate"
+            label="Tỷ lệ săn mồi"
             value={predationRate}
             min={0.1}
             max={0.8}
@@ -119,7 +119,7 @@ export default function EcosystemPage() {
             decimals={2}
           />
           <ControlSlider
-            label="Speed"
+            label="Tốc độ"
             value={speed}
             min={0.5}
             max={3}
@@ -131,12 +131,12 @@ export default function EcosystemPage() {
         </ControlGroup>
 
         <div className="bg-teal-50/50 rounded-lg p-3 border border-teal-200/50">
-          <div className="text-xs text-gray-600 mb-2 font-medium">Ecosystem Dynamics</div>
+          <div className="text-xs text-gray-600 mb-2 font-medium">Động lực hệ sinh thái</div>
           <div className="text-xs text-gray-500 space-y-1">
-            <div>• ~90% energy lost at each level</div>
-            <div>• Lotka-Volterra cycles emerge</div>
-            <div>• Balance of predator/prey</div>
-            <div>• Biodiversity indicates stability</div>
+            <div>• ~90% năng lượng mất đi ở mỗi bậc</div>
+            <div>• Xuất hiện chu kỳ Lotka-Volterra</div>
+            <div>• Cân bằng giữa kẻ săn mồi/con mồi</div>
+            <div>• Đa dạng sinh học biểu thị sự ổn định</div>
           </div>
         </div>
 
@@ -144,7 +144,7 @@ export default function EcosystemPage() {
           onClick={handleReset}
           className="w-full mt-4 px-4 py-2 bg-[#14b8a6]/20 hover:bg-[#14b8a6]/30 text-[#14b8a6] rounded-lg border border-[#14b8a6]/50 transition-colors text-sm font-medium"
         >
-          Reset Simulation
+          Đặt lại mô phỏng
         </button>
       </>
     ),
@@ -155,12 +155,12 @@ export default function EcosystemPage() {
     () => (
       <DataGrid
         data={{
-          producers: { value: ecosystemData.producerCount, unit: "plants", color: "#22c55e", decimals: 0 },
-          primary: { value: ecosystemData.primaryCount, unit: "herbivores", color: "#3b82f6", decimals: 0 },
-          secondary: { value: ecosystemData.secondaryCount, unit: "predators", color: "#f59e0b", decimals: 0 },
-          apex: { value: ecosystemData.apexCount, unit: "apex", color: "#ef4444", decimals: 0 },
-          energy: { value: ecosystemData.totalEnergy, unit: "units", color: "#fbbf24", decimals: 0 },
-          biodiversity: { value: ecosystemData.biodiversityIndex, unit: "index", color: "#a855f7", decimals: 2 },
+          producers: { value: ecosystemData.producerCount, unit: "thực vật", color: "#22c55e", decimals: 0 },
+          primary: { value: ecosystemData.primaryCount, unit: "ăn cỏ", color: "#3b82f6", decimals: 0 },
+          secondary: { value: ecosystemData.secondaryCount, unit: "săn mồi", color: "#f59e0b", decimals: 0 },
+          apex: { value: ecosystemData.apexCount, unit: "đầu bảng", color: "#ef4444", decimals: 0 },
+          energy: { value: ecosystemData.totalEnergy, unit: "đơn vị", color: "#fbbf24", decimals: 0 },
+          biodiversity: { value: ecosystemData.biodiversityIndex, unit: "chỉ số", color: "#a855f7", decimals: 2 },
         }}
         columns={2}
       />
@@ -180,8 +180,8 @@ export default function EcosystemPage() {
   return (
     <div className="w-full h-screen relative">
       <ExperimentContainer
-        title="Ecosystem Food Web"
-        description="Explore trophic levels, energy flow (10% rule), and Lotka-Volterra population dynamics"
+        title="Lưới thức ăn hệ sinh thái"
+        description="Khám phá các bậc dinh dưỡng, dòng năng lượng (quy tắc 10%) và động lực quần thể Lotka-Volterra"
         cameraPosition={[0, 8, 12]}
         backgroundColor="#050510"
         controls={null}
@@ -224,7 +224,7 @@ export default function EcosystemPage() {
           onClick={() => setShowControls(true)}
           className="fixed top-20 right-4 z-20 px-4 py-2 bg-[#14b8a6]/20 hover:bg-[#14b8a6]/30 text-[#14b8a6] rounded-lg border border-[#14b8a6]/50 transition-colors text-sm font-medium"
         >
-          Show Controls
+          Hiện bảng điều khiển
         </button>
       )}
     </div>

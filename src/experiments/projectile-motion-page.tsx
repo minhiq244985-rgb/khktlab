@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -6,12 +6,11 @@ import { ProjectileMotionSceneComponent, ProjectileData } from "@/experiments/pr
 import { ExperimentContainer, FloatingControlPanel, SimulationController, DataPanel } from "@/components/experiment-ui";
 import { ControlGroup, ControlSlider, DataGrid } from "@/components/experiment-ui/ExperimentControls";
 
-/** Gravity presets */
 const GRAVITY_PRESETS = [
-  { label: "Earth", value: 9.81, emoji: "🌍" },
-  { label: "Moon", value: 1.62, emoji: "🌙" },
-  { label: "Mars", value: 3.72, emoji: "🔴" },
-  { label: "Jupiter", value: 24.79, emoji: "🟠" },
+  { label: "Trái Đất", value: 9.81, emoji: "🌍" },
+  { label: "Mặt Trăng", value: 1.62, emoji: "🌙" },
+  { label: "Sao Hỏa", value: 3.72, emoji: "🔴" },
+  { label: "Sao Mộc", value: 24.79, emoji: "🟠" },
 ];
 
 interface ProjectileConfig {
@@ -73,38 +72,34 @@ export default function ProjectileMotionPage() {
     setConfig((prev) => ({ ...prev, [key]: value }));
   };
 
-  // === PARAMETER CONTROLS ===
   const parameterControls = (
     <div className="space-y-4">
-      {/* Launch Controls */}
-      <ControlGroup title="Launch Controls">
+      <ControlGroup title="Điều khiển phóng">
         <div className="flex gap-2">
           <button
             onClick={handleLaunch}
             disabled={hasLaunched}
             className="flex-1 py-3 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 text-white font-semibold rounded-lg transition-all shadow-lg text-sm disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            🚀 Launch
+            🚀 Phóng
           </button>
           <button
             onClick={handleReset}
             className="flex-1 py-3 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white font-semibold rounded-lg transition-all shadow-lg text-sm"
           >
-            🔄 Reset
+            🔄 Đặt lại
           </button>
         </div>
       </ControlGroup>
 
-      {/* Physics Parameters */}
-      <ControlGroup title="Physics Parameters">
-        <ControlSlider label="Velocity (v₀)" value={config.velocity} unit="m/s" min={5} max={80} step={1} color="#a855f7" onChange={(v) => updateConfig("velocity", v)} disabled={hasLaunched} />
-        <ControlSlider label="Angle (θ)" value={config.angle} unit="°" min={5} max={85} step={1} color="#ec4899" onChange={(v) => updateConfig("angle", v)} decimals={0} disabled={hasLaunched} />
-        <ControlSlider label="Mass (m)" value={config.mass} unit="kg" min={0.1} max={10} step={0.1} color="#3b82f6" onChange={(v) => updateConfig("mass", v)} />
+      <ControlGroup title="Thông số vật lý">
+        <ControlSlider label="Vận tốc (v₀)" value={config.velocity} unit="m/s" min={5} max={80} step={1} color="#a855f7" onChange={(v) => updateConfig("velocity", v)} disabled={hasLaunched} />
+        <ControlSlider label="Góc bắn (θ)" value={config.angle} unit="°" min={5} max={85} step={1} color="#ec4899" onChange={(v) => updateConfig("angle", v)} decimals={0} disabled={hasLaunched} />
+        <ControlSlider label="Khối lượng (m)" value={config.mass} unit="kg" min={0.1} max={10} step={0.1} color="#3b82f6" onChange={(v) => updateConfig("mass", v)} />
 
-        {/* Gravity presets */}
         <div className="mt-2 space-y-2">
           <div className="flex justify-between text-sm">
-            <span className="text-gray-700">Gravity (g)</span>
+            <span className="text-gray-700">Trọng lực (g)</span>
             <span className="font-mono text-green-600">{config.gravity.toFixed(2)} m/s²</span>
           </div>
           <input
@@ -131,10 +126,9 @@ export default function ProjectileMotionPage() {
         </div>
       </ControlGroup>
 
-      {/* Environment */}
-      <ControlGroup title="Environment">
+      <ControlGroup title="Môi trường">
         <label className="flex items-center justify-between text-sm text-gray-700 cursor-pointer py-2 px-3 bg-gray-100/50 rounded-lg border border-gray-300/50">
-          <span>Air Resistance (F ∝ v²)</span>
+          <span>Lực cản không khí (F ∝ v²)</span>
           <input
             type="checkbox" checked={config.airResistance}
             onChange={(e) => updateConfig("airResistance", e.target.checked)}
@@ -143,19 +137,18 @@ export default function ProjectileMotionPage() {
           />
         </label>
         {config.airResistance && (
-          <ControlSlider label="Drag Coefficient" value={config.dragCoefficient} unit="" min={0.001} max={0.15} step={0.001} color="#f59e0b" onChange={(v) => updateConfig("dragCoefficient", v)} decimals={3} disabled={hasLaunched} />
+          <ControlSlider label="Hệ số cản" value={config.dragCoefficient} unit="" min={0.001} max={0.15} step={0.001} color="#f59e0b" onChange={(v) => updateConfig("dragCoefficient", v)} decimals={3} disabled={hasLaunched} />
         )}
-        <ControlSlider label="Target Distance" value={config.targetDistance} unit="m" min={10} max={150} step={5} color="#f97316" onChange={(v) => updateConfig("targetDistance", v)} decimals={0} />
+        <ControlSlider label="Khoảng cách mục tiêu" value={config.targetDistance} unit="m" min={10} max={150} step={5} color="#f97316" onChange={(v) => updateConfig("targetDistance", v)} decimals={0} />
       </ControlGroup>
 
-      {/* Display Options */}
-      <ControlGroup title="Display Options">
+      <ControlGroup title="Tùy chọn hiển thị">
         {[
-          { label: "Trajectory Trail", key: "showTrail" as const },
-          { label: "Predicted Path", key: "showPrediction" as const },
-          { label: "Velocity Vector", key: "showVelocityVector" as const },
-          { label: "Ghost Markers (0.5s)", key: "showGhostMarkers" as const },
-          { label: "Distance Markers", key: "showDistanceMarkers" as const },
+          { label: "Đường quỹ đạo", key: "showTrail" as const },
+          { label: "Đường dự đoán", key: "showPrediction" as const },
+          { label: "Véc-tơ vận tốc", key: "showVelocityVector" as const },
+          { label: "Điểm mốc (0.5s)", key: "showGhostMarkers" as const },
+          { label: "Đánh dấu khoảng cách", key: "showDistanceMarkers" as const },
         ].map((opt) => (
           <label key={opt.key} className="flex items-center justify-between text-sm text-gray-700 cursor-pointer py-2 px-3 bg-gray-100/50 rounded-lg border border-gray-300/50">
             <span>{opt.label}</span>
@@ -168,54 +161,52 @@ export default function ProjectileMotionPage() {
         ))}
       </ControlGroup>
 
-      {/* Details link */}
       <button
         onClick={() => router.push("/experiments/projectile-motion/details")}
         className="w-full py-2.5 bg-gradient-to-r from-green-100 to-green-200 hover:from-green-200 hover:to-green-300 text-green-700 font-medium text-sm rounded-lg transition-all border border-green-300/50 flex items-center justify-center gap-2"
       >
-        📖 View Experiment Details
+        📖 Xem chi tiết thí nghiệm
       </button>
     </div>
   );
 
-  // === DATA PANEL CONTENT ===
   const dataPanelContent = data ? (
     <>
       <DataGrid
         data={{
-          posX: { value: data.currentX, unit: "m", color: "#a855f7" },
-          posY: { value: data.currentY, unit: "m", color: "#ec4899" },
-          speed: { value: data.speed, unit: "m/s", color: "#22c55e" },
-          time: { value: data.flightTime, unit: "s", color: "#06d6a0" },
-          maxH: { value: data.maxHeight, unit: "m", color: "#f59e0b" },
-          range: { value: data.range, unit: "m", color: "#818cf8" },
+          toaDoX: { value: data.currentX, unit: "m", color: "#a855f7" },
+          toaDoY: { value: data.currentY, unit: "m", color: "#ec4899" },
+          tocDo: { value: data.speed, unit: "m/s", color: "#22c55e" },
+          thoiGian: { value: data.flightTime, unit: "s", color: "#06d6a0" },
+          doCaoMax: { value: data.maxHeight, unit: "m", color: "#f59e0b" },
+          tamXa: { value: data.range, unit: "m", color: "#818cf8" },
         }}
         columns={2}
       />
       <div className="mt-3 pt-3 border-t border-gray-300 grid grid-cols-2 gap-2 text-xs">
         <div className="p-2 bg-gray-100/50 rounded">
-          <span className="text-gray-600">Kinetic Energy</span>
+          <span className="text-gray-600">Động năng</span>
           <div className="font-mono text-orange-600">{data.kineticEnergy.toFixed(1)} J</div>
         </div>
         <div className="p-2 bg-gray-100/50 rounded">
-          <span className="text-gray-600">Potential Energy</span>
+          <span className="text-gray-600">Thế năng</span>
           <div className="font-mono text-blue-600">{data.potentialEnergy.toFixed(1)} J</div>
         </div>
       </div>
       {data.hasLanded && (
         <div className="mt-2 p-2 bg-green-900/30 border border-green-500/30 rounded-lg text-xs space-y-1">
-          <div className="text-green-400 font-semibold">✅ Landed!</div>
+          <div className="text-green-400 font-semibold">✅ Đã chạm đất!</div>
           <div className="flex justify-between text-gray-400">
-            <span>Range:</span>
+            <span>Tầm xa:</span>
             <span className="font-mono text-purple-300">{data.range.toFixed(1)} m</span>
           </div>
           <div className="flex justify-between text-gray-400">
-            <span>Predicted:</span>
+            <span>Dự đoán:</span>
             <span className="font-mono text-pink-300">{data.predictedRange.toFixed(1)} m</span>
           </div>
           {data.impactVelocity > 0 && (
             <div className="flex justify-between text-gray-400">
-              <span>Impact speed:</span>
+              <span>Tốc độ chạm:</span>
               <span className="font-mono text-red-300">{data.impactVelocity.toFixed(1)} m/s @ {data.impactAngle.toFixed(0)}°</span>
             </div>
           )}
@@ -224,15 +215,15 @@ export default function ProjectileMotionPage() {
     </>
   ) : (
     <div className="text-center text-gray-500 text-sm py-8">
-      {hasLaunched ? "Waiting for simulation data..." : "Press Launch to begin"}
+      {hasLaunched ? "Đang chờ dữ liệu mô phỏng..." : "Nhấn Phóng để bắt đầu"}
     </div>
   );
 
   return (
     <>
       <ExperimentContainer
-        title="Projectile Motion"
-        description="Study parabolic trajectories under gravity with realistic air resistance and target practice"
+        title="Chuyển động ném xiên"
+        description="Nghiên cứu quỹ đạo parabol dưới trọng lực với lực cản không khí thực tế và luyện tập bắn mục tiêu"
         cameraPosition={[70, 40, 70]}
         backgroundColor="#050510"
         controls={null}
@@ -258,7 +249,6 @@ export default function ProjectileMotionPage() {
         />
       </ExperimentContainer>
 
-      {/* Simulation Controller - Always Visible */}
       <SimulationController
         isPlaying={isPlaying}
         onPlayPause={() => setIsPlaying((p) => !p)}
@@ -268,15 +258,13 @@ export default function ProjectileMotionPage() {
         timeElapsed={timeElapsed}
       />
 
-      {/* Parameter Controls - Toggleable */}
       <FloatingControlPanel
-        title="🎯 Projectile Parameters"
+        title="🎯 Thông số ném xiên"
         initialPosition={{ x: 20, y: 80 }}
       >
         {parameterControls}
       </FloatingControlPanel>
 
-      {/* Data Panel - Floating Toggleable */}
       <DataPanel
         isVisible={showDataPanel}
         onToggle={() => setShowDataPanel(!showDataPanel)}

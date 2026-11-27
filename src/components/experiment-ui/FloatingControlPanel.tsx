@@ -9,25 +9,15 @@ export interface FloatingControlPanelProps {
   defaultCollapsed?: boolean;
 }
 
-/**
- * FLOATING DRAGGABLE Control Panel
- * - Can be dragged around the screen
- * - Collapsible
- * - Used for parameter controls only
- * - Touch-friendly
- * - Stays within viewport bounds
- * - Performance optimized
- */
 export function FloatingControlPanel({
   children,
-  title = "Controls",
+  title = "Điều Khiển",
   initialPosition,
   defaultCollapsed = false,
 }: FloatingControlPanelProps) {
   const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
   const [isDragging, setIsDragging] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  // Use safe initial state to avoid hydration mismatch; set real position after mount
   const [position, setPosition] = useState({ x: 20, y: 80 });
   const [mounted, setMounted] = useState(false);
 
@@ -35,7 +25,6 @@ export function FloatingControlPanel({
   const panelRef = useRef<HTMLDivElement>(null);
   const autoCollapseTimeout = useRef<NodeJS.Timeout | undefined>(undefined);
 
-  // Set position after mount to avoid hydration mismatch with SSR
   useEffect(() => {
     const checkMobile = () => {
       const mobile = window.innerWidth < 768;
@@ -43,7 +32,6 @@ export function FloatingControlPanel({
     };
 
     checkMobile();
-    // Apply initial position only on client
     if (initialPosition) {
       setPosition(initialPosition);
     } else {
@@ -56,7 +44,6 @@ export function FloatingControlPanel({
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Auto-collapse on mobile after inactivity
   useEffect(() => {
     if (!isMobile) return;
 
@@ -78,7 +65,6 @@ export function FloatingControlPanel({
     };
   }, [isMobile]);
 
-  // Mouse drag handlers
   const handleMouseDown = useCallback((e: ReactMouseEvent) => {
     if ((e.target as HTMLElement).closest("button, input")) return;
     e.preventDefault();
@@ -89,7 +75,6 @@ export function FloatingControlPanel({
     };
   }, [position]);
 
-  // Touch drag handlers
   const handleTouchStart = useCallback((e: ReactTouchEvent) => {
     if ((e.target as HTMLElement).closest("button, input")) return;
     const touch = e.touches[0];
@@ -106,7 +91,6 @@ export function FloatingControlPanel({
       const newX = e.clientX - dragOffset.current.x;
       const newY = e.clientY - dragOffset.current.y;
 
-      // Constrain to viewport
       const panelWidth = panelRef.current?.offsetWidth || (isMobile ? window.innerWidth - 20 : 320);
       const panelHeight = panelRef.current?.offsetHeight || 400;
 
@@ -168,19 +152,19 @@ export function FloatingControlPanel({
       onTouchStart={handleTouchStart}
     >
       <div className="w-full bg-linear-to-br from-white/95 to-purple-50/90 backdrop-blur-xl border border-purple-500/30 rounded-xl shadow-2xl overflow-hidden">
-        {/* Header */}
+        {/* Tiêu đề */}
         <div className="flex items-center justify-between sticky top-0 bg-linear-to-r from-blue-600 to-purple-600 py-2 px-3 sm:px-6 -mx-3 border-b border-purple-200 shrink-0">
           <h2 className="text-base sm:text-lg font-bold text-white">{title}</h2>
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
             className="text-white hover:text-gray-200 text-lg sm:text-xl p-1 transition-colors"
-            aria-label={isCollapsed ? "Expand" : "Collapse"}
+            aria-label={isCollapsed ? "Mở rộng" : "Thu gọn"}
           >
             {isCollapsed ? "▼" : "▲"}
           </button>
         </div>
 
-        {/* Content */}
+        {/* Nội dung */}
         {!isCollapsed && (
           <div className="p-3 sm:p-4 space-y-3 max-h-[60vh] sm:max-h-[calc(100vh-80px)] overflow-y-auto">
             {children}

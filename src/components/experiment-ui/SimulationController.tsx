@@ -12,18 +12,6 @@ export interface SimulationControllerProps {
   initialPosition?: { x: number; y: number };
 }
 
-/**
- * FLOATING SIMULATION CONTROLLER
- * - Always visible (no toggle needed)
- * - Draggable around the screen
- * - Play/Pause toggle
- * - Reset button
- * - Speed control (0.1x to 3x)
- * - Time elapsed display
- * - Touch-friendly
- * - Stays within viewport bounds
- * - Compact design
- */
 export function SimulationController({
   isPlaying,
   onPlayPause,
@@ -41,7 +29,6 @@ export function SimulationController({
   const dragOffset = useRef({ x: 0, y: 0 });
   const panelRef = useRef<HTMLDivElement>(null);
 
-  // Detect mobile + set position after mount (avoids hydration mismatch)
   useEffect(() => {
     const checkMobile = () => {
       const mobile = window.innerWidth < 768;
@@ -64,7 +51,6 @@ export function SimulationController({
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Format time elapsed
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
@@ -72,7 +58,6 @@ export function SimulationController({
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}.${ms.toString().padStart(2, '0')}`;
   };
 
-  // Mouse drag handlers
   const handleMouseDown = useCallback((e: ReactMouseEvent) => {
     if ((e.target as HTMLElement).closest("button, input")) return;
     e.preventDefault();
@@ -83,7 +68,6 @@ export function SimulationController({
     };
   }, [position]);
 
-  // Touch drag handlers
   const handleTouchStart = useCallback((e: ReactTouchEvent) => {
     if ((e.target as HTMLElement).closest("button, input")) return;
     const touch = e.touches[0];
@@ -100,7 +84,6 @@ export function SimulationController({
       const newX = e.clientX - dragOffset.current.x;
       const newY = e.clientY - dragOffset.current.y;
 
-      // Constrain to viewport
       const panelWidth = panelRef.current?.offsetWidth || (isMobile ? window.innerWidth - 20 : 300);
       const panelHeight = panelRef.current?.offsetHeight || 60;
 
@@ -163,7 +146,7 @@ export function SimulationController({
     >
       <div className="w-full bg-gray-900/90 backdrop-blur-xl border border-gray-600/50 rounded-full shadow-2xl overflow-hidden">
         <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-5 py-2 sm:py-2.5">
-          {/* Play / Pause */}
+          {/* Chạy / Tạm dừng */}
           <button
             onClick={onPlayPause}
             className={`w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-full font-bold text-sm sm:text-base transition-all shadow-md flex-shrink-0 ${
@@ -171,39 +154,37 @@ export function SimulationController({
                 ? "bg-orange-600 hover:bg-orange-500 text-white shadow-orange-500/40"
                 : "bg-green-600 hover:bg-green-500 text-white shadow-green-500/40"
             }`}
-            title={isPlaying ? "Pause" : "Play"}
+            title={isPlaying ? "Tạm dừng" : "Chạy"}
           >
             {isPlaying ? "⏸" : "▶"}
           </button>
 
-          {/* Reset */}
+          {/* Đặt lại */}
           <button
             onClick={onReset}
             className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-full bg-gray-700 hover:bg-gray-600 text-white text-sm sm:text-base transition-all shadow-md flex-shrink-0"
-            title="Reset"
+            title="Đặt lại"
           >
             🔄
           </button>
 
-          {/* Divider */}
           <div className="w-px h-6 bg-gray-600 flex-shrink-0" />
 
-          {/* Time Elapsed */}
+          {/* Thời gian đã trôi qua */}
           {timeElapsed !== undefined && (
             <div className="flex items-center gap-1.5 flex-shrink-0">
-              <span className="text-[10px] sm:text-xs text-gray-400 hidden sm:inline">Time</span>
+              <span className="text-[10px] sm:text-xs text-gray-400 hidden sm:inline">Thời gian</span>
               <span className="text-xs sm:text-sm font-mono text-cyan-400 min-w-16 text-center">
                 {formatTime(timeElapsed)}
               </span>
             </div>
           )}
 
-          {/* Divider */}
           {timeElapsed !== undefined && <div className="w-px h-6 bg-gray-600 flex-shrink-0" />}
 
-          {/* Speed control */}
+          {/* Điều chỉnh tốc độ */}
           <div className="flex items-center gap-1.5 sm:gap-2 flex-1 min-w-0">
-            <span className="text-[10px] sm:text-xs text-gray-400 hidden sm:inline">Speed</span>
+            <span className="text-[10px] sm:text-xs text-gray-400 hidden sm:inline">Tốc độ</span>
             <input
               type="range"
               min="0.1"

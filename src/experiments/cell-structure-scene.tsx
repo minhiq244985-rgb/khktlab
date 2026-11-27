@@ -26,34 +26,41 @@ interface CellStructureSceneProps {
   showMembrane?: boolean;
 }
 
-// Organelle types and their properties
+// Các loại bào quan và đặc tính của chúng
 const ORGANELLE_INFO = {
   Nucleus: {
-    description: 'Control center containing DNA',
+    label: 'Nhân tế bào',
+    description: 'Trung tâm điều khiển chứa ADN',
     color: '#3b82f6',
   },
   Mitochondria: {
-    description: 'Powerhouse of the cell',
+    label: 'Ti thể',
+    description: 'Nhà máy năng lượng của tế bào',
     color: '#ef4444',
   },
   ER: {
-    description: 'Transport network for proteins',
+    label: 'Lưới nội chất',
+    description: 'Mạng lưới vận chuyển protein',
     color: '#06d6a0',
   },
   Golgi: {
-    description: 'Processes and packages proteins',
+    label: 'Bộ máy Golgi',
+    description: 'Xử lý và đóng gói protein',
     color: '#f59e0b',
   },
   Ribosomes: {
-    description: 'Protein synthesis factories',
+    label: 'Ribosome',
+    description: 'Nhà máy tổng hợp protein',
     color: '#8b5cf6',
   },
   Lysosome: {
-    description: 'Digestive organelles',
+    label: 'Tiêu thể (Lysosome)',
+    description: 'Bào quan tiêu hóa nội bào',
     color: '#ec4899',
   },
   Membrane: {
-    description: 'Protective outer barrier',
+    label: 'Màng tế bào',
+    description: 'Lớp màng bảo vệ bên ngoài',
     color: '#06d6a0',
   },
 };
@@ -179,8 +186,8 @@ export default function CellStructureSceneComponent({
               </mesh>
               {showLabels && (
                 <Html position={[0, 2, 0]} distanceFactor={8}>
-                  <div className="bg-blue-500/90 text-white px-2 py-1 rounded text-xs font-medium">
-                    Nucleus
+                  <div className="bg-blue-500/90 text-white px-2 py-1 rounded text-xs font-medium whitespace-nowrap">
+                    Nhân tế bào
                   </div>
                 </Html>
               )}
@@ -209,8 +216,8 @@ export default function CellStructureSceneComponent({
                 </mesh>
                 {showLabels && (
                   <Html position={[0, 0.8, 0]} distanceFactor={8}>
-                    <div className="bg-red-500/90 text-white px-2 py-1 rounded text-xs font-medium">
-                      Mitochondria
+                    <div className="bg-red-500/90 text-white px-2 py-1 rounded text-xs font-medium whitespace-nowrap">
+                      Ti thể
                     </div>
                   </Html>
                 )}
@@ -254,8 +261,8 @@ export default function CellStructureSceneComponent({
               </mesh>
               {showLabels && (
                 <Html position={[1.3, 0, 0]} distanceFactor={8}>
-                  <div className="bg-green-500/90 text-white px-2 py-1 rounded text-xs font-medium">
-                    Endoplasmic Reticulum
+                  <div className="bg-green-500/90 text-white px-2 py-1 rounded text-xs font-medium whitespace-nowrap">
+                    Lưới nội chất
                   </div>
                 </Html>
               )}
@@ -283,8 +290,8 @@ export default function CellStructureSceneComponent({
               ))}
               {showLabels && (
                 <Html position={[0, 0.8, 0]} distanceFactor={8}>
-                  <div className="bg-amber-500/90 text-white px-2 py-1 rounded text-xs font-medium">
-                    Golgi Apparatus
+                  <div className="bg-amber-500/90 text-white px-2 py-1 rounded text-xs font-medium whitespace-nowrap">
+                    Bộ máy Golgi
                   </div>
                 </Html>
               )}
@@ -316,8 +323,8 @@ export default function CellStructureSceneComponent({
               })}
               {showLabels && (
                 <Html position={[2.5, 0.5, 2.5]} distanceFactor={8}>
-                  <div className="bg-purple-500/90 text-white px-2 py-1 rounded text-xs font-medium">
-                    Ribosomes
+                  <div className="bg-purple-500/90 text-white px-2 py-1 rounded text-xs font-medium whitespace-nowrap">
+                    Ribosome
                   </div>
                 </Html>
               )}
@@ -358,8 +365,8 @@ export default function CellStructureSceneComponent({
               </group>
               {showLabels && (
                 <Html position={[1.8, -1.8, 1.8]} distanceFactor={8}>
-                  <div className="bg-pink-500/90 text-white px-2 py-1 rounded text-xs font-medium">
-                    Lysosome
+                  <div className="bg-pink-500/90 text-white px-2 py-1 rounded text-xs font-medium whitespace-nowrap">
+                    Tiêu thể (Lysosome)
                   </div>
                 </Html>
               )}
@@ -372,7 +379,7 @@ export default function CellStructureSceneComponent({
           <Html position={[0, -5, 0]} distanceFactor={10}>
             <div className="bg-gray-900/95 border-l-4 p-3 rounded text-white max-w-xs">
               <div className="font-bold text-sm mb-1" style={{ color: ORGANELLE_INFO[selectedOrganelle as keyof typeof ORGANELLE_INFO].color }}>
-                {selectedOrganelle}
+                {ORGANELLE_INFO[selectedOrganelle as keyof typeof ORGANELLE_INFO].label}
               </div>
               <div className="text-xs text-gray-300">
                 {ORGANELLE_INFO[selectedOrganelle as keyof typeof ORGANELLE_INFO].description}

@@ -41,9 +41,9 @@ export default function ComplexNumbersPage() {
 
   const parameterControls = (
     <div className="space-y-4">
-      <ControlGroup title="Complex Number">
+      <ControlGroup title="Số phức">
         <ControlSlider
-          label="Real Part"
+          label="Phần thực"
           value={real}
           unit=""
           min={-4}
@@ -54,7 +54,7 @@ export default function ComplexNumbersPage() {
           decimals={1}
         />
         <ControlSlider
-          label="Imaginary Part"
+          label="Phần ảo"
           value={imaginary}
           unit="i"
           min={-4}
@@ -66,20 +66,20 @@ export default function ComplexNumbersPage() {
         />
       </ControlGroup>
 
-      <ControlGroup title="Display">
+      <ControlGroup title="Hiển thị">
         {[
-          { label: "Show Plane", checked: showPlane, onChange: setShowPlane },
-          { label: "Polar Form", checked: showPolar, onChange: setShowPolar },
-          { label: "Conjugate", checked: showConjugate, onChange: setShowConjugate },
-          { label: "Square (z²)", checked: showSquare, onChange: setShowSquare },
+          { id: "plane", label: "Mặt phẳng phức", checked: showPlane, onChange: setShowPlane, color: "#f43f5e" },
+          { id: "polar", label: "Dạng lượng giác (cực)", checked: showPolar, onChange: setShowPolar, color: "#f43f5e" },
+          { id: "conjugate", label: "Số phức liên hợp", checked: showConjugate, onChange: setShowConjugate, color: "#06b6d4" },
+          { id: "square", label: "Bình phương (z²)", checked: showSquare, onChange: setShowSquare, color: "#f97316" },
         ].map((opt) => (
-          <label key={opt.label} className="flex items-center justify-between text-sm text-gray-700 cursor-pointer py-2 px-3 bg-gray-100/50 rounded-lg border border-gray-300/50">
+          <label key={opt.id} className="flex items-center justify-between text-sm text-gray-700 cursor-pointer py-2 px-3 bg-gray-100/50 rounded-lg border border-gray-300/50">
             <span>{opt.label}</span>
-            <input type="checkbox" checked={opt.checked} onChange={(e) => opt.onChange(e.target.checked)} className="w-4 h-4 rounded" style={{ accentColor: opt.label === "Conjugate" ? "#06b6d4" : opt.label === "Square (z²)" ? "#f97316" : "#f43f5e" }} />
+            <input type="checkbox" checked={opt.checked} onChange={(e) => opt.onChange(e.target.checked)} className="w-4 h-4 rounded" style={{ accentColor: opt.color }} />
           </label>
         ))}
         <ControlSlider
-          label="Rotation Speed"
+          label="Tốc độ xoay"
           value={rotationSpeed}
           unit=""
           min={0}
@@ -95,7 +95,7 @@ export default function ComplexNumbersPage() {
         onClick={() => router.push("/experiments/complex-numbers/details")}
         className="w-full py-2.5 bg-gradient-to-r from-rose-100 to-rose-200 hover:from-rose-200 hover:to-rose-300 text-rose-700 font-medium text-sm rounded-lg transition-all border border-rose-300/50 flex items-center justify-center gap-2"
       >
-        📖 View Experiment Details
+        📖 Xem chi tiết thí nghiệm
       </button>
     </div>
   );
@@ -119,15 +119,15 @@ export default function ComplexNumbersPage() {
     </>
   ) : (
     <div className="text-center text-gray-500 text-sm py-8">
-      Waiting for simulation data...
+      Đang chờ dữ liệu mô phỏng...
     </div>
   );
 
   return (
     <>
       <ExperimentContainer
-        title="Complex Numbers"
-        description="Explore the Argand plane and complex arithmetic"
+        title="Số phức"
+        description="Khám phá mặt phẳng phức Argand và các phép toán số phức"
         cameraPosition={[10, 8, 10]}
         backgroundColor="#050510"
         controls={null}
@@ -148,7 +148,7 @@ export default function ComplexNumbersPage() {
 
       <SimulationController isPlaying={isPlaying} onPlayPause={handlePlayPause} onReset={handleReset} speed={simulationSpeed} onSpeedChange={setSimulationSpeed} />
 
-      <FloatingControlPanel title="⚙️ Complex Settings" initialPosition={{ x: 20, y: 80 }}>
+      <FloatingControlPanel title="⚙️ Cài đặt số phức" initialPosition={{ x: 20, y: 80 }}>
         {parameterControls}
       </FloatingControlPanel>
 

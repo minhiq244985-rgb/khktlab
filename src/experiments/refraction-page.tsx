@@ -34,15 +34,15 @@ export default function RefractionPage() {
   const [showAngles, setShowAngles] = useState(true);
 
   // Medium presets
-  const mediumPresets: Record<string, number> = {
-    air: 1.0,
-    water: 1.33,
-    glass: 1.5,
-    diamond: 2.42,
+  const mediumPresets: Record<string, { label: string; value: number }> = {
+    air: { label: "Không khí", value: 1.0 },
+    water: { label: "Nước", value: 1.33 },
+    glass: { label: "Thủy tinh", value: 1.5 },
+    diamond: { label: "Kim cương", value: 2.42 },
   };
 
   const handleMediumPreset = (medium: string) => {
-    setN2(mediumPresets[medium] || 1.5);
+    setN2(mediumPresets[medium]?.value || 1.5);
   };
 
   const handlePlayPause = () => setIsPlaying((p) => !p);
@@ -57,9 +57,9 @@ export default function RefractionPage() {
   const parameterControls = (
     <div className="space-y-4">
       {/* Incident Angle */}
-      <ControlGroup title="Light Source">
+      <ControlGroup title="Nguồn sáng">
         <ControlSlider
-          label="Angle of Incidence (θᵢ)"
+          label="Góc tới (θᵢ)"
           value={incidentAngle}
           unit="°"
           min={0}
@@ -72,11 +72,11 @@ export default function RefractionPage() {
       </ControlGroup>
 
       {/* Medium 2 Properties */}
-      <ControlGroup title="Medium 2 (Bottom)">
+      <ControlGroup title="Môi trường 2 (Dưới)">
         <div className="space-y-3">
           {/* Refractive Index Slider */}
           <ControlSlider
-            label="Refractive Index (n₂)"
+            label="Chiết suất (n₂)"
             value={n2}
             unit=""
             min={1.0}
@@ -89,19 +89,19 @@ export default function RefractionPage() {
 
           {/* Medium Presets */}
           <div className="pt-2">
-            <label className="text-xs text-gray-600 block mb-2">Quick Presets:</label>
+            <label className="text-xs text-gray-600 block mb-2">Chọn nhanh:</label>
             <div className="grid grid-cols-2 gap-2">
-              {Object.entries(mediumPresets).map(([name, value]) => (
+              {Object.entries(mediumPresets).map(([key, preset]) => (
                 <button
-                  key={name}
-                  onClick={() => handleMediumPreset(name)}
+                  key={key}
+                  onClick={() => handleMediumPreset(key)}
                   className={`py-1.5 px-3 text-xs font-medium rounded-lg transition-all ${
-                    Math.abs(n2 - value) < 0.01
+                    Math.abs(n2 - preset.value) < 0.01
                       ? "bg-cyan-500 text-white ring-2 ring-cyan-300"
                       : "bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-300"
                   }`}
                 >
-                  {name.charAt(0).toUpperCase() + name.slice(1)} ({value})
+                  {preset.label} ({preset.value})
                 </button>
               ))}
             </div>
@@ -110,10 +110,10 @@ export default function RefractionPage() {
       </ControlGroup>
 
       {/* Display Options */}
-      <ControlGroup title="Display Options">
+      <ControlGroup title="Tùy chọn hiển thị">
         {[
-          { label: "Show Normal Line", checked: showNormal, onChange: setShowNormal },
-          { label: "Show Angle Arcs", checked: showAngles, onChange: setShowAngles },
+          { label: "Hiện pháp tuyến", checked: showNormal, onChange: setShowNormal },
+          { label: "Hiện cung góc", checked: showAngles, onChange: setShowAngles },
         ].map((opt) => (
           <label key={opt.label} className="flex items-center justify-between text-sm text-gray-700 cursor-pointer py-2 px-3 bg-gray-100/50 rounded-lg border border-gray-300/50">
             <span>{opt.label}</span>
@@ -129,8 +129,8 @@ export default function RefractionPage() {
 
       {/* Medium 1 Info */}
       <div className="p-3 bg-sky-50 border border-sky-200 rounded-lg">
-        <div className="text-sm font-medium text-sky-800">Medium 1 (Top)</div>
-        <div className="text-xs text-sky-600">Always Air (n₁ = 1.00)</div>
+        <div className="text-sm font-medium text-sky-800">Môi trường 1 (Trên)</div>
+        <div className="text-xs text-sky-600">Luôn là Không khí (n₁ = 1.00)</div>
       </div>
 
       {/* Details link */}
@@ -138,7 +138,7 @@ export default function RefractionPage() {
         onClick={() => router.push("/experiments/refraction/details")}
         className="w-full py-2.5 bg-gradient-to-r from-cyan-100 to-cyan-200 hover:from-cyan-200 hover:to-cyan-300 text-cyan-700 font-medium text-sm rounded-lg transition-all border border-cyan-300/50 flex items-center justify-center gap-2"
       >
-        📖 View Experiment Details
+        📖 Xem chi tiết thí nghiệm
       </button>
     </div>
   );
@@ -148,12 +148,12 @@ export default function RefractionPage() {
     <>
       <DataGrid
         data={{
-          incidentAngle: { value: data.incidentAngle, unit: "°", color: "#ffffff", decimals: 1 },
-          reflectedAngle: { value: data.reflectedAngle, unit: "°", color: "#fbbf24", decimals: 1 },
-          refractedAngle: { value: data.refractedAngle, unit: "°", color: "#06b6d4", decimals: 1 },
-          n1: { value: data.n1, unit: "", color: "#94a3b8", decimals: 2 },
-          n2: { value: data.n2, unit: "", color: "#06b6d4", decimals: 2 },
-          criticalAngle: { value: data.criticalAngle, unit: "°", color: "#f59e0b", decimals: 1 },
+          incidentAngle: { value: data.incidentAngle, unit: "° (Góc tới)", color: "#ffffff", decimals: 1 },
+          reflectedAngle: { value: data.reflectedAngle, unit: "° (Góc phản xạ)", color: "#fbbf24", decimals: 1 },
+          refractedAngle: { value: data.refractedAngle, unit: "° (Góc khúc xạ)", color: "#06b6d4", decimals: 1 },
+          n1: { value: data.n1, unit: "n₁", color: "#94a3b8", decimals: 2 },
+          n2: { value: data.n2, unit: "n₂", color: "#06b6d4", decimals: 2 },
+          criticalAngle: { value: data.criticalAngle, unit: "° (Góc giới hạn)", color: "#f59e0b", decimals: 1 },
         }}
         columns={2}
       />
@@ -162,17 +162,17 @@ export default function RefractionPage() {
       {data.isTIR && (
         <div className="mt-3 p-3 bg-red-900/30 border border-red-500/50 rounded-lg">
           <div className="text-red-400 text-sm font-semibold flex items-center gap-2">
-            ⚠️ Total Internal Reflection
+            ⚠️ Phản xạ toàn phần
           </div>
           <div className="text-red-300 text-xs mt-1">
-            Incident angle exceeds critical angle
+            Góc tới vượt quá góc giới hạn
           </div>
         </div>
       )}
 
       {/* Physics Formula */}
       <div className="mt-3 p-3 bg-gray-800/50 rounded-lg border border-gray-700">
-        <div className="text-gray-400 text-xs mb-1">Snell's Law:</div>
+        <div className="text-gray-400 text-xs mb-1">Định luật khúc xạ Snell:</div>
         <div className="font-mono text-cyan-300 text-sm">
           n₁ × sin(θᵢ) = n₂ × sin(θₜ)
         </div>
@@ -185,27 +185,27 @@ export default function RefractionPage() {
       {/* Critical Angle Info */}
       {data.criticalAngle < 90 && (
         <div className="mt-3 p-3 bg-amber-900/20 border border-amber-500/30 rounded-lg">
-          <div className="text-amber-400 text-xs font-medium">Critical Angle:</div>
+          <div className="text-amber-400 text-xs font-medium">Góc giới hạn:</div>
           <div className="text-amber-300 text-sm font-mono">
             θc = {data.criticalAngle.toFixed(1)}°
           </div>
           <div className="text-amber-200/70 text-xs mt-1">
-            TIR occurs when θᵢ &gt; θc
+            Xảy ra phản xạ toàn phần khi θᵢ &gt; θc
           </div>
         </div>
       )}
     </>
   ) : (
     <div className="text-center text-gray-500 text-sm py-8">
-      Waiting for simulation data...
+      Đang chờ dữ liệu mô phỏng...
     </div>
   );
 
   return (
     <>
       <ExperimentContainer
-        title="Refraction & Reflection"
-        description="Explore Snell's law and total internal reflection at an optical interface"
+        title="Khúc xạ & Phản xạ ánh sáng"
+        description="Khám phá định luật Snell và hiện tượng phản xạ toàn phần tại mặt phân cách quang học"
         cameraPosition={[25, 15, 35]}
         backgroundColor="#050510"
         controls={null}
@@ -233,7 +233,7 @@ export default function RefractionPage() {
 
       {/* Parameter Controls - Toggleable */}
       <FloatingControlPanel
-        title="⚙️ Refraction Parameters"
+        title="⚙️ Tham số khúc xạ"
         initialPosition={{ x: 20, y: 80 }}
       >
         {parameterControls}

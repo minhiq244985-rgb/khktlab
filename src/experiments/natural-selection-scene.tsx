@@ -80,14 +80,14 @@ export default function NaturalSelectionSceneComponent({
     percentLarge: 50,
     averageSize: 0.5,
     percentSurviving: 100,
-    environmentPhase: 'Grassland',
+    environmentPhase: 'Đồng cỏ',
   });
 
   // Environment colors
   const environmentColors = {
-    grass: { background: '#1a2e1a', ground: '#15803d', name: 'Grassland', advantage: 'green' },
-    dirt: { background: '#2e251a', ground: '#8B4513', name: 'Dirt Field', advantage: 'red' },
-    snow: { background: '#1a1e2e', ground: '#e0e7ff', name: 'Snowy Area', advantage: 'none' },
+    grass: { background: '#1a2e1a', ground: '#15803d', name: 'Đồng cỏ', advantage: 'green' },
+    dirt: { background: '#2e251a', ground: '#8B4513', name: 'Vùng đất trống', advantage: 'red' },
+    snow: { background: '#1a1e2e', ground: '#e0e7ff', name: 'Vùng tuyết phủ', advantage: 'none' },
   };
 
   // Initialize population
@@ -486,7 +486,7 @@ export default function NaturalSelectionSceneComponent({
 
           <Html position={[7, 1, -1.5]} distanceFactor={15}>
             <div className="bg-gray-900/90 text-white px-2 py-1 rounded text-xs whitespace-nowrap">
-              Population Over Generations
+              Quần thể qua các thế hệ
             </div>
           </Html>
         </group>
@@ -507,7 +507,7 @@ export default function NaturalSelectionSceneComponent({
             <meshStandardMaterial color="#f59e0b" />
           </mesh>
           <Html position={[0, 1.8, 0]} distanceFactor={12}>
-            <div className="text-xs text-white">Size Distribution</div>
+            <div className="text-xs text-white">Phân bố kích thước</div>
           </Html>
         </group>
 
@@ -518,7 +518,7 @@ export default function NaturalSelectionSceneComponent({
             currentEnv === 'dirt' ? 'from-amber-700/90 to-amber-800/90 text-white' :
             'from-blue-400/90 to-blue-500/90 text-white'
           }`}>
-            {envInfo.name} | Generation: {displayData.generation} | Population: {displayData.populationCount}
+            {envInfo.name} | Thế hệ: {displayData.generation} | Quần thể: {displayData.populationCount}
           </div>
         </Html>
 
@@ -529,31 +529,31 @@ export default function NaturalSelectionSceneComponent({
             currentEnv === 'dirt' ? 'bg-amber-700/90 text-white' :
             'bg-blue-400/90 text-gray-900'
           }`}>
-            Environment: {envInfo.name} {currentEnv === 'grass' ? '(🌿 Green Advantage)' : currentEnv === 'dirt' ? '(🟤 Red Advantage)' : '(❄️ Both Visible)'}
+            Môi trường: {envInfo.name} {currentEnv === 'grass' ? '(🌿 Ưu thế màu xanh)' : currentEnv === 'dirt' ? '(🟤 Ưu thế màu đỏ)' : '(❄️ Đều dễ bị phát hiện)'}
           </div>
         </Html>
 
         {/* Trait Distribution */}
         <Html position={[-6, 3, 4]} distanceFactor={12}>
           <div className="bg-gray-900/90 text-white px-3 py-2 rounded text-xs space-y-1">
-            <div className="font-bold text-green-400 mb-2">Color Traits</div>
+            <div className="font-bold text-green-400 mb-2">Đặc điểm màu sắc</div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-green-500"></div>
-              <span>Green (Camouflaged in grass): {displayData.percentGreen}%</span>
+              <span>Xanh lá (Ngụy trang trong cỏ): {displayData.percentGreen}%</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-red-500"></div>
-              <span>Red (Visible in grass): {displayData.percentRed}%</span>
+              <span>Đỏ (Dễ thấy trong cỏ): {displayData.percentRed}%</span>
             </div>
             <div className="mt-2 pt-2 border-t border-gray-700">
-              <div className="font-bold text-blue-400 mb-1">Size Traits</div>
+              <div className="font-bold text-blue-400 mb-1">Đặc điểm kích thước</div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-                <span>Small (Fast): {displayData.percentSmall}%</span>
+                <span>Nhỏ (Nhanh): {displayData.percentSmall}%</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-amber-500"></div>
-                <span>Large (Slow): {displayData.percentLarge}%</span>
+                <span>Lớn (Chậm): {displayData.percentLarge}%</span>
               </div>
             </div>
           </div>
@@ -562,17 +562,17 @@ export default function NaturalSelectionSceneComponent({
         {/* Selection Pressure Info */}
         <Html position={[6, 3, 0]} distanceFactor={12}>
           <div className="bg-gray-900/90 text-white px-3 py-2 rounded text-xs max-w-[200px]">
-            <div className="font-bold text-amber-400 mb-2">How Natural Selection Works</div>
+            <div className="font-bold text-amber-400 mb-2">Cách chọn lọc tự nhiên hoạt động</div>
             <div className="space-y-1 text-gray-300">
-              <div>1. Environment favors certain traits</div>
-              <div>2. Camouflaged organisms survive more</div>
-              <div>3. Small organisms escape faster</div>
-              <div>4. Survivors pass traits to offspring</div>
-              <div>5. Population adapts over generations</div>
+              <div>1. Môi trường ưu tiên một số đặc điểm</div>
+              <div>2. Sinh vật ngụy trang sống sót nhiều hơn</div>
+              <div>3. Sinh vật nhỏ trốn thoát nhanh hơn</div>
+              <div>4. Cá thể sống sót truyền gen cho đời sau</div>
+              <div>5. Quần thể thích nghi qua các thế hệ</div>
             </div>
             <div className="mt-2 pt-2 border-t border-gray-700">
-              <div className="text-green-400">✓ Camouflaged = Less visible</div>
-              <div className="text-blue-400">✓ Small = Fast escape</div>
+              <div className="text-green-400">✓ Ngụy trang = Khó bị phát hiện</div>
+              <div className="text-blue-400">✓ Nhỏ bé = Chạy trốn nhanh</div>
             </div>
           </div>
         </Html>
@@ -580,14 +580,14 @@ export default function NaturalSelectionSceneComponent({
         {/* Predator indicator */}
         <Html position={[0, 2.5, -3]} distanceFactor={12}>
           <div className="bg-red-600/90 text-white px-3 py-1 rounded text-xs">
-            🔴 Predator Hunts Visible Organisms
+            🔴 Kẻ săn mồi săn bắt các sinh vật dễ thấy
           </div>
         </Html>
 
         {/* Survival rate indicator */}
         <Html position={[0, -1.8, 3]} distanceFactor={15}>
           <div className="bg-gray-900/90 text-white px-4 py-2 rounded-lg text-sm">
-            Surviving to Next Generation: <span className="font-bold text-yellow-400">{displayData.percentSurviving}%</span>
+            Tỷ lệ sống sót sang thế hệ tiếp theo: <span className="font-bold text-yellow-400">{displayData.percentSurviving}%</span>
           </div>
         </Html>
       </group>

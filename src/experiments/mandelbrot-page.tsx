@@ -14,6 +14,13 @@ import {
 } from "@/components/experiment-ui";
 
 const COLOR_SCHEMES = ["rainbow", "fire", "grayscale", "electric", "ocean"] as const;
+const COLOR_SCHEME_LABELS: Record<typeof COLOR_SCHEMES[number], string> = {
+  rainbow: "Cầu vồng",
+  fire: "Lửa",
+  grayscale: "Thang xám",
+  electric: "Điện",
+  ocean: "Đại dương",
+};
 const DEFAULT_ITERATIONS = 100;
 const DEFAULT_ZOOM = 1.0;
 const DEFAULT_CENTER_X = -0.5;
@@ -74,9 +81,9 @@ export default function MandelbrotPage() {
 
   const parameterControls = (
     <div className="space-y-4">
-      <ControlGroup title="Fractal Parameters">
+      <ControlGroup title="Thông số fractal">
         <ControlSlider
-          label="Max Iterations"
+          label="Số lần lặp tối đa"
           value={maxIterations}
           unit=""
           min={50}
@@ -87,7 +94,7 @@ export default function MandelbrotPage() {
           decimals={0}
         />
         <ControlSlider
-          label="Zoom Level"
+          label="Mức phóng đại"
           value={Math.log10(zoom)}
           unit="log₁₀"
           min={Math.log10(0.5)}
@@ -99,30 +106,30 @@ export default function MandelbrotPage() {
         />
       </ControlGroup>
 
-      <ControlGroup title="Navigation">
+      <ControlGroup title="Điều hướng">
         <div className="grid grid-cols-2 gap-2">
           <button
             onClick={handleZoomIn}
             className="py-2 px-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-all font-medium text-sm"
           >
-            🔍+ Zoom In
+            🔍+ Phóng to
           </button>
           <button
             onClick={handleZoomOut}
             className="py-2 px-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-all font-medium text-sm"
           >
-            🔍- Zoom Out
+            🔍- Thu nhỏ
           </button>
         </div>
         <button
           onClick={handleReset}
           className="w-full py-2 px-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-all font-medium text-sm"
         >
-          🔄 Reset View
+          🔄 Đặt lại khung nhìn
         </button>
       </ControlGroup>
 
-      <ControlGroup title="Color Scheme">
+      <ControlGroup title="Bảng màu">
         <div className="grid grid-cols-2 gap-2">
           {COLOR_SCHEMES.map((scheme) => (
             <button
@@ -134,19 +141,19 @@ export default function MandelbrotPage() {
                   : "bg-gray-200 text-gray-700 hover:bg-gray-300"
               }`}
             >
-              {scheme}
+              {COLOR_SCHEME_LABELS[scheme]}
             </button>
           ))}
         </div>
       </ControlGroup>
 
       <div className="bg-purple-50/50 rounded-lg p-3 border border-purple-200/50">
-        <div className="text-xs text-gray-600 mb-2 font-medium">Mandelbrot Set</div>
+        <div className="text-xs text-gray-600 mb-2 font-medium">Tập Mandelbrot</div>
         <div className="text-xs text-gray-500 font-mono">
           zₙ₊₁ = zₙ² + c
         </div>
         <div className="text-xs text-gray-500 mt-1">
-          Click on the fractal to zoom into that region
+          Nhấp vào fractal để phóng to vùng đó
         </div>
       </div>
 
@@ -179,22 +186,22 @@ export default function MandelbrotPage() {
       {data.zoom > 10 && (
         <div className="mt-2 p-2 bg-purple-900/30 rounded-lg border border-purple-500/30">
           <div className="text-xs text-purple-300 text-center">
-            Deep zoom: {data.zoom < 1000 ? `${data.zoom.toFixed(1)}×` : `${data.zoom.toExponential(2)}×`}
+            Phóng đại sâu: {data.zoom < 1000 ? `${data.zoom.toFixed(1)}×` : `${data.zoom.toExponential(2)}×`}
           </div>
         </div>
       )}
     </>
   ) : (
     <div className="text-center text-gray-500 text-sm py-8">
-      Waiting for simulation data...
+      Đang chờ dữ liệu mô phỏng...
     </div>
   );
 
   return (
     <>
       <ExperimentContainer
-        title="Mandelbrot Fractal"
-        description="Explore the infinite complexity of the Mandelbrot set"
+        title="Fractal Mandelbrot"
+        description="Khám phá độ phức tạp vô hạn của tập Mandelbrot"
         cameraPosition={[0, 15, 0]}
         backgroundColor="#050510"
         controls={null}
@@ -221,7 +228,7 @@ export default function MandelbrotPage() {
         onSpeedChange={setSimulationSpeed}
       />
 
-      <FloatingControlPanel title="⚙️ Fractal Settings" initialPosition={{ x: 20, y: 80 }}>
+      <FloatingControlPanel title="⚙️ Cài đặt fractal" initialPosition={{ x: 20, y: 80 }}>
         {parameterControls}
       </FloatingControlPanel>
 

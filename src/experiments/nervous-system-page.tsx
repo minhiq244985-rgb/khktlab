@@ -25,11 +25,11 @@ export default function NervousSystemPage() {
 
   const [nervousData, setNervousData] = useState<NervousSystemData>({
     voltage: -70,
-    phase: 'Resting',
-    naStatus: 'Closed',
-    kStatus: 'Closed',
+    phase: 'Trạng thái nghỉ',
+    naStatus: 'Đóng',
+    kStatus: 'Đóng',
     speed: 120,
-    description: 'Neuron at resting potential (-70mV)',
+    description: 'Nơron ở điện thế nghỉ (-70mV)',
   });
 
   const handlePlayPause = useCallback(() => {
@@ -52,9 +52,9 @@ export default function NervousSystemPage() {
   const parameterControls = useMemo(
     () => (
       <>
-        <ControlGroup title="Neuron Controls">
+        <ControlGroup title="Điều khiển nơron">
           <ControlSlider
-            label="Speed"
+            label="Tốc độ"
             value={speed}
             min={0.5}
             max={3}
@@ -74,13 +74,13 @@ export default function NervousSystemPage() {
               }}
               className="w-4 h-4 accent-[#ec4899]"
             />
-            <span className="text-gray-300">Step Mode</span>
+            <span className="text-gray-300">Chế độ từng bước</span>
           </label>
 
           {stepMode && (
             <div className="mt-2 space-y-1">
-              <div className="text-xs text-gray-400 mb-1">Step through phases:</div>
-              {['Resting', 'Stimulus', 'Depolarization', 'Repolarization', 'Hyperpolarization', 'Synapse'].map((phase, i) => (
+              <div className="text-xs text-gray-400 mb-1">Chuyển qua các giai đoạn:</div>
+              {['Trạng thái nghỉ', 'Kích thích', 'Khử cực', 'Tái phân cực', 'Ưu phân cực', 'Xináp'].map((phase, i) => (
                 <button
                   key={phase}
                   onClick={() => setStep(i)}
@@ -103,7 +103,7 @@ export default function NervousSystemPage() {
               onChange={(e) => setShowIonChannels(e.target.checked)}
               className="w-4 h-4 accent-[#06b6d4]"
             />
-            <span className="text-gray-300">Show Ion Channels</span>
+            <span className="text-gray-300">Hiển thị kênh ion</span>
           </label>
 
           <label className="flex items-center gap-2 text-sm">
@@ -113,19 +113,19 @@ export default function NervousSystemPage() {
               onChange={(e) => setShowMyelin(e.target.checked)}
               className="w-4 h-4 accent-[#fde047]"
             />
-            <span className="text-gray-300">Show Myelin Sheath</span>
+            <span className="text-gray-300">Hiển thị bao Myelin</span>
           </label>
         </ControlGroup>
 
         <div className="bg-pink-50/50 rounded-lg p-3 border border-pink-200/50">
-          <div className="text-xs text-gray-600 mb-2 font-medium">Action Potential Phases</div>
+          <div className="text-xs text-gray-600 mb-2 font-medium">Các giai đoạn điện thế hoạt động</div>
           <div className="text-xs text-gray-500 space-y-1">
-            <div>1. <strong>Resting:</strong> -70mV, channels closed</div>
-            <div>2. <strong>Stimulus:</strong> Signal arrives at dendrites</div>
-            <div>3. <strong>Depolarization:</strong> Na+ rushes IN (+40mV)</div>
-            <div>4. <strong>Repolarization:</strong> K+ rushes OUT</div>
-            <div>5. <strong>Hyperpolarization:</strong> Below -70mV</div>
-            <div>6. <strong>Synapse:</strong> Neurotransmitters released</div>
+            <div>1. <strong>Trạng thái nghỉ:</strong> -70mV, các kênh đóng</div>
+            <div>2. <strong>Kích thích:</strong> Tín hiệu tới các sợi nhánh</div>
+            <div>3. <strong>Khử cực:</strong> Ion Na+ tràn VÀO (+40mV)</div>
+            <div>4. <strong>Tái phân cực:</strong> Ion K+ tràn RA</div>
+            <div>5. <strong>Ưu phân cực:</strong> Điện thế giảm dưới -70mV</div>
+            <div>6. <strong>Xináp:</strong> Giải phóng chất dẫn truyền thần kinh</div>
           </div>
         </div>
 
@@ -133,7 +133,7 @@ export default function NervousSystemPage() {
           onClick={handleReset}
           className="w-full mt-4 px-4 py-2 bg-[#ec4899]/20 hover:bg-[#ec4899]/30 text-[#ec4899] rounded-lg border border-[#ec4899]/50 transition-colors text-sm font-medium"
         >
-          Reset Simulation
+          Đặt lại mô phỏng
         </button>
       </>
     ),
@@ -145,8 +145,8 @@ export default function NervousSystemPage() {
       <DataGrid
         data={{
           voltage: { value: nervousData.voltage, unit: "mV", color: nervousData.voltage > 0 ? "#22d3ee" : "#ec4899", decimals: 0 },
-          na: { value: nervousData.naStatus.includes('OPEN') ? 1 : 0, unit: nervousData.naStatus, color: "#ef4444", decimals: 0 },
-          k: { value: nervousData.kStatus.includes('OPEN') ? 1 : 0, unit: nervousData.kStatus, color: "#3b82f6", decimals: 0 },
+          na: { value: nervousData.naStatus.includes('MỞ') ? 1 : 0, unit: nervousData.naStatus, color: "#ef4444", decimals: 0 },
+          k: { value: nervousData.kStatus.includes('MỞ') ? 1 : 0, unit: nervousData.kStatus, color: "#3b82f6", decimals: 0 },
           speed: { value: nervousData.speed, unit: "m/s", color: "#fbbf24", decimals: 0 },
         }}
         columns={1}
@@ -167,8 +167,8 @@ export default function NervousSystemPage() {
   return (
     <div className="w-full h-screen relative">
       <ExperimentContainer
-        title="Neuron & Synapse"
-        description="Visualize action potential propagation and synaptic transmission step-by-step"
+        title="Nơron & Xináp"
+        description="Mô phỏng sự lan truyền điện thế hoạt động và dẫn truyền qua xináp theo từng bước"
         cameraPosition={[0, 6, 20]}
         backgroundColor="#0a0a0f"
         controls={null}
@@ -209,7 +209,7 @@ export default function NervousSystemPage() {
           onClick={() => setShowControls(true)}
           className="fixed top-20 right-4 z-20 px-4 py-2 bg-[#ec4899]/20 hover:bg-[#ec4899]/30 text-[#ec4899] rounded-lg border border-[#ec4899]/50 transition-colors text-sm font-medium"
         >
-          Show Controls
+          Hiện bảng điều khiển
         </button>
       )}
     </div>

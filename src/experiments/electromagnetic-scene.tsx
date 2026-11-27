@@ -8,7 +8,7 @@ import * as THREE from "three";
 interface Charge {
   id: string;
   position: THREE.Vector3;
-  magnitude: number; // Can be positive or negative
+  magnitude: number; // Có thể dương hoặc âm
 }
 
 interface ElectromagneticSceneProps {
@@ -32,13 +32,13 @@ export interface EMFieldData {
 }
 
 /**
- * World-class Electromagnetic Field Simulation
- * Features:
- * - Dynamic point charges (add/remove/toggle)
- * - Electric field lines (tube geometry/thick lines)
- * - Equipotential surfaces (translucent rings)
- * - Force vectors between charges
- * - Real-time field calculation at cursor
+ * Mô phỏng Trường Điện Từ Đẳng Cấp Thế Giới
+ * Tính năng:
+ * - Điện tích điểm động (thêm/xóa/chuyển đổi)
+ * - Đường sức điện trường (hình học ống/đường nét dày)
+ * - Mặt đẳng thế (vòng tròn bán trong suốt)
+ * - Vectơ lực giữa các điện tích
+ * - Tính toán trường theo thời gian thực tại vị trí con trỏ
  */
 export function ElectromagneticSceneComponent({
   onDataChange,
@@ -49,9 +49,9 @@ export function ElectromagneticSceneComponent({
   showForceVectors = true,
   cursorPosition,
 }: ElectromagneticSceneProps) {
-  const k = 8.99; // Coulomb constant (scaled)
+  const k = 8.99; // Hằng số Coulomb (đã chia tỷ lệ)
 
-  // Refs for physics state (prevent re-renders)
+  // Refs cho trạng thái vật lý (tránh render lại)
   const frameCountRef = useRef(0);
   const lastUpdateTimeRef = useRef(0);
   const dataRef = useRef<EMFieldData>({
@@ -64,10 +64,10 @@ export function ElectromagneticSceneComponent({
     numCharges: charges.length,
   });
 
-  // React state (updated only every 8 frames)
+  // Trạng thái React (chỉ cập nhật sau mỗi 8 khung hình)
   const [data, setData] = useState<EMFieldData>(dataRef.current);
 
-  // Calculate electric field at a point from all charges
+  // Tính điện trường tại một điểm từ tất cả các điện tích
   const calculateField = (point: THREE.Vector3): THREE.Vector3 => {
     const totalField = new THREE.Vector3(0, 0, 0);
 
@@ -77,7 +77,7 @@ export function ElectromagneticSceneComponent({
       const r = point.clone().sub(charge.position);
       const dist = r.length();
 
-      if (dist < 0.5) continue; // Too close to charge
+      if (dist < 0.5) continue; // Quá gần điện tích
 
       // E = k * q / r^2
       const fieldMagnitude = (k * charge.magnitude) / (dist * dist);
@@ -88,7 +88,7 @@ export function ElectromagneticSceneComponent({
     return totalField;
   };
 
-  // Calculate electric potential at a point from all charges
+  // Tính điện thế tại một điểm từ tất cả các điện tích
   const calculatePotential = (point: THREE.Vector3): number => {
     let totalPotential = 0;
 
@@ -105,7 +105,7 @@ export function ElectromagneticSceneComponent({
     return totalPotential;
   };
 
-  // Calculate force between two charges
+  // Tính lực giữa hai điện tích
   const calculateForceBetween = (charge1: Charge, charge2: Charge): { force: number; distance: number } => {
     const dist = charge1.position.distanceTo(charge2.position);
     if (dist < 0.1) return { force: 0, distance: dist };
@@ -115,18 +115,18 @@ export function ElectromagneticSceneComponent({
     return { force, distance: dist };
   };
 
-  // Throttled data updates (every 8 frames)
+  // Cập nhật dữ liệu có điều tiết (sau mỗi 8 khung hình)
   useFrame(() => {
     frameCountRef.current++;
 
     if (frameCountRef.current % 8 !== 0) return;
 
-    // Calculate field at cursor position
+    // Tính trường tại vị trí con trỏ
     const fieldPoint = cursorPosition || new THREE.Vector3(0, 5, 0);
     const field = calculateField(fieldPoint);
     const potential = calculatePotential(fieldPoint);
 
-    // Calculate forces between all charge pairs
+    // Tính lực giữa tất cả các cặp điện tích
     const forces: { charge1: string; charge2: string; force: number; distance: number }[] = [];
     for (let i = 0; i < charges.length; i++) {
       for (let j = i + 1; j < charges.length; j++) {
@@ -155,7 +155,7 @@ export function ElectromagneticSceneComponent({
     onDataChange?.(newData);
   });
 
-  // Generate field lines using tube geometry (thick lines)
+  // Tạo đường sức điện trường bằng hình học ống (đường nét dày)
   const fieldLines = useMemo(() => {
     if (!showFieldLines) return [];
 
@@ -163,7 +163,7 @@ export function ElectromagneticSceneComponent({
     const positiveCharges = charges.filter(c => c.magnitude > 0);
     const negativeCharges = charges.filter(c => c.magnitude < 0);
 
-    // Generate field lines from positive charges
+    // Tạo đường sức từ các điện tích dương
     for (const charge of positiveCharges) {
       const numLines = 16;
       const stepSize = 0.3;
@@ -173,7 +173,7 @@ export function ElectromagneticSceneComponent({
         const theta = (i / numLines) * Math.PI * 2;
         const phi = ((i % 4) / 4) * Math.PI;
 
-        // Start point near the charge surface
+        // Điểm bắt đầu gần bề mặt điện tích
         let current = new THREE.Vector3(
           charge.position.x + Math.cos(theta) * Math.sin(phi) * 1.2,
           charge.position.y + Math.sin(theta) * Math.sin(phi) * 1.2,
@@ -182,7 +182,7 @@ export function ElectromagneticSceneComponent({
 
         const points: [number, number, number][] = [[current.x, current.y, current.z]];
 
-        // Trace field line
+        // Dò theo đường sức điện trường
         for (let step = 0; step < maxSteps; step++) {
           const field = calculateField(current);
           if (field.length() === 0) break;
@@ -191,7 +191,7 @@ export function ElectromagneticSceneComponent({
           current.add(direction.multiplyScalar(stepSize));
           points.push([current.x, current.y, current.z]);
 
-          // Stop if we hit a negative charge
+          // Dừng lại nếu chạm vào điện tích âm
           let hitNegative = false;
           for (const negCharge of negativeCharges) {
             if (current.distanceTo(negCharge.position) < 1.5) {
@@ -201,7 +201,7 @@ export function ElectromagneticSceneComponent({
           }
           if (hitNegative) break;
 
-          // Stop if too far away
+          // Dừng lại nếu đi quá xa
           if (current.length() > 25) break;
         }
 
@@ -223,7 +223,7 @@ export function ElectromagneticSceneComponent({
     return lines;
   }, [charges, showFieldLines]);
 
-  // Generate equipotential surfaces as translucent rings
+  // Tạo các mặt đẳng thế dưới dạng vòng tròn bán trong suốt
   const equipotentialSurfaces = useMemo(() => {
     if (!showEquipotential || charges.length === 0) return [];
 
@@ -231,7 +231,7 @@ export function ElectromagneticSceneComponent({
     const numPotentials = 6;
     const ringsPerPotential = 3;
 
-    // Sample potential range
+    // Lấy mẫu khoảng điện thế
     const samplePoints = [
       new THREE.Vector3(0, 0, 0),
       new THREE.Vector3(5, 0, 0),
@@ -245,7 +245,7 @@ export function ElectromagneticSceneComponent({
     for (let p = 0; p < numPotentials; p++) {
       const targetPotential = minPot + (p / (numPotentials - 1)) * (maxPot - minPot);
 
-      // Create rings at different distances
+      // Tạo các vòng tròn ở các khoảng cách khác nhau
       for (let r = 0; r < ringsPerPotential; r++) {
         const baseRadius = 4 + r * 3;
         const segments = 48;
@@ -289,7 +289,7 @@ export function ElectromagneticSceneComponent({
     return surfaces;
   }, [charges, showEquipotential]);
 
-  // Force vectors between charges
+  // Vectơ lực giữa các điện tích
   const forceVectors = useMemo(() => {
     if (!showForceVectors) return [];
 
@@ -308,12 +308,12 @@ export function ElectromagneticSceneComponent({
         const direction = c2.position.clone().sub(c1.position).normalize();
         const isAttractive = (c1.magnitude > 0 && c2.magnitude < 0) || (c1.magnitude < 0 && c2.magnitude > 0);
 
-        // Draw force vector (scaled for visibility)
+        // Vẽ vectơ lực (chia tỷ lệ để dễ quan sát)
         const vectorLength = Math.min(force * 0.5, 5);
 
         vectors.push(
           <group key={`force-${i}-${j}`}>
-            {/* Force vector line */}
+            {/* Đường vectơ lực */}
             <Line
               points={[
                 [c1.position.x, c1.position.y, c1.position.z],
@@ -326,7 +326,7 @@ export function ElectromagneticSceneComponent({
               color={isAttractive ? "#22c55e" : "#ef4444"}
               lineWidth={4}
             />
-            {/* Arrow head */}
+            {/* Đầu mũi tên */}
             <mesh
               position={
                 new THREE.Vector3(
@@ -355,7 +355,7 @@ export function ElectromagneticSceneComponent({
     return vectors;
   }, [charges, showForceVectors]);
 
-  // Small vector field grid
+  // Lưới trường vectơ nhỏ
   const vectorGrid = useMemo(() => {
     if (!showVectors) return [];
 
@@ -393,14 +393,14 @@ export function ElectromagneticSceneComponent({
 
   return (
     <group>
-      {/* Floor */}
+      {/* Sàn */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -15, 0]} receiveShadow>
         <planeGeometry args={[60, 60]} />
         <meshStandardMaterial color="#030312" roughness={0.98} />
       </mesh>
       <gridHelper args={[60, 30, "#1a1a3e", "#0a0a1e"]} position={[0, -14.99, 0]} />
 
-      {/* Render all charges */}
+      {/* Kết xuất tất cả các điện tích */}
       {charges.map((charge, index) => {
         const isPositive = charge.magnitude > 0;
         const color = isPositive ? "#ef4444" : "#3b82f6";
@@ -408,13 +408,13 @@ export function ElectromagneticSceneComponent({
 
         return (
           <group key={charge.id} position={[charge.position.x, charge.position.y, charge.position.z]}>
-            {/* Outer glow */}
+            {/* Hào quang bên ngoài */}
             <mesh>
               <sphereGeometry args={[1.5 + absMagnitude * 0.1, 32, 32]} />
               <meshBasicMaterial color={color} transparent opacity={0.15} />
             </mesh>
 
-            {/* Main charge sphere */}
+            {/* Quả cầu điện tích chính */}
             <mesh castShadow>
               <sphereGeometry args={[0.6 + absMagnitude * 0.05, 32, 32]} />
               <meshStandardMaterial
@@ -426,11 +426,11 @@ export function ElectromagneticSceneComponent({
               />
             </mesh>
 
-            {/* Sign indicator */}
+            {/* Ký hiệu dấu */}
             <group position={[0, 0, 0.7]}>
               {isPositive ? (
                 <>
-                  {/* Plus sign */}
+                  {/* Dấu cộng */}
                   <mesh>
                     <planeGeometry args={[0.6, 0.15]} />
                     <meshBasicMaterial color="#ffffff" />
@@ -442,7 +442,7 @@ export function ElectromagneticSceneComponent({
                 </>
               ) : (
                 <>
-                  {/* Minus sign */}
+                  {/* Dấu trừ */}
                   <mesh>
                     <planeGeometry args={[0.6, 0.15]} />
                     <meshBasicMaterial color="#ffffff" />
@@ -451,7 +451,7 @@ export function ElectromagneticSceneComponent({
               )}
             </group>
 
-            {/* Charge label */}
+            {/* Nhãn điện tích */}
             <mesh position={[0, 1.5, 0]}>
               <planeGeometry args={[1.2, 0.4]} />
               <meshBasicMaterial color="#ffffff" transparent opacity={0.9} />
@@ -460,27 +460,27 @@ export function ElectromagneticSceneComponent({
         );
       })}
 
-      {/* Electric field lines (yellow tubes/thick lines) */}
+      {/* Đường sức điện trường (ống màu vàng/đường nét dày) */}
       {fieldLines}
 
-      {/* Equipotential surfaces (translucent rings) */}
+      {/* Mặt đẳng thế (vòng tròn bán trong suốt) */}
       {equipotentialSurfaces}
 
-      {/* Force vectors between charges */}
+      {/* Vectơ lực giữa các điện tích */}
       {forceVectors}
 
-      {/* Vector field grid */}
+      {/* Lưới trường vectơ */}
       {vectorGrid}
 
-      {/* Cursor indicator (where field is measured) */}
+      {/* Chỉ báo con trỏ (nơi đo trường) */}
       {cursorPosition && (
         <group position={[cursorPosition.x, cursorPosition.y, cursorPosition.z]}>
-          {/* Cursor ring */}
+          {/* Vòng con trỏ */}
           <mesh rotation={[Math.PI / 2, 0, 0]}>
             <ringGeometry args={[0.4, 0.5, 32]} />
             <meshBasicMaterial color="#f59e0b" transparent opacity={0.6} />
           </mesh>
-          {/* Field vector at cursor */}
+          {/* Vectơ trường tại con trỏ */}
           {showVectors && (
             <Line
               points={[
@@ -494,7 +494,7 @@ export function ElectromagneticSceneComponent({
         </group>
       )}
 
-      {/* Distance markers */}
+      {/* Vạch đo khoảng cách */}
       {Array.from({ length: 5 }).map((_, i) => {
         const dist = 5 + i * 4;
         return (

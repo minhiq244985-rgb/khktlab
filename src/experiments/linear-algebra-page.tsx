@@ -38,10 +38,10 @@ export default function LinearAlgebraPage() {
 
   const parameterControls = (
     <div className="space-y-4">
-      <ControlGroup title="Display Options">
+      <ControlGroup title="Tùy chọn hiển thị">
         {[
-          { label: "Show Basis Vectors", checked: showBasis, onChange: setShowBasis },
-          { label: "Show Transform", checked: showTransform, onChange: setShowTransform },
+          { label: "Hiện vectơ cơ sở", checked: showBasis, onChange: setShowBasis },
+          { label: "Hiện phép biến đổi", checked: showTransform, onChange: setShowTransform },
         ].map((opt) => (
           <label key={opt.label} className="flex items-center justify-between text-sm text-gray-700 cursor-pointer py-2 px-3 bg-gray-100/50 rounded-lg border border-gray-300/50">
             <span>{opt.label}</span>
@@ -50,9 +50,9 @@ export default function LinearAlgebraPage() {
         ))}
       </ControlGroup>
 
-      <ControlGroup title="Transformation">
+      <ControlGroup title="Phép biến đổi">
         <ControlSlider
-          label="Rotation Speed"
+          label="Tốc độ quay"
           value={rotation}
           unit=""
           min={0}
@@ -63,7 +63,7 @@ export default function LinearAlgebraPage() {
           decimals={1}
         />
         <ControlSlider
-          label="Scale"
+          label="Tỉ lệ"
           value={scale}
           unit=""
           min={0.5}
@@ -79,7 +79,7 @@ export default function LinearAlgebraPage() {
         onClick={() => router.push("/experiments/linear-algebra/details")}
         className="w-full py-2.5 bg-gradient-to-r from-indigo-100 to-indigo-200 hover:from-indigo-200 hover:to-indigo-300 text-indigo-700 font-medium text-sm rounded-lg transition-all border border-indigo-300/50 flex items-center justify-center gap-2"
       >
-        📖 View Experiment Details
+        📖 Xem chi tiết thí nghiệm
       </button>
     </div>
   );
@@ -103,15 +103,15 @@ export default function LinearAlgebraPage() {
     </>
   ) : (
     <div className="text-center text-gray-500 text-sm py-8">
-      Waiting for simulation data...
+      Đang chờ dữ liệu mô phỏng...
     </div>
   );
 
   return (
     <>
       <ExperimentContainer
-        title="Linear Algebra"
-        description="Explore vectors, matrices, and transformations"
+        title="Đại số tuyến tính"
+        description="Khám phá vectơ, ma trận và các phép biến đổi"
         cameraPosition={[12, 8, 12]}
         backgroundColor="#050510"
         controls={null}
@@ -129,7 +129,7 @@ export default function LinearAlgebraPage() {
 
       <SimulationController isPlaying={isPlaying} onPlayPause={handlePlayPause} onReset={handleReset} speed={simulationSpeed} onSpeedChange={setSimulationSpeed} />
 
-      <FloatingControlPanel title="⚙️ Vector Settings" initialPosition={{ x: 20, y: 80 }}>
+      <FloatingControlPanel title="⚙️ Cài đặt vectơ" initialPosition={{ x: 20, y: 80 }}>
         {parameterControls}
       </FloatingControlPanel>
 

@@ -43,9 +43,9 @@ export default function TrigonometryPage() {
 
   const parameterControls = (
     <div className="space-y-4">
-      <ControlGroup title="Angle Control">
+      <ControlGroup title="Điều khiển góc">
         <ControlSlider
-          label={useRadians ? "Angle (rad)" : "Angle (deg)"}
+          label={useRadians ? "Góc (rad)" : "Góc (độ)"}
           value={angle}
           unit={useRadians ? "rad" : "°"}
           min={0}
@@ -57,24 +57,24 @@ export default function TrigonometryPage() {
         />
       </ControlGroup>
 
-      <ControlGroup title="Display Options">
-        <ControlCheckbox label="Use Radians" checked={useRadians} onChange={setUseRadians} color="#8b5cf6" />
-        <ControlCheckbox label="Show Sin" checked={showSin} onChange={setShowSin} color="#3b82f6" />
-        <ControlCheckbox label="Show Cos" checked={showCos} onChange={setShowCos} color="#22c55e" />
-        <ControlCheckbox label="Show Tan" checked={showTan} onChange={setShowTan} color="#ef4444" />
-        <ControlCheckbox label="Show Cot" checked={showCot} onChange={setShowCot} color="#f97316" />
-        <ControlCheckbox label="Show Sec" checked={showSec} onChange={setShowSec} color="#a855f7" />
-        <ControlCheckbox label="Show Csc" checked={showCsc} onChange={setShowCsc} color="#ec4899" />
-        <ControlCheckbox label="Show Graph" checked={showWaves} onChange={setShowWaves} color="#06b6d4" />
+      <ControlGroup title="Tùy chọn hiển thị">
+        <ControlCheckbox label="Dùng Radians" checked={useRadians} onChange={setUseRadians} color="#8b5cf6" />
+        <ControlCheckbox label="Hiển thị Sin" checked={showSin} onChange={setShowSin} color="#3b82f6" />
+        <ControlCheckbox label="Hiển thị Cos" checked={showCos} onChange={setShowCos} color="#22c55e" />
+        <ControlCheckbox label="Hiển thị Tan" checked={showTan} onChange={setShowTan} color="#ef4444" />
+        <ControlCheckbox label="Hiển thị Cot" checked={showCot} onChange={setShowCot} color="#f97316" />
+        <ControlCheckbox label="Hiển thị Sec" checked={showSec} onChange={setShowSec} color="#a855f7" />
+        <ControlCheckbox label="Hiển thị Csc" checked={showCsc} onChange={setShowCsc} color="#ec4899" />
+        <ControlCheckbox label="Hiển thị Đồ thị" checked={showWaves} onChange={setShowWaves} color="#06b6d4" />
       </ControlGroup>
 
       <div className="bg-violet-50/50 rounded-lg p-3 border border-violet-200/50">
-        <div className="text-xs text-gray-600 mb-2 font-medium">Trigonometric Relationships</div>
+        <div className="text-xs text-gray-600 mb-2 font-medium">Mối quan hệ lượng giác</div>
         <div className="text-xs text-gray-500 space-y-1">
           <div>• sin²(θ) + cos²(θ) = 1</div>
           <div>• tan(θ) = sin(θ) / cos(θ)</div>
-          <div>• Click and drag to rotate view</div>
-          <div>• Animation shows wave tracing</div>
+          <div>• Nhấp và kéo để xoay góc nhìn</div>
+          <div>• Hoạt ảnh hiển thị việc vẽ sóng</div>
         </div>
       </div>
 
@@ -82,7 +82,7 @@ export default function TrigonometryPage() {
         onClick={() => router.push("/experiments/trigonometry/details")}
         className="w-full py-2.5 bg-gradient-to-r from-violet-100 to-violet-200 hover:from-violet-200 hover:to-violet-300 text-violet-700 font-medium text-sm rounded-lg transition-all border border-violet-300/50 flex items-center justify-center gap-2"
       >
-        📖 View Experiment Details
+        📖 Xem chi tiết thí nghiệm
       </button>
     </div>
   );
@@ -93,7 +93,7 @@ export default function TrigonometryPage() {
         data={{
           angle: {
             value: useRadians ? data.radians : data.angle,
-            unit: useRadians ? "rad" : "deg",
+            unit: useRadians ? "rad" : "độ",
             color: "#8b5cf6",
             decimals: useRadians ? 3 : 0,
           },
@@ -111,13 +111,13 @@ export default function TrigonometryPage() {
 
       <div className="mt-3 space-y-2">
         <div className="p-2 bg-gray-800/50 rounded-lg">
-          <div className="text-xs text-gray-400">Quadrant</div>
+          <div className="text-xs text-gray-400">Góc phần tư</div>
           <div className="text-sm font-bold text-violet-400">{data.quadrant}</div>
         </div>
 
         {data.exactValue && (
           <div className="p-2 bg-gray-800/50 rounded-lg">
-            <div className="text-xs text-gray-400">Special Angle</div>
+            <div className="text-xs text-gray-400">Góc đặc biệt</div>
             <div className="text-xs font-mono text-green-400">{data.exactValue}</div>
             <div className="mt-1 text-xs text-gray-400">sin: {data.sinValue}</div>
             <div className="text-xs text-gray-400">cos: {data.cosValue}</div>
@@ -134,15 +134,15 @@ export default function TrigonometryPage() {
     </>
   ) : (
     <div className="text-center text-gray-500 text-sm py-8">
-      Waiting for simulation data...
+      Đang chờ dữ liệu mô phỏng...
     </div>
   );
 
   return (
     <>
       <ExperimentContainer
-        title="Trigonometry Explorer"
-        description="Interactive 3D unit circle with all 6 trig functions, real-time graphing, and special angles reference"
+        title="Khám phá Lượng giác"
+        description="Đường tròn đơn vị 3D tương tác với đầy đủ 6 hàm lượng giác, đồ thị thời gian thực và tham chiếu các góc đặc biệt"
         cameraPosition={[0, 0, 10]}
         backgroundColor="#050510"
         controls={null}
@@ -172,7 +172,7 @@ export default function TrigonometryPage() {
         onSpeedChange={setSimulationSpeed}
       />
 
-      <FloatingControlPanel title="📐 Trig Controls" initialPosition={{ x: 20, y: 80 }}>
+      <FloatingControlPanel title="📐 Điều khiển Lượng giác" initialPosition={{ x: 20, y: 80 }}>
         {parameterControls}
       </FloatingControlPanel>
 

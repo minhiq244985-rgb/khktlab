@@ -53,8 +53,8 @@ const CHROMOSOME_COLORS = [
   { maternal: '#2563eb', paternal: '#dc2626' },
 ];
 
-const MITOSIS_STAGES = ['Interphase', 'Prophase', 'Metaphase', 'Anaphase', 'Telophase', 'Cytokinesis'];
-const MEIOSIS_STAGES = ['Prophase I', 'Metaphase I', 'Anaphase I', 'Telophase I', 'Prophase II', 'Metaphase II', 'Anaphase II', 'Telophase II'];
+const MITOSIS_STAGES = ['Kỳ trung gian', 'Kỳ đầu', 'Kỳ giữa', 'Kỳ sau', 'Kỳ cuối', 'Phân chia tế bào chất'];
+const MEIOSIS_STAGES = ['Kỳ đầu I', 'Kỳ giữa I', 'Kỳ sau I', 'Kỳ cuối I', 'Kỳ đầu II', 'Kỳ giữa II', 'Kỳ sau II', 'Kỳ cuối II'];
 
 /**
  * Mitosis & Meiosis - Advanced 3D visualization with side-by-side comparison
@@ -89,10 +89,10 @@ export default function MitosisMeiosisSceneComponent({
   const frameCountRef = useRef(0);
 
   const [data, setData] = useState<MitosisMeiosisData>({
-    phase: 'Interphase',
+    phase: 'Kỳ trung gian',
     chromosomesCount: 46,
     daughterCells: 1,
-    description: 'Cell prepares for division. DNA replicates.',
+    description: 'Tế bào chuẩn bị phân chia. DNA nhân đôi.',
   });
 
   // Initialize chromosomes
@@ -317,8 +317,6 @@ export default function MitosisMeiosisSceneComponent({
     currentStage: number;
   }) => {
     const color = isMitosis ? '#f59e0b' : '#ec4899';
-    const isTelophase = currentStage === 4 || currentStage === 3 && !isMitosis;
-    const isCytokinesis = currentStage === 5 || (currentStage === 7 && !isMitosis);
 
     // Spindle fibers
     const spindleFibers = useMemo(() => {
@@ -583,21 +581,21 @@ export default function MitosisMeiosisSceneComponent({
       }
 
       const descriptions = mode === 'mitosis' ? [
-        'Cell grows, DNA replicates. Chromosomes are invisible as chromatin.',
-        'Chromosomes condense into visible X shapes. Nuclear envelope dissolves. Spindle fibers form.',
-        'Chromosomes align at metaphase plate. Spindle fibers attach to centromeres.',
-        'Sister chromatids separate and move to opposite poles.',
-        'Chromosomes reach poles, new nuclear envelopes form.',
-        'Cell divides through cleavage furrow. 2 identical daughter cells result.',
+        'Tế bào sinh trưởng, DNA nhân đôi. Nhiễm sắc thể chưa co xoắn dưới dạng chất nhiễm sắc.',
+        'Nhiễm sắc thể co xoắn thành hình chữ X rõ rệt. Màng nhân tiêu biến. Thoi phân bào hình thành.',
+        'Các nhiễm sắc thể xếp thẳng hàng trên mặt phẳng xích đạo. Thoi phân bào đính vào tâm động.',
+        'Các nhiễm sắc tử chị em tách nhau ra và di chuyển về hai cực đối diện.',
+        'Nhiễm sắc thể về đến hai cực, màng nhân mới tái tạo.',
+        'Tế bào phân chia qua rãnh phân cắt. Tạo ra 2 tế bào con giống hệt nhau.',
       ] : [
-        'Homologous chromosomes pair up (synapsis). Crossing over creates genetic diversity.',
-        'Homologous pairs align at metaphase plate (not individual chromosomes).',
-        'Homologous chromosomes separate. Sister chromatids remain attached.',
-        'Two haploid cells form. Each chromosome still has two sister chromatids.',
-        'Chromosomes condense again in both daughter cells.',
-        'Chromosomes align at the center of each cell.',
-        'Sister chromatids finally separate and move to opposite poles.',
-        'Four genetically unique haploid gametes form.',
+        'Các nhiễm sắc thể tương đồng bắt đôi (tiếp hợp). Trao đổi chéo tạo nên đa dạng di truyền.',
+        'Các cặp nhiễm sắc thể tương đồng xếp hàng tại mặt phẳng xích đạo (không phải từng NST đơn lẻ).',
+        'Các nhiễm sắc thể tương đồng tách nhau ra. Các nhiễm sắc tử chị em vẫn dính nhau ở tâm động.',
+        'Hai tế bào đơn bội hình thành. Mỗi nhiễm sắc thể vẫn ở trạng thái kép gồm hai nhiễm sắc tử chị em.',
+        'Nhiễm sắc thể co xoắn trở lại trong cả hai tế bào con.',
+        'Các nhiễm sắc thể xếp thẳng hàng ở giữa mỗi tế bào.',
+        'Các nhiễm sắc tử chị em cuối cùng tách nhau ra và di chuyển về hai cực đối diện.',
+        'Bốn giao tử đơn bội khác biệt về mặt di truyền được hình thành.',
       ];
 
       const newData: MitosisMeiosisData = {
@@ -613,7 +611,6 @@ export default function MitosisMeiosisSceneComponent({
   });
 
   // Determine which stages to show
-  const showBoth = stage === 99;
   const mitosisStage = Math.min(stage, MITOSIS_STAGES.length - 1);
   const meiosisStage = Math.min(stage, MEIOSIS_STAGES.length - 1);
 
@@ -631,12 +628,12 @@ export default function MitosisMeiosisSceneComponent({
           <>
             <Html position={[-6, 5.5, 0]} distanceFactor={12}>
               <div className="bg-amber-500/95 text-white px-4 py-2 rounded-lg text-lg font-bold shadow-lg border-2 border-white/30">
-                🧬 MITOSIS
+                🧬 NGUYÊN PHÂN
               </div>
             </Html>
             <Html position={[6, 5.5, 0]} distanceFactor={12}>
               <div className="bg-pink-500/95 text-white px-4 py-2 rounded-lg text-lg font-bold shadow-lg border-2 border-white/30">
-                🧬 MEIOSIS
+                🧬 GIẢM PHÂN
               </div>
             </Html>
           </>
@@ -662,7 +659,7 @@ export default function MitosisMeiosisSceneComponent({
         {showLabels && (
           <Html position={[0, -6, 0]} distanceFactor={12}>
             <div className={`${mode === 'mitosis' ? 'bg-amber-600' : 'bg-pink-600'}/95 text-white px-4 py-2 rounded-lg text-base font-bold shadow-lg`}>
-              {mode === 'mitosis' ? 'Mitosis' : 'Meiosis'} - {mode === 'mitosis' ? MITOSIS_STAGES[stage] : MEIOSIS_STAGES[stage]}
+              {mode === 'mitosis' ? 'Nguyên phân' : 'Giảm phân'} - {mode === 'mitosis' ? MITOSIS_STAGES[stage] : MEIOSIS_STAGES[stage]}
             </div>
           </Html>
         )}
@@ -674,11 +671,11 @@ export default function MitosisMeiosisSceneComponent({
               <div className="font-bold mb-2 text-lg">{data.phase}</div>
               <div className="space-y-1 text-xs">
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Daughter cells:</span>
+                  <span className="text-gray-400">Tế bào con:</span>
                   <span className="font-bold">{data.daughterCells}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Chromosomes:</span>
+                  <span className="text-gray-400">Nhiễm sắc thể:</span>
                   <span className="font-bold">{data.chromosomesCount}</span>
                 </div>
                 <div className="mt-2 pt-2 border-t border-gray-700 text-gray-300">
@@ -693,15 +690,15 @@ export default function MitosisMeiosisSceneComponent({
         {showLabels && (
           <Html position={[-10, 3, 0]} distanceFactor={10}>
             <div className="bg-gray-900/95 text-white px-3 py-2 rounded-lg text-xs shadow-lg border border-gray-700">
-              <div className="font-bold mb-2">Chromosome Colors</div>
+              <div className="font-bold mb-2">Màu nhiễm sắc thể</div>
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full" style={{ background: CHROMOSOME_COLORS[0].maternal }} />
-                  <span>Maternal (blue)</span>
+                  <span>Nguồn gốc từ mẹ (xanh)</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full" style={{ background: CHROMOSOME_COLORS[0].paternal }} />
-                  <span>Paternal (red)</span>
+                  <span>Nguồn gốc từ bố (đỏ)</span>
                 </div>
               </div>
             </div>

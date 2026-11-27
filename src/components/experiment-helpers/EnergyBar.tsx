@@ -37,14 +37,14 @@ export default function EnergyBar({
       <div className="bg-gray-900/95 backdrop-blur-sm border border-purple-500/30 rounded-lg p-4 min-w-55 shadow-2xl">
         {showLabels && (
           <h3 className="text-purple-400 font-semibold text-sm mb-3 border-b border-purple-500/30 pb-2">
-            Energy
+            Năng Lượng
           </h3>
         )}
         <div className="space-y-3">
-          {/* Kinetic Energy */}
+          {/* Động năng */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-orange-400">Kinetic (KE)</span>
+              <span className="text-orange-400">Động năng (Wđ)</span>
               <span className="font-mono text-orange-400">{kinetic.toFixed(2)} J</span>
             </div>
             <div className="h-3 bg-gray-700 rounded-full overflow-hidden">
@@ -55,10 +55,10 @@ export default function EnergyBar({
             </div>
           </div>
 
-          {/* Potential Energy */}
+          {/* Thế năng */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-blue-400">Potential (PE)</span>
+              <span className="text-blue-400">Thế năng (Wt)</span>
               <span className="font-mono text-blue-400">{potential.toFixed(2)} J</span>
             </div>
             <div className="h-3 bg-gray-700 rounded-full overflow-hidden">
@@ -69,10 +69,10 @@ export default function EnergyBar({
             </div>
           </div>
 
-          {/* Total Energy */}
+          {/* Cơ năng */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-green-400">Total (E)</span>
+              <span className="text-green-400">Cơ năng (W)</span>
               <span className="font-mono text-green-400">{totalEnergy.toFixed(2)} J</span>
             </div>
             <div className="h-3 bg-gray-700 rounded-full overflow-hidden">
@@ -83,10 +83,10 @@ export default function EnergyBar({
             </div>
           </div>
 
-          {/* Energy conservation indicator */}
+          {/* Chỉ số bảo toàn năng lượng */}
           <div className="pt-2 border-t border-gray-700">
             <div className="text-xs text-gray-500 text-center">
-              Conservation: {((1 - Math.abs(kinetic + potential - totalEnergy) / (totalEnergy || 1)) * 100).toFixed(1)}%
+              Mức bảo toàn: {((1 - Math.abs(kinetic + potential - totalEnergy) / (totalEnergy || 1)) * 100).toFixed(1)}%
             </div>
           </div>
         </div>
@@ -131,9 +131,9 @@ export function EnergyGauge({
     >
       <div className="absolute inset-2 bg-gray-900 rounded-full flex items-center justify-center">
         <div className="text-center">
-          <div className="text-xs text-gray-400">Total</div>
+          <div className="text-xs text-gray-400">Tổng</div>
           <div className="text-sm font-mono font-bold">{totalEnergy.toFixed(1)}</div>
-          <div className="text-xs text-gray-500">Joules</div>
+          <div className="text-xs text-gray-500">Joule</div>
         </div>
       </div>
     </div>

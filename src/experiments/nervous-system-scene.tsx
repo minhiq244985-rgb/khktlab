@@ -64,11 +64,11 @@ export default function NervousSystemSceneComponent({
   // React state for UI updates (throttled)
   const [displayData, setDisplayData] = useState<NervousSystemData>({
     voltage: -70,
-    phase: 'Resting',
-    naStatus: 'Closed',
-    kStatus: 'Closed',
+    phase: 'Trạng thái nghỉ',
+    naStatus: 'Đóng',
+    kStatus: 'Đóng',
     speed: 120,
-    description: 'Neuron at resting potential (-70mV)',
+    description: 'Nơron ở điện thế nghỉ (-70mV)',
   });
 
   // Initialize ions
@@ -297,28 +297,28 @@ export default function NervousSystemSceneComponent({
     // Update React state every 8 frames
     if (frameCountRef.current % 8 === 0) {
       const phaseNames: Record<Phase, string> = {
-        resting: '1. Resting (-70mV)',
-        stimulus: '2. Stimulus Arrived',
-        depolarization: '3. Depolarization (Na+ IN)',
-        repolarization: '4. Repolarization (K+ OUT)',
-        hyperpolarization: '5. Hyperpolarization',
-        synapse: '6. Synapse (Neurotransmitters)',
+        resting: '1. Trạng thái nghỉ (-70mV)',
+        stimulus: '2. Tiếp nhận kích thích',
+        depolarization: '3. Khử cực (Na+ đi VÀO)',
+        repolarization: '4. Tái phân cực (K+ đi RA)',
+        hyperpolarization: '5. Ưu phân cực',
+        synapse: '6. Xináp (Chất dẫn truyền)',
       };
 
       const descriptions: Record<Phase, string> = {
-        resting: 'Neuron at resting potential. Voltage-gated Na+ and K+ channels are CLOSED.',
-        stimulus: 'Stimulus arrives at dendrites. Slight depolarization begins. Voltage starts rising.',
-        depolarization: 'Voltage-gated Na+ channels OPEN! Na+ ions RUSH IN down their concentration gradient. Voltage shoots to +40mV.',
-        repolarization: 'Na+ channels close. K+ channels OPEN! K+ ions RUSH OUT. Voltage drops back down.',
-        hyperpolarization: 'K+ channels close slowly. Voltage briefly drops below resting potential (-70mV).',
-        synapse: 'Action potential reaches axon terminals. Ca2+ channels open, vesicles release NEUROTRANSMITTERS into synaptic cleft.',
+        resting: 'Nơron ở điện thế nghỉ. Các kênh Na+ và K+ đóng mở theo điện thế đều đang ĐÓNG.',
+        stimulus: 'Kích thích truyền tới sợi nhánh. Khởi đầu sự khử cực nhẹ. Điện thế bắt đầu tăng.',
+        depolarization: 'Kênh Na+ MỞ! Các ion Na+ TRÀN VÀO theo gradient nồng độ. Điện thế tăng vọt lên +40mV.',
+        repolarization: 'Kênh Na+ đóng lại. Kênh K+ MỞ! Các ion K+ TRÀN RA ngoài. Điện thế giảm trở lại.',
+        hyperpolarization: 'Kênh K+ đóng chậm. Điện thế tạm thời giảm xuống thấp hơn điện thế nghỉ (-70mV).',
+        synapse: 'Điện thế hoạt động tới cúc xináp. Kênh Ca2+ mở, bóng xináp giải phóng CHẤT DẪN TRUYỀN THẦN KINH vào khe xináp.',
       };
 
       const newData: NervousSystemData = {
         voltage: Math.round(voltageRef.current),
         phase: phaseNames[phaseRef.current],
-        naStatus: phaseRef.current === 'depolarization' ? 'OPEN (rushing IN →)' : 'Closed',
-        kStatus: phaseRef.current === 'repolarization' ? 'OPEN (rushing OUT ←)' : 'Closed',
+        naStatus: phaseRef.current === 'depolarization' ? 'MỞ (tràn VÀO →)' : 'Đóng',
+        kStatus: phaseRef.current === 'repolarization' ? 'MỞ (tràn RA ←)' : 'Đóng',
         speed: showMyelin ? 120 : 30,
         description: descriptions[phaseRef.current],
       };
@@ -588,7 +588,7 @@ export default function NervousSystemSceneComponent({
             <div className="text-gray-400 text-xs">-70mV</div>
           </Html>
           <Html position={[-1, 4.5, 0]} distanceFactor={15}>
-            <div className="text-white text-xs font-bold">Action Potential</div>
+            <div className="text-white text-xs font-bold">Điện thế hoạt động</div>
           </Html>
         </group>
 
@@ -598,12 +598,12 @@ export default function NervousSystemSceneComponent({
             <div className="text-lg font-bold text-pink-400 mb-2">{displayData.phase}</div>
             <div className="text-sm mb-2">{displayData.description}</div>
             <div className="flex items-center gap-4 text-xs">
-              <div>Voltage: <span className={`font-bold px-2 py-0.5 rounded ${
+              <div>Điện thế: <span className={`font-bold px-2 py-0.5 rounded ${
                 displayData.voltage > 0 ? 'bg-cyan-500/30 text-cyan-400' :
                 displayData.voltage < -70 ? 'bg-purple-500/30 text-purple-400' :
                 'bg-blue-500/30 text-blue-400'
               }`}>{displayData.voltage} mV</span></div>
-              <div>Speed: <span className="font-bold text-amber-400">{displayData.speed} m/s</span></div>
+              <div>Tốc độ: <span className="font-bold text-amber-400">{displayData.speed} m/s</span></div>
             </div>
           </div>
         </Html>
@@ -611,84 +611,84 @@ export default function NervousSystemSceneComponent({
         {/* Ion status */}
         <Html position={[-8, 4, 3]} distanceFactor={15}>
           <div className="bg-gray-900/90 text-white px-3 py-2 rounded text-xs">
-            <div className="font-bold mb-2">Voltage-Gated Ion Channels</div>
+            <div className="font-bold mb-2">Kênh ion đóng mở theo điện thế</div>
             <div className="flex items-center gap-2 mb-2">
               <div className="w-3 h-3 rounded-full bg-red-500"></div>
-              <span>Na+ (Sodium): </span>
-              <span className={displayData.naStatus.includes('OPEN') ? 'text-red-400 font-bold bg-red-500/20 px-2 py-0.5 rounded' : 'text-gray-400'}>{displayData.naStatus}</span>
+              <span>Na+ (Natri): </span>
+              <span className={displayData.naStatus.includes('MỞ') ? 'text-red-400 font-bold bg-red-500/20 px-2 py-0.5 rounded' : 'text-gray-400'}>{displayData.naStatus}</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-              <span>K+ (Potassium): </span>
-              <span className={displayData.kStatus.includes('OPEN') ? 'text-blue-400 font-bold bg-blue-500/20 px-2 py-0.5 rounded' : 'text-gray-400'}>{displayData.kStatus}</span>
+              <span>K+ (Kali): </span>
+              <span className={displayData.kStatus.includes('MỞ') ? 'text-blue-400 font-bold bg-blue-500/20 px-2 py-0.5 rounded' : 'text-gray-400'}>{displayData.kStatus}</span>
             </div>
           </div>
         </Html>
 
         {/* Direction arrows for ion flow */}
-        {displayData.naStatus.includes('OPEN') && (
+        {displayData.naStatus.includes('MỞ') && (
           <Html position={[-2, 2, 2]} distanceFactor={12}>
-            <div className="text-red-400 text-xs font-bold animate-pulse">Na+ RUSHING IN ↓</div>
+            <div className="text-red-400 text-xs font-bold animate-pulse">Na+ TRÀN VÀO ↓</div>
           </Html>
         )}
-        {displayData.kStatus.includes('OPEN') && (
+        {displayData.kStatus.includes('MỞ') && (
           <Html position={[2, 2, 2]} distanceFactor={12}>
-            <div className="text-blue-400 text-xs font-bold animate-pulse">K+ RUSHING OUT ↑</div>
+            <div className="text-blue-400 text-xs font-bold animate-pulse">K+ TRÀN RA ↑</div>
           </Html>
         )}
 
         {/* Labels */}
         <Html position={[-13.5, 2.2, 0]} distanceFactor={12}>
           <div className="bg-pink-500/90 text-white px-3 py-1 rounded text-xs font-bold">
-            Cell Body (Soma)
+            Thân nơron (Soma)
           </div>
         </Html>
 
         <Html position={[-2, 1.5, 0]} distanceFactor={12}>
           <div className="bg-pink-500/90 text-white px-3 py-1 rounded text-xs font-bold">
-            Axon
+            Sợi trục (Axon)
           </div>
         </Html>
 
         {showMyelin && (
           <Html position={[0, -1.5, 0]} distanceFactor={12}>
             <div className="bg-amber-500/90 text-white px-2 py-1 rounded text-xs">
-              Myelin Sheath (Insulation)
+              Bao Myelin (Cách điện)
             </div>
           </Html>
         )}
 
         <Html position={[8, 1.8, 0]} distanceFactor={12}>
           <div className="bg-purple-500/90 text-white px-3 py-1 rounded text-xs font-bold">
-            Axon Terminals
+            Đầu tận cùng sợi trục
           </div>
         </Html>
 
         <Html position={[9.5, 1.5, 0]} distanceFactor={12}>
           <div className="bg-indigo-500/90 text-white px-2 py-1 rounded text-xs">
-            Synaptic Cleft
+            Khe xináp
           </div>
         </Html>
 
         {/* Legend */}
         <Html position={[6, 4, 3]} distanceFactor={15}>
           <div className="bg-gray-900/90 text-white px-3 py-2 rounded text-xs">
-            <div className="font-bold mb-2">Legend</div>
+            <div className="font-bold mb-2">Chú thích</div>
             <div className="flex items-center gap-2 mb-1">
               <div className="w-3 h-3 rounded-full bg-pink-500"></div>
-              <span>Neuron Membrane</span>
+              <span>Màng nơron</span>
             </div>
             <div className="flex items-center gap-2 mb-1">
               <div className="w-3 h-3 rounded-full bg-amber-400"></div>
-              <span>Myelin Sheath</span>
+              <span>Bao Myelin</span>
             </div>
             <div className="flex items-center gap-2 mb-1">
               <div className="w-3 h-3 rounded-full bg-cyan-400"></div>
-              <span>Action Potential</span>
+              <span>Điện thế hoạt động</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-purple-400"></div>
-              <span>Neurotransmitters</span>
+              <span>Chất dẫn truyền thần kinh</span>
             </div>
           </div>
         </Html>
@@ -696,9 +696,9 @@ export default function NervousSystemSceneComponent({
         {/* Synapse detail */}
         <Html position={[9, -2, 0]} distanceFactor={12}>
           <div className="bg-purple-900/90 text-white px-3 py-2 rounded text-xs max-w-[180px]">
-            <div className="font-bold text-purple-300 mb-1">Synapse</div>
+            <div className="font-bold text-purple-300 mb-1">Xináp</div>
             <div className="text-gray-300">
-              Neurotransmitters cross the synaptic cleft and bind to receptors on the next neuron.
+              Chất dẫn truyền thần kinh đi qua khe xináp và gắn vào thụ thể của nơron tiếp theo.
             </div>
           </div>
         </Html>

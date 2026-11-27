@@ -26,15 +26,15 @@ export default function DNAReplicationPage() {
   const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
 
   const [dnaData, setDnaData] = useState<DNAReplicationData>({
-    step: 'Initiation',
-    stage: 'Original DNA',
+    step: 'Khởi đầu',
+    stage: 'DNA ban đầu',
     nucleotidesAdded: 0,
-    description: 'Double-stranded DNA molecule intact.',
+    description: 'Phân tử DNA mạch kép còn nguyên vẹn.',
     leadingStrand: 0,
     laggingStrand: 0,
   });
 
-  // Auto-play through steps
+  // Tự động chạy qua các bước
   useEffect(() => {
     if (autoPlay && isPlaying) {
       autoPlayRef.current = setTimeout(() => {
@@ -61,10 +61,10 @@ export default function DNAReplicationPage() {
     setStep(0);
     setAutoPlay(false);
     setDnaData({
-      step: 'Initiation',
-      stage: 'Original DNA',
+      step: 'Khởi đầu',
+      stage: 'DNA ban đầu',
       nucleotidesAdded: 0,
-      description: 'Double-stranded DNA molecule intact.',
+      description: 'Phân tử DNA mạch kép còn nguyên vẹn.',
       leadingStrand: 0,
       laggingStrand: 0,
     });
@@ -81,9 +81,9 @@ export default function DNAReplicationPage() {
   const parameterControls = useMemo(
     () => (
       <>
-        <ControlGroup title="Simulation Control">
+        <ControlGroup title="Điều khiển mô phỏng">
           <ControlSlider
-            label="Speed"
+            label="Tốc độ"
             value={speed}
             min={0.1}
             max={3}
@@ -91,13 +91,13 @@ export default function DNAReplicationPage() {
             onChange={setSpeed}
           />
           <div className="mt-3 space-y-2">
-            <label className="text-xs text-gray-400 block mb-2">Replication Phase</label>
+            <label className="text-xs text-gray-400 block mb-2">Giai đoạn nhân đôi</label>
             {[
-              'Initiation',
-              'Unwinding',
-              'Primer Binding',
-              'Elongation',
-              'Completion'
+              'Khởi đầu',
+              'Tháo xoắn',
+              'Gắn đoạn mồi',
+              'Kéo dài mạch',
+              'Hoàn tất'
             ].map((s, i) => (
               <button
                 key={s}
@@ -120,11 +120,11 @@ export default function DNAReplicationPage() {
                 : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
             }`}
           >
-            {autoPlay ? '⏸ Auto Playing' : '▶ Auto Play Steps'}
+            {autoPlay ? '⏸ Đang tự động chạy' : '▶ Tự động chạy từng bước'}
           </button>
         </ControlGroup>
 
-        <ControlGroup title="Display Options">
+        <ControlGroup title="Tùy chọn hiển thị">
           <div className="space-y-2">
             <label className="flex items-center gap-2 text-sm">
               <input
@@ -133,7 +133,7 @@ export default function DNAReplicationPage() {
                 onChange={(e) => setShowLabels(e.target.checked)}
                 className="w-4 h-4 accent-[#3b82f6]"
               />
-              <span className="text-gray-300">Show Labels</span>
+              <span className="text-gray-300">Hiển thị nhãn</span>
             </label>
           </div>
         </ControlGroup>
@@ -142,7 +142,7 @@ export default function DNAReplicationPage() {
           onClick={() => router.push('/experiments/dna-replication/details')}
           className="w-full mt-4 px-4 py-2 bg-[#3b82f6]/20 hover:bg-[#3b82f6]/30 text-[#3b82f6] rounded-lg border border-[#3b82f6]/50 transition-colors text-sm font-medium"
         >
-          View Details
+          Xem chi tiết
         </button>
       </>
     ),
@@ -155,10 +155,10 @@ export default function DNAReplicationPage() {
         data={{
           step: { value: 0, unit: dnaData.step, color: '#3b82f6', decimals: 0 },
           stage: { value: 0, unit: dnaData.stage, color: '#f59e0b', decimals: 0 },
-          nucleotides: { value: dnaData.nucleotidesAdded, unit: 'bases', color: '#22c55e', decimals: 0 },
-          leading: { value: dnaData.leadingStrand, unit: 'leading', color: '#3b82f6', decimals: 0 },
-          lagging: { value: dnaData.laggingStrand, unit: 'lagging', color: '#f59e0b', decimals: 0 },
-          status: { value: isPlaying ? 1 : 0, unit: isPlaying ? 'Active' : 'Paused', color: '#22c55e', decimals: 0 },
+          nucleotides: { value: dnaData.nucleotidesAdded, unit: 'nuclêôtit', color: '#22c55e', decimals: 0 },
+          leading: { value: dnaData.leadingStrand, unit: 'mạch dẫn', color: '#3b82f6', decimals: 0 },
+          lagging: { value: dnaData.laggingStrand, unit: 'mạch muộn', color: '#f59e0b', decimals: 0 },
+          status: { value: isPlaying ? 1 : 0, unit: isPlaying ? 'Đang chạy' : 'Tạm dừng', color: '#22c55e', decimals: 0 },
         }}
         columns={2}
       />
@@ -178,8 +178,8 @@ export default function DNAReplicationPage() {
   return (
     <div className="w-full h-screen relative">
       <ExperimentContainer
-        title="DNA Replication"
-        description="Step-by-step visualization of semi-conservative DNA replication"
+        title="Nhân đôi DNA"
+        description="Trực quan hóa từng bước quá trình nhân đôi DNA theo nguyên tắc bán bảo toàn"
         cameraPosition={[0, 0, 16]}
         backgroundColor="#050510"
         controls={null}
@@ -218,7 +218,7 @@ export default function DNAReplicationPage() {
           onClick={() => setShowControls(true)}
           className="fixed top-20 right-4 z-20 px-4 py-2 bg-[#3b82f6]/20 hover:bg-[#3b82f6]/30 text-[#3b82f6] rounded-lg border border-[#3b82f6]/50 transition-colors text-sm font-medium"
         >
-          Show Controls
+          Hiện điều khiển
         </button>
       )}
     </div>

@@ -49,9 +49,9 @@ export default function OhmsLawPage() {
   // === PARAMETER CONTROLS ===
   const parameterControls = (
     <div className="space-y-4">
-      <ControlGroup title="Circuit Parameters">
+      <ControlGroup title="Thông số mạch điện">
         <ControlSlider
-          label="Voltage"
+          label="Hiệu điện thế"
           value={voltage}
           unit="V"
           min={1}
@@ -62,7 +62,7 @@ export default function OhmsLawPage() {
           decimals={1}
         />
         <ControlSlider
-          label="Resistance"
+          label="Điện trở"
           value={resistance}
           unit="Ω"
           min={10}
@@ -74,46 +74,46 @@ export default function OhmsLawPage() {
         />
       </ControlGroup>
 
-      <ControlGroup title="Component Toggles">
+      <ControlGroup title="Bật/tắt thiết bị">
         <ControlCheckbox
-          label="Light Bulb"
+          label="Bóng đèn"
           checked={bulbEnabled}
           onChange={setBulbEnabled}
           color="#fbbf24"
         />
         <ControlCheckbox
-          label="DC Motor/Fan"
+          label="Động cơ DC / Quạt"
           checked={motorEnabled}
           onChange={setMotorEnabled}
           color="#3b82f6"
         />
       </ControlGroup>
 
-      <ControlGroup title="Quick Presets">
+      <ControlGroup title="Thiết lập nhanh">
         <div className="grid grid-cols-2 gap-2">
           <ControlButton
-            label="Dim Bulb"
+            label="Đèn sáng mờ"
             icon="💡"
             onClick={() => { setVoltage(3); setResistance(500); }}
             variant="secondary"
             size="sm"
           />
           <ControlButton
-            label="Bright Bulb"
+            label="Đèn sáng rõ"
             icon="🔦"
             onClick={() => { setVoltage(12); setResistance(100); }}
             variant="primary"
             size="sm"
           />
           <ControlButton
-            label="High Current"
+            label="Dòng điện lớn"
             icon="⚡"
             onClick={() => { setVoltage(9); setResistance(50); }}
             variant="warning"
             size="sm"
           />
           <ControlButton
-            label="Fast Motor"
+            label="Động cơ quay nhanh"
             icon="⚙️"
             onClick={() => { setVoltage(12); setResistance(20); }}
             variant="primary"
@@ -122,20 +122,20 @@ export default function OhmsLawPage() {
         </div>
       </ControlGroup>
 
-      <ControlGroup title="Danger Zone">
+      <ControlGroup title="Vùng nguy hiểm">
         <ControlButton
-          label="⚠️ Burn Out Bulb"
+          label="⚠️ Làm cháy bóng đèn"
           onClick={() => { setVoltage(24); setResistance(30); }}
           variant="danger"
           fullWidth
         />
         <p className="text-[9px] text-gray-500 mt-1 text-center">
-          High voltage + low resistance = burnt bulb!
+          Hiệu điện thế cao + điện trở thấp = cháy bóng đèn!
         </p>
       </ControlGroup>
 
       <ControlButton
-        label="📖 View Theory & Details"
+        label="📖 Xem lý thuyết & chi tiết"
         onClick={() => router.push("/experiments/ohms-law/details")}
         variant="secondary"
         fullWidth
@@ -167,7 +167,7 @@ export default function OhmsLawPage() {
             : "bg-gray-800/30 border-gray-600/30"
         }`}>
           <div className="flex items-center justify-between">
-            <span className="text-[10px] text-gray-400">💡 Bulb</span>
+            <span className="text-[10px] text-gray-400">💡 Bóng đèn</span>
             <span className={`text-[10px] font-semibold ${
               data.bulbStatus === "burned"
                 ? "text-red-400"
@@ -175,7 +175,7 @@ export default function OhmsLawPage() {
                 ? "text-amber-400"
                 : "text-gray-500"
             }`}>
-              {data.bulbStatus === "burned" ? "BURNT!" : data.bulbStatus === "on" ? "ON" : "OFF"}
+              {data.bulbStatus === "burned" ? "ĐÃ CHÁY!" : data.bulbStatus === "on" ? "BẬT" : "TẮT"}
             </span>
           </div>
         </div>
@@ -187,11 +187,11 @@ export default function OhmsLawPage() {
             : "bg-gray-800/30 border-gray-600/30"
         }`}>
           <div className="flex items-center justify-between">
-            <span className="text-[10px] text-gray-400">⚙️ Motor</span>
+            <span className="text-[10px] text-gray-400">⚙️ Động cơ</span>
             <span className={`text-[10px] font-semibold ${
               data.motorRpm > 0 ? "text-blue-400" : "text-gray-500"
             }`}>
-              {data.motorRpm > 0 ? `${data.motorRpm.toFixed(0)} RPM` : "OFF"}
+              {data.motorRpm > 0 ? `${data.motorRpm.toFixed(0)} vòng/phút` : "TẮT"}
             </span>
           </div>
         </div>
@@ -200,7 +200,7 @@ export default function OhmsLawPage() {
       {/* Ohm's Law Formula Display */}
       <div className="mt-3 p-3 bg-gradient-to-r from-slate-900/80 to-slate-800/80 rounded-lg border border-slate-600/50">
         <div className="text-center font-mono text-xs space-y-1.5">
-          <div className="text-amber-400 font-semibold mb-2">⚡ Ohm's Law</div>
+          <div className="text-amber-400 font-semibold mb-2">⚡ Định luật Ohm</div>
           <div className="text-slate-300">I = V / R</div>
           <div className="text-slate-400 text-[10px]">
             I = {data.voltage.toFixed(1)}V / {data.resistance}Ω
@@ -208,7 +208,7 @@ export default function OhmsLawPage() {
           <div className="text-blue-300 font-semibold">
             I = {data.current.toFixed(3)} A
           </div>
-          <div className="mt-2 text-green-400 font-semibold">⚡ Power</div>
+          <div className="mt-2 text-green-400 font-semibold">⚡ Công suất</div>
           <div className="text-slate-300">P = V × I = V² / R</div>
           <div className="text-slate-400 text-[10px]">
             P = {data.voltage.toFixed(1)}V × {data.current.toFixed(3)}A
@@ -222,7 +222,7 @@ export default function OhmsLawPage() {
       {/* Power Equations Reference */}
       <div className="mt-3 p-2.5 bg-blue-900/20 rounded-lg border border-blue-500/20">
         <div className="text-[9px] text-blue-300 text-center space-y-0.5">
-          <div className="font-semibold mb-1">Power Equations:</div>
+          <div className="font-semibold mb-1">Các công thức công suất:</div>
           <div>P = V × I</div>
           <div>P = I² × R</div>
           <div>P = V² / R</div>
@@ -233,10 +233,10 @@ export default function OhmsLawPage() {
       {data.bulbStatus === "burned" && (
         <div className="mt-3 p-3 bg-red-900/40 rounded-lg border border-red-500/50 animate-pulse">
           <div className="text-center text-red-400 font-semibold text-xs">
-            ⚠️ BULB BURNT OUT!
+            ⚠️ BÓNG ĐÈN ĐÃ CHÁY!
             <br />
             <span className="text-red-300 font-normal">
-              Voltage too high for resistance
+              Hiệu điện thế quá cao so với điện trở
             </span>
           </div>
         </div>
@@ -244,15 +244,15 @@ export default function OhmsLawPage() {
     </>
   ) : (
     <div className="text-center text-gray-500 text-sm py-8">
-      Waiting for simulation data...
+      Đang chờ dữ liệu mô phỏng...
     </div>
   );
 
   return (
     <>
       <ExperimentContainer
-        title="Ohm's Law"
-        description="Interactive circuit simulation: Explore voltage, current, and resistance relationships"
+        title="Định luật Ohm"
+        description="Mô phỏng mạch điện tương tác: Khám phá mối quan hệ giữa hiệu điện thế, cường độ dòng điện và điện trở"
         cameraPosition={[15, 12, 15]}
         backgroundColor="#050510"
         controls={null}
@@ -277,7 +277,7 @@ export default function OhmsLawPage() {
       />
 
       <FloatingControlPanel
-        title="⚡ Circuit Controls"
+        title="⚡ Điều khiển mạch điện"
         initialPosition={{ x: 20, y: 80 }}
       >
         {parameterControls}

@@ -27,8 +27,8 @@ export interface ComplexNumbersSceneProps {
 }
 
 /**
- * Complex Numbers scene component
- * Visualizes the Argand plane and complex arithmetic operations
+ * Component cảnh Số phức
+ * Trực quan hóa mặt phẳng Argand và các phép toán trên số phức
  */
 export function ComplexNumbersSceneComponent({
   real,
@@ -48,16 +48,16 @@ export function ComplexNumbersSceneComponent({
   });
   const [, forceUpdate] = useState({});
 
-  // Calculate complex number properties
+  // Tính toán các thuộc tính của số phức
   const magnitude = Math.sqrt(real * real + imaginary * imaginary);
   const argument = Math.atan2(imaginary, real) * (180 / Math.PI);
 
-  // Conjugate: a - bi
+  // Số phức liên hợp: a - bi
   const conjugateReal = real;
   const conjugateImag = -imaginary;
   const conjugateMag = Math.sqrt(conjugateReal * conjugateReal + conjugateImag * conjugateImag);
 
-  // Square: (a + bi)² = (a² - b²) + 2abi
+  // Bình phương số phức: (a + bi)² = (a² - b²) + 2abi
   const squareReal = real * real - imaginary * imaginary;
   const squareImag = 2 * real * imaginary;
   const squareMag = Math.sqrt(squareReal * squareReal + squareImag * squareImag);
@@ -85,13 +85,13 @@ export function ComplexNumbersSceneComponent({
       groupRef.current.rotation.z = data.time * rotationSpeed * 0.1;
     }
 
-    // Update React state every 8 frames
+    // Cập nhật trạng thái React mỗi 8 khung hình
     if (data.frameCount % 8 === 0) {
       updateReactState();
     }
   });
 
-  // Generate magnitude circle
+  // Tạo đường tròn mô-đun
   const magnitudeCirclePoints = useMemo(() => {
     const pts: [number, number, number][] = [];
     for (let i = 0; i <= 120; i++) {
@@ -101,7 +101,7 @@ export function ComplexNumbersSceneComponent({
     return pts;
   }, [magnitude]);
 
-  // Generate angle arc
+  // Tạo cung góc acgumen
   const angleArcPoints = useMemo(() => {
     const pts: [number, number, number][] = [];
     const angleRad = Math.atan2(imaginary, real);
@@ -113,7 +113,7 @@ export function ComplexNumbersSceneComponent({
     return pts;
   }, [real, imaginary]);
 
-  // Generate conjugate reflection line (real axis)
+  // Tạo đường phản xạ số phức liên hợp (qua trục thực)
   const reflectionLine = useMemo(() => {
     if (!showConjugate) return [];
     const midX = (real + conjugateReal) / 2;
@@ -124,7 +124,7 @@ export function ComplexNumbersSceneComponent({
     ] as [number, number, number][];
   }, [showConjugate, real, imaginary, conjugateReal, conjugateImag]);
 
-  // Origin arrow for squaring
+  // Mũi tên từ gốc tọa độ cho phép bình phương
   const squareArrowPoints = useMemo(() => {
     if (!showSquare) return [];
     const midX = real / 2;
@@ -142,25 +142,25 @@ export function ComplexNumbersSceneComponent({
       <pointLight position={[-10, -5, -10]} intensity={0.3} color="#fbbf24" />
 
       <group ref={groupRef}>
-        {/* Complex plane grid */}
+        {/* Lưới mặt phẳng phức */}
         {showPlane && (
           <>
             <gridHelper args={[10, 20, "#1a1a3e", "#1a1a3e"]} position={[0, 0, 0]} rotation={[0, 0, 0]} />
-            {/* Real axis */}
+            {/* Trục thực */}
             <Line points={[[-5, 0, 0], [5, 0, 0]]} color="#3b82f6" lineWidth={3} />
-            {/* Imaginary axis */}
+            {/* Trục ảo */}
             <Line points={[[0, -5, 0], [0, 5, 0]]} color="#ef4444" lineWidth={3} />
           </>
         )}
 
-        {/* Main complex number z = a + bi */}
+        {/* Số phức chính z = a + bi */}
         <Line points={[[0, 0, 0], [real, imaginary, 0]]} color="#fbbf24" lineWidth={4} />
         <mesh position={[real, imaginary, 0]}>
           <sphereGeometry args={[0.12, 16, 16]} />
           <meshStandardMaterial color="#fbbf24" emissive="#fbbf24" emissiveIntensity={0.6} />
         </mesh>
 
-        {/* Magnitude circle (polar form) */}
+        {/* Đường tròn mô-đun (dạng lượng giác / cực) */}
         {showPolar && magnitude > 0.1 && (
           <Line
             points={magnitudeCirclePoints}
@@ -171,7 +171,7 @@ export function ComplexNumbersSceneComponent({
           />
         )}
 
-        {/* Angle arc */}
+        {/* Cung góc */}
         {showPolar && magnitude > 0.1 && (
           <Line
             points={angleArcPoints}
@@ -180,7 +180,7 @@ export function ComplexNumbersSceneComponent({
           />
         )}
 
-        {/* Conjugate z̄ = a - bi */}
+        {/* Số phức liên hợp z̄ = a - bi */}
         {showConjugate && (imaginary !== 0) && (
           <>
             <Line points={[[0, 0, 0], [conjugateReal, conjugateImag, 0]]} color="#06b6d4" lineWidth={3} opacity={0.7} />
@@ -188,17 +188,17 @@ export function ComplexNumbersSceneComponent({
               <sphereGeometry args={[0.1, 12, 12]} />
               <meshStandardMaterial color="#06b6d4" emissive="#06b6d4" emissiveIntensity={0.4} />
             </mesh>
-            {/* Reflection line */}
+            {/* Đường phản xạ */}
             <Line points={reflectionLine} color="#94a3b8" lineWidth={1} opacity={0.5} />
           </>
         )}
 
-        {/* Square z² */}
+        {/* Bình phương z² */}
         {showSquare && magnitude > 0.1 && (
           <>
-            {/* Arrow indicating squaring operation */}
+            {/* Mũi tên biểu thị phép bình phương */}
             <Line points={squareArrowPoints} color="#f97316" lineWidth={2} opacity={0.5} />
-            {/* Squared result */}
+            {/* Kết quả bình phương */}
             <Line points={[[0, 0, 0], [squareReal, squareImag, 0]]} color="#f97316" lineWidth={3} opacity={0.8} />
             <mesh position={[squareReal, squareImag, 0]}>
               <sphereGeometry args={[0.1, 12, 12]} />
@@ -207,20 +207,20 @@ export function ComplexNumbersSceneComponent({
           </>
         )}
 
-        {/* Origin point */}
+        {/* Gốc tọa độ */}
         <mesh position={[0, 0, 0]}>
           <sphereGeometry args={[0.08, 12, 12]} />
           <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.5} />
         </mesh>
       </group>
 
-      {/* Labels / Legend background */}
+      {/* Nhãn / Nền chú thích */}
       <mesh position={[0, 5.5, 0]}>
         <planeGeometry args={[6, 0.5]} />
         <meshBasicMaterial color="#fbbf24" transparent opacity={0.8} />
       </mesh>
 
-      {/* Axis labels */}
+      {/* Nhãn trục tọa độ */}
       <mesh position={[5.5, -0.3, 0]}>
         <planeGeometry args={[0.8, 0.4]} />
         <meshBasicMaterial color="#3b82f6" />

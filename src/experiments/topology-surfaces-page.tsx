@@ -13,7 +13,11 @@ import {
   DataPanel,
 } from "@/components/experiment-ui";
 
-const SURFACES = ["mobius", "klein", "torus"] as const;
+const SURFACES = [
+  { id: "mobius", label: "Dải Mobius" },
+  { id: "klein", label: "Chai Klein" },
+  { id: "torus", label: "Hình xuyến" },
+] as const;
 
 export default function TopologySurfacesPage() {
   const router = useRouter();
@@ -24,7 +28,7 @@ export default function TopologySurfacesPage() {
   const [simulationSpeed, setSimulationSpeed] = useState(1);
   const [resetTrigger, setResetTrigger] = useState(0);
 
-  const [surfaceType, setSurfaceType] = useState<typeof SURFACES[number]>("torus");
+  const [surfaceType, setSurfaceType] = useState<"mobius" | "klein" | "torus">("torus");
   const [resolution, setResolution] = useState(32);
   const [rotationSpeed, setRotationSpeed] = useState(0.5);
 
@@ -38,27 +42,27 @@ export default function TopologySurfacesPage() {
 
   const parameterControls = (
     <div className="space-y-4">
-      <ControlGroup title="Surface Type">
+      <ControlGroup title="Loại mặt tôpô">
         <div className="grid grid-cols-3 gap-2">
           {SURFACES.map((surface) => (
             <button
-              key={surface}
-              onClick={() => setSurfaceType(surface)}
-              className={`py-2 px-3 text-sm rounded-lg transition-all capitalize ${
-                surfaceType === surface
+              key={surface.id}
+              onClick={() => setSurfaceType(surface.id)}
+              className={`py-2 px-3 text-sm rounded-lg transition-all ${
+                surfaceType === surface.id
                   ? "bg-pink-600 text-white"
                   : "bg-gray-200 text-gray-700 hover:bg-gray-300"
               }`}
             >
-              {surface}
+              {surface.label}
             </button>
           ))}
         </div>
       </ControlGroup>
 
-      <ControlGroup title="Parameters">
+      <ControlGroup title="Tham số">
         <ControlSlider
-          label="Resolution"
+          label="Độ phân giải"
           value={resolution}
           unit=""
           min={16}
@@ -69,7 +73,7 @@ export default function TopologySurfacesPage() {
           decimals={0}
         />
         <ControlSlider
-          label="Rotation Speed"
+          label="Tốc độ quay"
           value={rotationSpeed}
           unit=""
           min={0}
@@ -85,39 +89,45 @@ export default function TopologySurfacesPage() {
         onClick={() => router.push("/experiments/topology-surfaces/details")}
         className="w-full py-2.5 bg-gradient-to-r from-pink-100 to-pink-200 hover:from-pink-200 hover:to-pink-300 text-pink-700 font-medium text-sm rounded-lg transition-all border border-pink-300/50 flex items-center justify-center gap-2"
       >
-        📖 View Experiment Details
+        📖 Xem chi tiết thí nghiệm
       </button>
     </div>
   );
+
+  const surfaceNames: Record<string, string> = {
+    mobius: "Dải Mobius",
+    klein: "Chai Klein",
+    torus: "Hình xuyến",
+  };
 
   const dataPanelContent = data ? (
     <>
       <DataGrid
         data={{
-          surface: { value: 0, unit: data.surfaceType, color: "#ec4899", decimals: 0 },
-          genus: { value: data.genus, unit: "holes", color: "#f472b6", decimals: 0 },
-          euler: { value: data.eulerCharacteristic, unit: "χ", color: "#fb7185", decimals: 0 },
-          boundary: { value: data.boundaryComponents, unit: "∂", color: "#fda4af", decimals: 0 },
+          surface: { value: 0, unit: surfaceNames[data.surfaceType] || data.surfaceType, color: "#ec4899", decimals: 0 },
+          genus: { value: data.genus, unit: "lỗ thủng (giống g)", color: "#f472b6", decimals: 0 },
+          euler: { value: data.eulerCharacteristic, unit: "χ (Đặc trưng Euler)", color: "#fb7185", decimals: 0 },
+          boundary: { value: data.boundaryComponents, unit: "∂ (Thành phần biên)", color: "#fda4af", decimals: 0 },
         }}
         columns={1}
       />
       <div className="mt-3 p-3 bg-gray-800/50 rounded-lg">
         <div className="text-center font-mono text-pink-400 text-sm">
-          χ = V - E + F = 2 - 2g (orientable)
+          χ = V - E + F = 2 - 2g (mặt định hướng được)
         </div>
       </div>
     </>
   ) : (
     <div className="text-center text-gray-500 text-sm py-8">
-      Waiting for simulation data...
+      Đang chờ dữ liệu mô phỏng...
     </div>
   );
 
   return (
     <>
       <ExperimentContainer
-        title="Topology Surfaces"
-        description="Explore Mobius strip, Klein bottle, and torus"
+        title="Các mặt tôpô"
+        description="Khám phá dải Mobius, chai Klein và hình xuyến"
         cameraPosition={[12, 8, 12]}
         backgroundColor="#050510"
         controls={null}
@@ -134,7 +144,7 @@ export default function TopologySurfacesPage() {
 
       <SimulationController isPlaying={isPlaying} onPlayPause={handlePlayPause} onReset={handleReset} speed={simulationSpeed} onSpeedChange={setSimulationSpeed} />
 
-      <FloatingControlPanel title="⚙️ Surface Settings" initialPosition={{ x: 20, y: 80 }}>
+      <FloatingControlPanel title="⚙️ Cài đặt mặt tôpô" initialPosition={{ x: 20, y: 80 }}>
         {parameterControls}
       </FloatingControlPanel>
 

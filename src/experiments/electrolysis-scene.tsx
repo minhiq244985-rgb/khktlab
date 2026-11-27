@@ -31,11 +31,11 @@ export interface ElectrolysisSceneProps {
 }
 
 const STEPS = [
-  { id: 1, title: "Setup", description: "Battery connected to electrodes in electrolyte solution" },
-  { id: 2, title: "Current Flows", description: "Electrons flow from battery through wires to electrodes" },
-  { id: 3, title: "Reactions Begin", description: "Water molecules split at electrode surfaces" },
-  { id: 4, title: "Gases Form", description: "H₂ bubbles form at cathode (-), O₂ at anode (+)" },
-  { id: 5, title: "Collection", description: "Gases collected in test tubes - H₂:O₂ ratio = 2:1" },
+  { id: 1, title: "Thiết lập", description: "Pin được nối với các điện cực trong dung dịch điện phân" },
+  { id: 2, title: "Dòng điện chạy qua", description: "Electron di chuyển từ pin qua dây dẫn đến các điện cực" },
+  { id: 3, title: "Phản ứng bắt đầu", description: "Các phân tử nước phân tách tại bề mặt điện cực" },
+  { id: 4, title: "Khí hình thành", description: "Bọt khí H₂ hình thành ở catốt (-), O₂ ở anốt (+)" },
+  { id: 5, title: "Thu khí", description: "Khí được thu trong ống nghiệm - tỷ lệ H₂:O₂ = 2:1" },
 ];
 
 const REACTIONS = {
@@ -55,7 +55,7 @@ export function ElectrolysisSceneComponent({
   const cathodeRef = useRef<THREE.Mesh>(null);
   const anodeRef = useRef<THREE.Mesh>(null);
 
-  // Physics state refs (no re-renders)
+  // Refs trạng thái vật lý (không render lại)
   const physicsRef = useRef({
     bubbles: [] as Bubble[],
     electrons: [] as THREE.Vector3[],
@@ -72,12 +72,12 @@ export function ElectrolysisSceneComponent({
     current: 0,
     h2Volume: 0,
     o2Volume: 0,
-    reactionStatus: "Ready",
+    reactionStatus: "Sẵn sàng",
     electrolyte,
     step,
   });
 
-  // Initialize bubbles and electrons pool
+  // Khởi tạo nhóm bọt khí và electron
   useEffect(() => {
     const bubbles: Bubble[] = [];
     for (let i = 0; i < 200; i++) {
@@ -96,7 +96,7 @@ export function ElectrolysisSceneComponent({
     physicsRef.current.electrons = electrons;
   }, []);
 
-  // Get electrolyte color
+  // Lấy màu chất điện phân
   const getElectrolyteColor = () => {
     switch (electrolyte) {
       case "water": return "#4a90d9";
@@ -116,9 +116,9 @@ export function ElectrolysisSceneComponent({
     const shouldSpawnBubbles = isRunning && step >= 3;
     const bubbleSpawnRate = voltage * 0.05;
 
-    // Generate new bubbles based on voltage (2:1 H2:O2 ratio)
+    // Tạo bọt khí mới dựa trên điện áp (tỷ lệ H2:O2 là 2:1)
     if (shouldSpawnBubbles && time - physics.lastBubbleTime > (1 / bubbleSpawnRate)) {
-      // Spawn H2 bubbles at cathode (2 bubbles)
+      // Tạo bọt khí H2 ở catốt (2 bọt)
       for (let h = 0; h < 2; h++) {
         const inactiveIndex = physics.bubbles.findIndex(b => !b.active);
         if (inactiveIndex !== -1) {
@@ -139,7 +139,7 @@ export function ElectrolysisSceneComponent({
         }
       }
 
-      // Spawn O2 bubble at anode (1 bubble, larger)
+      // Tạo bọt khí O2 ở anốt (1 bọt, lớn hơn)
       const inactiveIndex = physics.bubbles.findIndex(b => !b.active);
       if (inactiveIndex !== -1) {
         const bubble = physics.bubbles[inactiveIndex];
@@ -160,7 +160,7 @@ export function ElectrolysisSceneComponent({
       physics.lastBubbleTime = time;
     }
 
-    // Update bubble positions
+    // Cập nhật vị trí bọt khí
     for (let i = 0; i < maxBubbles; i++) {
       const bubble = physics.bubbles[i];
       if (!bubble) continue;
@@ -169,18 +169,18 @@ export function ElectrolysisSceneComponent({
         const speed = voltage / 6;
         bubble.position.add(bubble.velocity.clone().multiplyScalar(dt * speed));
 
-        // Add wobble for realism
+        // Thêm hiệu ứng lắc lư chân thực
         bubble.position.x += Math.sin(time * 4 + i) * 0.003;
         bubble.position.z += Math.cos(time * 3 + i) * 0.003;
 
-        // Deactivate if above surface or in gas collection tube
+        // Vô hiệu hóa nếu vượt quá mặt nước hoặc vào ống thu khí
         if (bubble.position.y > (step >= 4 ? 4 : 2.5)) {
           bubble.active = false;
           bubble.position.y = -100;
         }
       }
 
-      // Update instance matrix
+      // Cập nhật ma trận thực thể
       if (bubble.active) {
         dummy.position.copy(bubble.position);
         const size = bubble.type === "H2" ? 0.05 : 0.1;
@@ -197,22 +197,22 @@ export function ElectrolysisSceneComponent({
 
     bubblesRef.current.instanceMatrix.needsUpdate = true;
 
-    // Update electron flow (step 2+)
+    // Cập nhật dòng electron (bước 2+)
     if (step >= 2) {
       physics.electronOffset = (physics.electronOffset + dt * voltage * 0.5) % 1;
     }
 
-    // Throttled state update - only every 8 frames
+    // Cập nhật trạng thái có điều tiết - chỉ sau mỗi 8 khung hình
     physics.frameCount++;
     if (physics.frameCount % 8 === 0) {
       const current = isRunning ? voltage * 0.15 : 0;
       const getStatus = () => {
-        if (!isRunning) return "Paused";
-        if (step === 1) return "Setup complete";
-        if (step === 2) return "Current flowing";
-        if (step === 3) return "Reactions starting";
-        if (step >= 4) return "Gases producing";
-        return "Ready";
+        if (!isRunning) return "Đã tạm dừng";
+        if (step === 1) return "Hoàn tất thiết lập";
+        if (step === 2) return "Dòng điện đang chạy";
+        if (step === 3) return "Phản ứng đang bắt đầu";
+        if (step >= 4) return "Đang sinh khí";
+        return "Sẵn sàng";
       };
 
       const newData: ElectrolysisData = {
@@ -229,7 +229,7 @@ export function ElectrolysisSceneComponent({
     }
   });
 
-  // Electron path points for wire visualization
+  // Các điểm đường đi electron để hiển thị dây dẫn
   const cathodeWirePath = [
     [-0.5, 3.5, 0],
     [-0.5, 1.5, 0],
@@ -248,27 +248,27 @@ export function ElectrolysisSceneComponent({
 
   return (
     <>
-      {/* Floor/Grid */}
+      {/* Sàn/Lưới */}
       <gridHelper args={[20, 40, "#1a1a2e", "#1a1a2e"]} position={[0, -2.5, 0]} />
 
-      {/* Battery */}
+      {/* Pin */}
       <group position={[0, 3.5, 0]}>
-        {/* Main body */}
+        {/* Thân chính */}
         <mesh>
           <boxGeometry args={[1.2, 0.6, 0.5]} />
           <meshStandardMaterial color="#2d2d2d" metalness={0.8} roughness={0.3} />
         </mesh>
-        {/* Positive terminal */}
+        {/* Cực dương */}
         <mesh position={[0.4, 0.5, 0]}>
           <cylinderGeometry args={[0.06, 0.06, 0.3, 8]} />
           <meshStandardMaterial color="#dc2626" metalness={0.7} />
         </mesh>
-        {/* Negative terminal */}
+        {/* Cực âm */}
         <mesh position={[-0.4, 0.4, 0]}>
           <cylinderGeometry args={[0.08, 0.08, 0.2, 8]} />
           <meshStandardMaterial color="#2563eb" metalness={0.7} />
         </mesh>
-        {/* Voltage label */}
+        {/* Nhãn điện áp */}
         <Text
           position={[0, 0, 0.26]}
           fontSize={0.15}
@@ -278,27 +278,27 @@ export function ElectrolysisSceneComponent({
         >
           {voltage}V
         </Text>
-        {/* + and - labels */}
+        {/* Nhãn + và - */}
         <Text position={[0.5, 0.7, 0]} fontSize={0.2} color="#dc2626" anchorX="center">+</Text>
         <Text position={[-0.5, 0.6, 0]} fontSize={0.25} color="#2563eb" anchorX="center">−</Text>
       </group>
 
-      {/* Wires with electron flow animation */}
+      {/* Dây dẫn có hoạt ảnh dòng electron */}
       {step >= 2 && (
         <>
-          {/* Cathode wire (electrons TO cathode) */}
+          {/* Dây catốt (electron ĐẾN catốt) */}
           <Line
             points={cathodeWirePath}
             color="#b8860b"
             lineWidth={3}
           />
-          {/* Anode wire (electrons FROM anode) */}
+          {/* Dây anốt (electron TỪ anốt) */}
           <Line
             points={anodeWirePath}
             color="#b8860b"
             lineWidth={3}
           />
-          {/* Electron indicators */}
+          {/* Chỉ báo electron */}
           <instancedMesh ref={electronsRef} args={[undefined, undefined, 20]}>
             <sphereGeometry args={[0.04, 8, 8]} />
             <meshStandardMaterial color={electronColor} emissive={electronColor} emissiveIntensity={0.8} />
@@ -306,7 +306,7 @@ export function ElectrolysisSceneComponent({
         </>
       )}
 
-      {/* Beaker */}
+      {/* Cốc thủy tinh */}
       <mesh position={[0, 0, 0]}>
         <cylinderGeometry args={[2.5, 2.5, 3.5, 32, 1, true]} />
         <meshStandardMaterial
@@ -316,13 +316,13 @@ export function ElectrolysisSceneComponent({
           side={THREE.DoubleSide}
         />
       </mesh>
-      {/* Beaker base */}
+      {/* Đáy cốc */}
       <mesh position={[0, -1.75, 0]}>
         <cylinderGeometry args={[2.5, 2.5, 0.1, 32]} />
         <meshStandardMaterial color="#ffffff" transparent opacity={0.2} />
       </mesh>
 
-      {/* Electrolyte solution */}
+      {/* Dung dịch điện phân */}
       <mesh position={[0, -0.2, 0]}>
         <cylinderGeometry args={[2.4, 2.4, 2.8, 32]} />
         <meshStandardMaterial
@@ -332,7 +332,7 @@ export function ElectrolysisSceneComponent({
         />
       </mesh>
 
-      {/* Liquid surface with subtle wave */}
+      {/* Bề mặt chất lỏng có gợn sóng nhẹ */}
       <mesh position={[0, 1.2, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <circleGeometry args={[2.35, 32]} />
         <meshStandardMaterial
@@ -343,7 +343,7 @@ export function ElectrolysisSceneComponent({
         />
       </mesh>
 
-      {/* Cathode (-) electrode - BLUE */}
+      {/* Điện cực Catốt (-) - XANH DƯƠNG */}
       <group position={[-1.8, -0.5, 0]}>
         <mesh ref={cathodeRef}>
           <cylinderGeometry args={[0.12, 0.12, 3, 16]} />
@@ -355,9 +355,9 @@ export function ElectrolysisSceneComponent({
             emissiveIntensity={isRunning && step >= 3 ? 0.3 : 0}
           />
         </mesh>
-        {/* CATHODE label */}
+        {/* Nhãn CATỐT */}
         <Text position={[-0.5, 1.5, 0]} fontSize={0.18} color="#2563eb" anchorX="right">
-          CATHODE (−)
+          CATỐT (−)
         </Text>
         {step >= 3 && (
           <Text position={[-0.5, 1.2, 0]} fontSize={0.1} color="#60a5fa" anchorX="right" maxWidth={3}>
@@ -366,7 +366,7 @@ export function ElectrolysisSceneComponent({
         )}
       </group>
 
-      {/* Anode (+) electrode - RED */}
+      {/* Điện cực Anốt (+) - ĐỎ */}
       <group position={[1.8, -0.5, 0]}>
         <mesh ref={anodeRef}>
           <cylinderGeometry args={[0.12, 0.12, 3, 16]} />
@@ -378,9 +378,9 @@ export function ElectrolysisSceneComponent({
             emissiveIntensity={isRunning && step >= 3 ? 0.3 : 0}
           />
         </mesh>
-        {/* ANODE label */}
+        {/* Nhãn ANỐT */}
         <Text position={[0.5, 1.5, 0]} fontSize={0.18} color="#dc2626" anchorX="left">
-          ANODE (+)
+          ANỐT (+)
         </Text>
         {step >= 3 && (
           <Text position={[0.5, 1.2, 0]} fontSize={0.1} color="#f87171" anchorX="left" maxWidth={3}>
@@ -389,10 +389,10 @@ export function ElectrolysisSceneComponent({
         )}
       </group>
 
-      {/* Gas collection test tubes */}
+      {/* Ống nghiệm thu khí */}
       {step >= 4 && (
         <>
-          {/* H2 collection tube over cathode */}
+          {/* Ống thu khí H2 phía trên catốt */}
           <group position={[-1.8, 2.5, 0]}>
             <mesh rotation={[0, 0, 0]}>
               <cylinderGeometry args={[0.35, 0.35, 2, 16, 1, true]} />
@@ -403,7 +403,7 @@ export function ElectrolysisSceneComponent({
                 side={THREE.DoubleSide}
               />
             </mesh>
-            {/* H2 gas fill indicator */}
+            {/* Chỉ báo lượng khí H2 */}
             <mesh position={[0, -0.5 + Math.min(data.h2Volume / 50, 0.8), 0]}>
               <cylinderGeometry args={[0.32, 0.32, Math.min(data.h2Volume / 25, 1.5), 16]} />
               <meshStandardMaterial
@@ -412,7 +412,7 @@ export function ElectrolysisSceneComponent({
                 opacity={0.4}
               />
             </mesh>
-            {/* Volume markings */}
+            {/* Vạch chia thể tích */}
             {[0.3, 0.6, 0.9].map((h, i) => (
               <mesh key={i} position={[0.36, -0.8 + h, 0]}>
                 <boxGeometry args={[0.08, 0.015, 0.015]} />
@@ -424,7 +424,7 @@ export function ElectrolysisSceneComponent({
             </Text>
           </group>
 
-          {/* O2 collection tube over anode */}
+          {/* Ống thu khí O2 phía trên anốt */}
           <group position={[1.8, 2.5, 0]}>
             <mesh>
               <cylinderGeometry args={[0.35, 0.35, 2, 16, 1, true]} />
@@ -435,7 +435,7 @@ export function ElectrolysisSceneComponent({
                 side={THREE.DoubleSide}
               />
             </mesh>
-            {/* O2 gas fill indicator */}
+            {/* Chỉ báo lượng khí O2 */}
             <mesh position={[0, -0.5 + Math.min(data.o2Volume / 50, 0.4), 0]}>
               <cylinderGeometry args={[0.32, 0.32, Math.min(data.o2Volume / 25, 1.5), 16]} />
               <meshStandardMaterial
@@ -444,7 +444,7 @@ export function ElectrolysisSceneComponent({
                 opacity={0.4}
               />
             </mesh>
-            {/* Volume markings */}
+            {/* Vạch chia thể tích */}
             {[0.3, 0.6, 0.9].map((h, i) => (
               <mesh key={i} position={[0.36, -0.8 + h, 0]}>
                 <boxGeometry args={[0.08, 0.015, 0.015]} />
@@ -458,7 +458,7 @@ export function ElectrolysisSceneComponent({
         </>
       )}
 
-      {/* Bubbles */}
+      {/* Bọt khí */}
       <instancedMesh ref={bubblesRef} args={[undefined, undefined, 200]}>
         <sphereGeometry args={[1, 12, 12]} />
         <meshStandardMaterial
@@ -470,7 +470,7 @@ export function ElectrolysisSceneComponent({
         />
       </instancedMesh>
 
-      {/* Step info display */}
+      {/* Hiển thị thông tin bước */}
       {step >= 1 && step <= 5 && (
         <group position={[0, -2.2, 3]}>
           <mesh position={[0, 0, -0.1]}>
@@ -482,7 +482,7 @@ export function ElectrolysisSceneComponent({
             />
           </mesh>
           <Text position={[0, 0.15, 0]} fontSize={0.14} color="#ffffff" anchorX="center">
-            Step {step}: {STEPS[step - 1].title}
+            Bước {step}: {STEPS[step - 1].title}
           </Text>
           <Text position={[0, -0.05, 0]} fontSize={0.09} color="#94a3b8" anchorX="center" maxWidth={3.8}>
             {STEPS[step - 1].description}
@@ -490,10 +490,10 @@ export function ElectrolysisSceneComponent({
         </group>
       )}
 
-      {/* Enhanced gas collection visualization - Gas ratios */}
+      {/* Hiển thị thu khí nâng cao - Tỷ lệ khí */}
       {step >= 4 && data.h2Volume > 1 && data.o2Volume > 0.5 && (
         <group position={[0, 4.5, 0]}>
-          {/* Ratio display panel */}
+          {/* Bảng hiển thị tỷ lệ */}
           <mesh position={[0, 0, -0.05]}>
             <planeGeometry args={[4, 0.8]} />
             <meshStandardMaterial
@@ -503,7 +503,7 @@ export function ElectrolysisSceneComponent({
             />
           </mesh>
           <Text position={[0, 0.15, 0]} fontSize={0.11} color="#ffffff" anchorX="center">
-            Gas Volume Ratio (H₂:O₂)
+            Tỷ lệ thể tích khí (H₂:O₂)
           </Text>
           <Text
             position={[0, -0.1, 0]}
@@ -514,12 +514,12 @@ export function ElectrolysisSceneComponent({
             {(data.h2Volume / Math.max(data.o2Volume, 0.1)).toFixed(1)}:1
           </Text>
           <Text position={[0, -0.3, 0]} fontSize={0.08} color="#94a3b8" anchorX="center">
-            Expected: 2:1 (Faraday's Law)
+            Lý thuyết: 2:1 (Định luật Faraday)
           </Text>
         </group>
       )}
 
-      {/* Balanced equation at step 5 */}
+      {/* Phương trình cân bằng ở bước 5 */}
       {step === 5 && (
         <group position={[0, 5.5, 0]}>
           <mesh position={[0, 0, -0.1]}>
@@ -534,12 +534,12 @@ export function ElectrolysisSceneComponent({
             2H₂O(l) → 2H₂(g) + O₂(g)
           </Text>
           <Text position={[0, -0.15, 0]} fontSize={0.08} color="#94a3b8" anchorX="center">
-            Overall: 2 water molecules → 2 hydrogen + 1 oxygen
+            Tổng quát: 2 phân tử nước → 2 hiđro + 1 oxi
           </Text>
         </group>
       )}
 
-      {/* Molecular explanation at step 5 */}
+      {/* Giải thích phân tử ở bước 5 */}
       {step === 5 && (
         <group position={[0, -2.2, 3]}>
           <mesh position={[0, 0, -0.1]}>
@@ -551,10 +551,10 @@ export function ElectrolysisSceneComponent({
             />
           </mesh>
           <Text position={[0, 0.2, 0]} fontSize={0.1} color="#60a5fa" anchorX="center">
-            At Cathode (-): 2H₂O + 2e⁻ → H₂ + 2OH⁻
+            Tại Catốt (-): 2H₂O + 2e⁻ → H₂ + 2OH⁻
           </Text>
           <Text position={[0, -0.1, 0]} fontSize={0.1} color="#f87171" anchorX="center">
-            At Anode (+): 2H₂O → O₂ + 4H⁺ + 4e⁻
+            Tại Anốt (+): 2H₂O → O₂ + 4H⁺ + 4e⁻
           </Text>
         </group>
       )}

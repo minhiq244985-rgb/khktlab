@@ -36,102 +36,102 @@ export interface ChemicalBondingSceneProps {
 // ============================================
 
 const ELEMENTS = {
-  Na: { symbol: "Na", name: "Sodium", number: 11, mass: 23, radius: 0.9, color: "#AB5CF2", electronegativity: 0.93, valence: 1 },
-  Cl: { symbol: "Cl", name: "Chlorine", number: 17, mass: 35.5, radius: 0.7, color: "#1FF01F", electronegativity: 3.16, valence: 7 },
-  H: { symbol: "H", name: "Hydrogen", number: 1, mass: 1, radius: 0.4, color: "#FFFFFF", electronegativity: 2.20, valence: 1 },
-  O: { symbol: "O", name: "Oxygen", number: 8, mass: 16, radius: 0.6, color: "#FF0D0D", electronegativity: 3.44, valence: 6 },
-  Fe: { symbol: "Fe", name: "Iron", number: 26, mass: 56, radius: 0.7, color: "#E06633", electronegativity: 1.83, valence: 2 },
+  Na: { symbol: "Na", name: "Natri", number: 11, mass: 23, radius: 0.9, color: "#AB5CF2", electronegativity: 0.93, valence: 1 },
+  Cl: { symbol: "Cl", name: "Clo", number: 17, mass: 35.5, radius: 0.7, color: "#1FF01F", electronegativity: 3.16, valence: 7 },
+  H: { symbol: "H", name: "Hiđro", number: 1, mass: 1, radius: 0.4, color: "#FFFFFF", electronegativity: 2.20, valence: 1 },
+  O: { symbol: "O", name: "Oxi", number: 8, mass: 16, radius: 0.6, color: "#FF0D0D", electronegativity: 3.44, valence: 6 },
+  Fe: { symbol: "Fe", name: "Sắt", number: 26, mass: 56, radius: 0.7, color: "#E06633", electronegativity: 1.83, valence: 2 },
 };
 
 const BOND_ENERGIES = {
   ionic: 411, // kJ/mol Na-Cl
   covalent: 463, // kJ/mol O-H
-  metallic: 100, // approximate Fe-Fe
+  metallic: 100, // ước tính Fe-Fe
 };
 
 // ============================================
 // ANIMATION STEPS FOR EACH BOND TYPE
 // ============================================
 
-// IONIC BOND (NaCl) - 5 Steps
+// LIÊN KẾT ION (NaCl) - 5 Bước
 const IONIC_STEPS = [
   {
     step: 0,
-    title: "Neutral Atoms",
-    description: "Sodium (Na) has 1 valence electron. Chlorine (Cl) has 7 valence electrons. Both atoms are neutral.",
+    title: "Nguyên tử trung hòa",
+    description: "Natri (Na) có 1 electron hóa trị. Clo (Cl) có 7 electron hóa trị. Cả hai nguyên tử đều trung hòa về điện.",
   },
   {
     step: 1,
-    title: "Electron Transfer Begins",
-    description: "The electronegativity difference (ΔEN = 2.23) is > 1.7, so this will be an ionic bond. Na's valence electron starts moving toward Cl.",
+    title: "Bắt đầu chuyển electron",
+    description: "Hiệu độ âm điện (Δχ = 2,23) > 1,7 nên đây là liên kết ion. Electron hóa trị của Na bắt đầu di chuyển sang Cl.",
   },
   {
     step: 2,
-    title: "Ion Formation",
-    description: "Na loses its electron → Na⁺ (cation). Cl gains electron → Cl⁻ (anion). Opposite charges create electrostatic attraction.",
+    title: "Hình thành ion",
+    description: "Na nhường electron → cation Na⁺. Cl nhận electron → anion Cl⁻. Hai ion mang điện tích trái dấu.",
   },
   {
     step: 3,
-    title: "Electrostatic Attraction",
-    description: "Na⁺ (blue glow) and Cl⁻ (red glow) attract each other due to opposite charges. Coulomb force pulls them together.",
+    title: "Lực hút tĩnh điện",
+    description: "Na⁺ (quầng sáng xanh) và Cl⁻ (quầng sáng đỏ) hút nhau do trái dấu. Lực Coulomb kéo chúng lại gần nhau.",
   },
   {
     step: 4,
-    title: "Crystal Lattice Formation",
-    description: "In solid NaCl, ions arrange in a crystal lattice structure. Each Na⁺ is surrounded by 6 Cl⁻ and vice versa.",
+    title: "Hình thành mạng tinh thể",
+    description: "Ở trạng thái rắn, các ion Na⁺ và Cl⁻ sắp xếp thành mạng tinh thể ion bền vững, mỗi ion được bao quanh bởi 6 ion trái dấu.",
   },
 ];
 
-// COVALENT BOND (H2O) - 5 Steps
+// LIÊN KẾT CỘNG HÓA TRỊ (H2O) - 5 Bước
 const COVALENT_STEPS = [
   {
     step: 0,
-    title: "Separate Atoms",
-    description: "Two hydrogen atoms and one oxygen atom. Oxygen needs 2 electrons, each hydrogen needs 1 electron to complete shells.",
+    title: "Các nguyên tử riêng lẻ",
+    description: "Hai nguyên tử Hiđro và một nguyên tử Oxi. Oxi cần thêm 2 electron, mỗi Hiđro cần thêm 1 electron để đạt cấu hình bền.",
   },
   {
     step: 1,
-    title: "Atoms Approach",
-    description: "Electronegativity difference ΔEN = 1.24 (polar covalent). Atoms are attracted to form a stable molecule.",
+    title: "Các nguyên tử tiến lại gần",
+    description: "Hiệu độ âm điện Δχ = 1,24 (cộng hóa trị phân cực). Các nguyên tử hút nhau để hình thành phân tử bền vững.",
   },
   {
     step: 2,
-    title: "Electron Sharing",
-    description: "Oxygen shares electrons with hydrogen. Shared pairs spend more time near oxygen (more electronegative).",
+    title: "Dùng chung electron",
+    description: "Oxi góp chung electron với Hiđro. Cặp electron chung lệch về phía Oxi do Oxi có độ âm điện lớn hơn.",
   },
   {
     step: 3,
-    title: "Bond Formation",
-    description: "Two O-H covalent bonds form. Each hydrogen shares its electron with oxygen, creating shared electron pairs.",
+    title: "Hình thành liên kết",
+    description: "Hai liên kết cộng hóa trị O-H được tạo thành. Mỗi nguyên tử Hiđro dùng chung 1 cặp electron với nguyên tử Oxi.",
   },
   {
     step: 4,
-    title: "H₂O Molecule Formed",
-    description: "Water molecule formed with 104.5° bond angle. The bent shape and polar bonds make water a polar molecule.",
+    title: "Phân tử H₂O hoàn chỉnh",
+    description: "Phân tử nước hình thành với góc liên kết 104,5°. Dạng gấp khúc và các liên kết phân cực làm cho nước là phân tử phân cực.",
   },
 ];
 
-// METALLIC BOND (Fe lattice) - 4 Steps
+// LIÊN KẾT KIM LOẠI (Mạng tinh thể Fe) - 4 Bước
 const METALLIC_STEPS = [
   {
     step: 0,
-    title: "Metal Atoms",
-    description: "Iron (Fe) atoms have low electronegativity (1.83) and few valence electrons. They readily lose electrons.",
+    title: "Các nguyên tử kim loại",
+    description: "Nguyên tử Sắt (Fe) có độ âm điện thấp (1,83) và ít electron hóa trị, nên dễ dàng tách electron hóa trị.",
   },
   {
     step: 1,
-    title: "Lattice Formation",
-    description: "Metal atoms arrange in a close-packed crystal lattice structure. Each atom touches many neighbors.",
+    title: "Hình thành mạng tinh thể",
+    description: "Các nguyên tử kim loại sắp xếp trật tự trong mạng tinh thể đặc khít, mỗi nguyên tử tiếp xúc với nhiều nguyên tử lân cận.",
   },
   {
     step: 2,
-    title: "Electron Delocalization",
-    description: "Valence electrons become delocalized - they're not bound to any specific atom. They form an 'electron sea'.",
+    title: "Giải tỏa electron",
+    description: "Các electron hóa trị tách khỏi nguyên tử, không thuộc riêng về nguyên tử nào mà tạo thành 'biển electron' tự do.",
   },
   {
     step: 3,
-    title: "Electron Sea",
-    description: "Delocalized electrons (blue spheres) move freely throughout the lattice, creating metallic bonding.",
+    title: "Biển electron tự do",
+    description: "Các electron tự do (hạt cầu xanh) chuyển động hỗn loạn khắp mạng tinh thể, tạo nên liên kết kim loại bền vững.",
   },
 ];
 
@@ -700,9 +700,9 @@ export function ChemicalBondingSceneComponent({
 
       {/* Step indicator */}
       <Html position={[0, 6, 0]} center>
-        <div className="bg-black/70 px-4 py-2 rounded-lg backdrop-blur-sm">
+        <div className="bg-black/70 px-4 py-2 rounded-lg backdrop-blur-sm whitespace-nowrap">
           <div className="text-lg font-bold text-white">
-            Step {displayStep + 1}/{currentSteps.length}
+            Bước {displayStep + 1}/{currentSteps.length}
           </div>
           <div className="text-sm text-emerald-400">
             {currentSteps[displayStep]?.title || ""}
@@ -712,17 +712,17 @@ export function ChemicalBondingSceneComponent({
 
       {/* Element Legend */}
       <Html position={[-6, 4, 0]}>
-        <div className="bg-black/70 px-3 py-2 rounded-lg backdrop-blur-sm text-white text-xs">
-          <div className="font-bold mb-1">Elements</div>
+        <div className="bg-black/70 px-3 py-2 rounded-lg backdrop-blur-sm text-white text-xs whitespace-nowrap">
+          <div className="font-bold mb-1">Nguyên tố</div>
           {bondType === "ionic" && (
             <>
               <div className="flex items-center gap-2 mb-1">
                 <div className="w-3 h-3 rounded-full" style={{ background: ELEMENTS.Na.color }}></div>
-                <span>Na (Sodium)</span>
+                <span>Na (Natri)</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full" style={{ background: ELEMENTS.Cl.color }}></div>
-                <span>Cl (Chlorine)</span>
+                <span>Cl (Clo)</span>
               </div>
             </>
           )}
@@ -730,18 +730,18 @@ export function ChemicalBondingSceneComponent({
             <>
               <div className="flex items-center gap-2 mb-1">
                 <div className="w-3 h-3 rounded-full" style={{ background: ELEMENTS.O.color }}></div>
-                <span>O (Oxygen)</span>
+                <span>O (Oxi)</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full" style={{ background: ELEMENTS.H.color }}></div>
-                <span>H (Hydrogen)</span>
+                <span>H (Hiđro)</span>
               </div>
             </>
           )}
           {bondType === "metallic" && (
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full" style={{ background: ELEMENTS.Fe.color }}></div>
-              <span>Fe (Iron) + Delocalized e⁻</span>
+              <span>Fe (Sắt) + e⁻ tự do</span>
             </div>
           )}
         </div>

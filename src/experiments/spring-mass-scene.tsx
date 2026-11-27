@@ -353,14 +353,6 @@ export function SpringMassSceneComponent({
           while (springGroup.children.length > 0) {
             springGroup.remove(springGroup.children[0]);
           }
-          // Add new spring with current dimensions
-          const springElement = <SpringCoils
-            topY={currentTopY}
-            bottomY={bottomY}
-            width={0.3 + i * 0.1}
-            coils={8 + i * 2}
-            color="#aaa"
-          />;
           // We need to create the mesh directly since we can't add JSX in useFrame
           const points: [number, number, number][] = [];
           const length = currentTopY - bottomY;
@@ -599,21 +591,21 @@ export function SpringMassSceneComponent({
             value={calculateKE(mass, Math.abs(stateRef.current.velocities[numberOfMasses - 1] || 0))}
             maxValue={maxEnergy}
             color="#22c55e"
-            label="KE"
+            label="Động năng"
           />
           <EnergyBar3D
             position={[1.5, 0, 0]}
             value={calculateSpringPE(springConstant, stateRef.current.displacements[numberOfMasses - 1] || 0)}
             maxValue={maxEnergy}
             color="#f59e0b"
-            label="PE_spring"
+            label="Thế năng lò xo"
           />
           <EnergyBar3D
             position={[3, 0, 0]}
             value={mass * g * (Array.isArray(equilibriumY) ? equilibriumY[numberOfMasses - 1] : equilibriumY)}
             maxValue={maxEnergy}
             color="#3b82f6"
-            label="PE_grav"
+            label="Thế năng trọng trường"
           />
           <EnergyBar3D
             position={[4.5, 0, 0]}
@@ -624,7 +616,7 @@ export function SpringMassSceneComponent({
             }
             maxValue={maxEnergy}
             color="#a855f7"
-            label="Total"
+            label="Tổng năng lượng"
           />
         </group>
       )}
