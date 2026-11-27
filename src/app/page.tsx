@@ -23,7 +23,7 @@ function Navbar({ theme, toggleTheme }: { theme: string; toggleTheme: () => void
         </a>
         <div className="hidden md:flex gap-2">
           {categories.map((cat) => (
-            <a key={cat.id} href="#experiments" className="px-3 py-1.5 rounded-full text-sm text-gray-400 hover:text-white glass transition-all">
+            <a key={cat.id} href="#experiments" className="px-3 py-1.5 rounded-full text-sm text-gray-400 hover:text-[var(--text-primary)] glass transition-all">
               {cat.icon} {cat.name}
             </a>
           ))}
@@ -96,7 +96,7 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0a0b10] text-gray-100">
+    <main className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors">
       <Navbar theme={theme} toggleTheme={toggleTheme} />
 
       {/* Hero Section */}
@@ -104,10 +104,10 @@ export default function Home() {
         <h1 className="text-4xl md:text-6xl font-black mb-4 bg-linear-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
           ScienceLab 3D
         </h1>
-        <p className="text-gray-300 max-w-xl mx-auto mb-8">
+        <p className="text-gray-300 max-w-xl mx-auto mb-8 text-lg">
           Phòng thí nghiệm ảo 3D tương tác phục vụ học tập và nghiên cứu khoa học.
         </p>
-        <a href="#experiments" className="px-8 py-3 bg-linear-to-r from-blue-600 to-purple-600 rounded-full font-semibold">
+        <a href="#experiments" className="px-8 py-3 bg-linear-to-r from-blue-600 to-purple-600 text-white rounded-full font-semibold shadow-lg shadow-blue-500/25 hover:scale-105 transition-transform">
           Bắt Đầu Khám Phá
         </a>
       </section>
@@ -124,10 +124,10 @@ export default function Home() {
             placeholder="Tìm kiếm thí nghiệm..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-11 pr-10 py-3 glass rounded-xl bg-transparent text-white placeholder-gray-500 outline-none border border-white/10"
+            className="w-full pl-11 pr-10 py-3 glass rounded-xl bg-transparent text-[var(--text-primary)] placeholder-gray-500 outline-none border border-white/10"
           />
           {search && (
-            <button onClick={() => setSearch("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white">
+            <button onClick={() => setSearch("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-[var(--text-primary)]">
               <X size={16} />
             </button>
           )}
@@ -138,7 +138,7 @@ export default function Home() {
           <button
             onClick={() => { setActiveCategory("all"); setShowFavoritesOnly(false); }}
             className={`px-5 py-2.5 rounded-full font-medium transition-all ${
-              activeCategory === "all" && !showFavoritesOnly ? "bg-purple-600/30 text-white border border-purple-500/50" : "glass text-gray-400"
+              activeCategory === "all" && !showFavoritesOnly ? "bg-purple-600/30 text-[var(--text-primary)] border border-purple-500/50" : "glass text-gray-400"
             }`}
           >
             Tất Cả Thí Nghiệm
@@ -146,7 +146,7 @@ export default function Home() {
           <button
             onClick={() => { setActiveCategory("all"); setShowFavoritesOnly((prev) => !prev); }}
             className={`px-5 py-2.5 rounded-full font-medium transition-all ${
-              showFavoritesOnly ? "bg-yellow-600/30 text-white border border-yellow-500/50" : "glass text-gray-400"
+              showFavoritesOnly ? "bg-yellow-600/30 text-[var(--text-primary)] border border-yellow-500/50" : "glass text-gray-400"
             }`}
           >
             ⭐ Yêu Thích ({favoritesCount})
@@ -156,7 +156,7 @@ export default function Home() {
               key={cat.id}
               onClick={() => { setActiveCategory(cat.id); setShowFavoritesOnly(false); }}
               className={`px-5 py-2.5 rounded-full font-medium transition-all ${
-                activeCategory === cat.id && !showFavoritesOnly ? "bg-blue-600/30 text-white border border-blue-500/50" : "glass text-gray-400"
+                activeCategory === cat.id && !showFavoritesOnly ? "bg-blue-600/30 text-[var(--text-primary)] border border-blue-500/50" : "glass text-gray-400"
               }`}
             >
               {cat.icon} {cat.name}
@@ -173,12 +173,12 @@ export default function Home() {
                   <span className="text-3xl">{exp.icon}</span>
                   <span className="text-xs px-2 py-1 rounded-full bg-white/5 text-gray-300">{exp.difficulty}</span>
                 </div>
-                <h3 className="text-lg font-bold mb-2 text-white">{exp.title}</h3>
+                <h3 className="text-lg font-bold mb-2 text-[var(--text-primary)]">{exp.title}</h3>
                 <p className="text-sm text-gray-400 mb-4">{exp.description}</p>
               </div>
               <div className="flex items-center justify-between pt-3 border-t border-white/5">
                 <span className="text-xs text-purple-400">{categoryLabels[exp.category]}</span>
-                <a href={`/experiments/${exp.id}`} className="text-xs text-gray-300 flex items-center gap-1 hover:text-white">
+                <a href={`/experiments/${exp.id}`} className="text-xs text-gray-300 flex items-center gap-1 hover:text-[var(--text-primary)]">
                   Mở lab <ArrowRight size={12} />
                 </a>
               </div>
@@ -189,11 +189,8 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="border-t border-white/5 pt-8 pb-8 text-center text-gray-500 text-sm mt-20">
-        <p className="text-gray-300 font-medium mb-1">
+        <p className="text-gray-300 font-medium">
           Tạo bởi <span className="text-purple-400 font-semibold">Vũ Minh</span> — ScienceLab 3D © 2026
-        </p>
-        <p className="text-gray-600 text-xs">
-          Phát triển và Việt hóa dựa trên mã nguồn mở <a href="https://github.com/rudra496/sciencelab3d" target="_blank" className="text-purple-400 hover:underline">rudra496/sciencelab3d</a> (MIT License).
         </p>
       </footer>
     </main>
