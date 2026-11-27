@@ -65,7 +65,7 @@ const STEPS = [
   {
     name: 'Kéo dài mạch',
     stage: 'DNA Polymerase',
-    desc: 'Mạch dẫn: tổng hợp liên tục theo chiều 5'→3'. Mạch muộn: các đoạn Okazaki. Mạch mới màu xanh lá.',
+    desc: 'Mạch dẫn: tổng hợp liên tục theo chiều 5′→3′. Mạch muộn: các đoạn Okazaki. Mạch mới màu xanh lá.',
   },
   {
     name: 'Hoàn tất',

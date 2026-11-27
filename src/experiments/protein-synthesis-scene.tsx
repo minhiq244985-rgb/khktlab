@@ -93,7 +93,7 @@ const STEPS = [
   {
     phase: 'Phiên mã',
     name: 'Tổng hợp mRNA',
-    desc: 'RNA Polymerase đọc DNA mạch 3'→5', tổng hợp mRNA 5'→3'. Uracil liên kết cặp với Adenin.',
+    desc: 'RNA Polymerase đọc DNA mạch 3′→5′, tổng hợp mRNA 5′→3′. Uracil liên kết cặp với Adenin.',
   },
   {
     phase: 'Phiên mã',
