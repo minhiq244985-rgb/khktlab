@@ -1,3 +1,5 @@
+export type GradeLevel = 10 | 11 | 12;
+
 export interface Experiment {
   id: string;
   title: string;
@@ -7,7 +9,15 @@ export interface Experiment {
   icon: string;
   color: string;
   topics: string[];
+  grade?: GradeLevel; // 10, 11, 12 thuộc chương trình SGK; undefined thuộc mục Khác
 }
+
+export const gradeTabs = [
+  { id: "10", name: "Lớp 10", subtitle: "Cơ học & Bảo toàn", icon: "🔟", color: "#38BDF8" },
+  { id: "11", name: "Lớp 11", subtitle: "Dao động, Sóng & Điện", icon: "1️⃣1️⃣", color: "#A855F7" },
+  { id: "12", name: "Lớp 12", subtitle: "Nhiệt, Khí & Từ trường", icon: "1️⃣2️⃣", color: "#10B981" },
+  { id: "other", name: "Khác", subtitle: "Kiến thức mở rộng & liên môn", icon: "🔬", color: "#F59E0B" },
+] as const;
 
 export const categories = [
   { id: "physics", name: "Vật Lý", icon: "⚡", color: "#60A5FA" },
@@ -17,17 +27,120 @@ export const categories = [
 ];
 
 export const experiments: Experiment[] = [
-  // --- VẬT LÝ ---
+  // ==========================================
+  // CHƯƠNG TRÌNH SGK VẬT LÍ LỚP 10
+  // ==========================================
   {
-    id: "pendulum",
-    title: "Con Lắc Đơn",
-    description: "Khám phá dao động điều hòa, chu kỳ dao động và sự phụ thuộc vào chiều dài dây treo.",
+    id: "free-fall",
+    title: "Đo Gia Tốc Rơi Tự Do",
+    description: "Sử dụng cổng quang điện và đồng hồ đo thời gian hiện số để đo thời gian rơi và xác định gia tốc trọng trường g.",
     category: "physics",
     difficulty: "Cơ bản",
     icon: "⏱️",
-    color: "#60A5FA",
-    topics: ["Dao động", "Cơ học", "Bảo toàn năng lượng"],
+    color: "#38BDF8",
+    topics: ["Sai số phép đo", "Rơi tự do", "Định luật II Newton"],
+    grade: 10,
   },
+  {
+    id: "air-track-collision",
+    title: "Bảo Toàn Động Lượng & Cơ Năng (Đệm Khí)",
+    description: "Khảo sát va chạm đàn hồi và va chạm mềm của hai xe trượt trên băng đệm khí qua cổng quang điện.",
+    category: "physics",
+    difficulty: "Trung bình",
+    icon: "🚝",
+    color: "#38BDF8",
+    topics: ["Bảo toàn động lượng", "Bảo toàn cơ năng", "Va chạm & Ma sát"],
+    grade: 10,
+  },
+
+  // ==========================================
+  // CHƯƠNG TRÌNH SGK VẬT LÍ LỚP 11
+  // ==========================================
+  {
+    id: "pendulum",
+    title: "Dao Động Điều Hòa: Con Lắc Đơn",
+    description: "Khám phá dao động điều hòa, đo chu kỳ T, tần số f và sự chuyển hóa động năng – thế năng.",
+    category: "physics",
+    difficulty: "Cơ bản",
+    icon: "🕰️",
+    color: "#A855F7",
+    topics: ["Dao động điều hòa", "Chu kỳ & Tần số", "Cơ năng con lắc"],
+    grade: 11,
+  },
+  {
+    id: "spring-mass",
+    title: "Dao Động Điều Hòa: Con Lắc Lò Xo & Cộng Hưởng",
+    description: "Khảo sát dao động con lắc lò xo, dao động tắt dần và hiện tượng cộng hưởng cơ học khi ngoại lực biến thiên.",
+    category: "physics",
+    difficulty: "Cơ bản",
+    icon: "🌀",
+    color: "#A855F7",
+    topics: ["Con lắc lò xo", "Dao động tắt dần", "Hiện tượng cộng hưởng"],
+    grade: 11,
+  },
+  {
+    id: "speed-of-sound",
+    title: "Đo Tốc Độ Truyền Âm Trong Không Khí",
+    description: "Dùng ống cộng hưởng cột khí và sóng dừng để xác định bước sóng λ và tốc độ truyền âm v = λ.f.",
+    category: "physics",
+    difficulty: "Trung bình",
+    icon: "📢",
+    color: "#A855F7",
+    topics: ["Sóng âm", "Sóng dừng", "Cộng hưởng cột khí"],
+    grade: 11,
+  },
+  {
+    id: "emf-internal-resistance",
+    title: "Đo Suất Điện Động (E) & Điện Trở Trong (r)",
+    description: "Khảo sát mạch điện kín một chiều, đo sự phụ thuộc của hiệu điện thế ngoài U vào cường độ dòng điện I.",
+    category: "physics",
+    difficulty: "Trung bình",
+    icon: "🔋",
+    color: "#A855F7",
+    topics: ["Định luật Ohm toàn mạch", "Suất điện động E", "Điện trở trong r"],
+    grade: 11,
+  },
+
+  // ==========================================
+  // CHƯƠNG TRÌNH SGK VẬT LÍ LỚP 12
+  // ==========================================
+  {
+    id: "calorimetry",
+    title: "Đo Nhiệt Dung Riêng & Ẩn Nhiệt Chuyển Thể",
+    description: "Sử dụng nhiệt lượng kế để xác định nhiệt dung riêng c, nhiệt nóng chảy riêng λ và nhiệt hóa hơi riêng L.",
+    category: "physics",
+    difficulty: "Trung bình",
+    icon: "🌡️",
+    color: "#10B981",
+    topics: ["Nội năng", "Nhiệt dung riêng", "Nóng chảy & Hóa hơi"],
+    grade: 12,
+  },
+  {
+    id: "gas-laws",
+    title: "Khảo Sát Định Luật Boyle (Khí Lí Tưởng)",
+    description: "Khảo sát mối liên hệ tỉ lệ nghịch giữa áp suất p và thể tích V trong quá trình đẳng nhiệt (p.V = const).",
+    category: "physics",
+    difficulty: "Cơ bản",
+    icon: "🎈",
+    color: "#10B981",
+    topics: ["Khí lí tưởng", "Định luật Boyle", "Quá trình đẳng nhiệt"],
+    grade: 12,
+  },
+  {
+    id: "electromagnetic-induction",
+    title: "Hiện Tượng Cảm Ứng Điện Từ",
+    description: "Thay đổi từ thông Φ qua cuộn dây bằng nam châm để quan sát dòng điện cảm ứng và nguyên lí máy phát điện.",
+    category: "physics",
+    difficulty: "Trung bình",
+    icon: "🧲",
+    color: "#10B981",
+    topics: ["Từ thông", "Cảm ứng điện từ", "Định luật Faraday & Lenz"],
+    grade: 12,
+  },
+
+  // ==========================================
+  // MỤC KHÁC (KIẾN THỨC MỞ RỘNG & LIÊN MÔN)
+  // ==========================================
   {
     id: "projectile-motion",
     title: "Chuyển Động Ném Xiên",
@@ -49,24 +162,14 @@ export const experiments: Experiment[] = [
     topics: ["Quang sóng", "Giao thoa", "Sóng ánh sáng"],
   },
   {
-    id: "spring-mass",
-    title: "Hệ Con Lắc Lò Xo",
-    description: "Nghiên cứu chuyển động của vật gắn vào lò xo, định luật Hooke và năng lượng đàn hồi.",
-    category: "physics",
-    difficulty: "Cơ bản",
-    icon: "🌀",
-    color: "#60A5FA",
-    topics: ["Định luật Hooke", "Dao động điều hòa", "Năng lượng đàn hồi"],
-  },
-  {
     id: "ohms-law",
-    title: "Định Luật Ohm & Mạch Điện",
-    description: "Khám phá mối quan hệ giữa điện áp, dòng điện và điện trở trong mạch điện một chiều.",
+    title: "Định Luật Ohm & Mạch Điện Tải",
+    description: "Khám phá mối quan hệ giữa điện áp, dòng điện, điện trở và công suất tiêu thụ trên bóng đèn, động cơ.",
     category: "physics",
     difficulty: "Cơ bản",
-    icon: "🔋",
+    icon: "💡",
     color: "#60A5FA",
-    topics: ["Điện học", "Mạch điện", "Điện trở"],
+    topics: ["Điện học", "Mạch điện", "Công suất điện"],
   },
   {
     id: "refraction",
@@ -100,13 +203,13 @@ export const experiments: Experiment[] = [
   },
   {
     id: "electromagnetic",
-    title: "Sóng Điện Từ & Cảm Ứng",
-    description: "Trực quan hóa sự lan truyền của từ trường và điện trường vuông góc trong không gian.",
+    title: "Điện Trường & Mặt Đẳng Thế 3D",
+    description: "Trực quan hóa đường sức điện trường, lực tương tác Coulomb và mặt đẳng thế quanh các điện tích.",
     category: "physics",
     difficulty: "Nâng cao",
     icon: "📡",
     color: "#60A5FA",
-    topics: ["Từ trường", "Cảm ứng điện từ", "Sóng điện từ"],
+    topics: ["Tĩnh điện học", "Đường sức điện", "Mặt đẳng thế"],
   },
   {
     id: "wave-interference",
@@ -169,16 +272,6 @@ export const experiments: Experiment[] = [
     icon: "🔗",
     color: "#F472B6",
     topics: ["Liên kết cộng hóa trị", "Liên kết Ion", "Cấu trúc phân tử"],
-  },
-  {
-    id: "gas-laws",
-    title: "Các Định Luật Chất Khí",
-    description: "Mô phỏng chuyển động của các phân tử khí khi thay đổi thể tích, áp suất và nhiệt độ.",
-    category: "chemistry",
-    difficulty: "Cơ bản",
-    icon: "🎈",
-    color: "#F472B6",
-    topics: ["Định luật Boyle", "Định luật Charles", "Phương trình trạng thái"],
   },
   {
     id: "crystal-lattice",

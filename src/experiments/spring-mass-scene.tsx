@@ -1,13 +1,9 @@
 "use client";
 
-import { useRef, useMemo, useEffect, useCallback } from "react";
+import { useRef, useMemo, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Line, Html } from "@react-three/drei";
 import * as THREE from "three";
-
-// ============================================
-// INTERFACES
-// ============================================
 
 interface SpringMassSceneProps {
   onDataChange?: (data: SpringMassData) => void;
@@ -16,6 +12,8 @@ interface SpringMassSceneProps {
   damping?: number;
   initialDisplacement?: number;
   numberOfMasses?: number;
+  drivingAmplitude?: number; // N (Ngoại lực cưỡng bức F0)
+  drivingFrequency?: number; // Hz (Tần số ngoại lực f)
   showTrail?: boolean;
   showVectors?: boolean;
   showEnergyBars?: boolean;
@@ -36,103 +34,59 @@ export interface SpringMassData {
   totalEnergy: number;
   springForce: number;
   dampingForce: number;
+  drivingForce: number;
+  isResonance: boolean;
   elapsedTime: number;
   equilibriumPosition: number;
 }
 
-// ============================================
-// PHYSICS HELPERS
-// ============================================
-
-/** Calculate natural frequency ω = sqrt(k/m) */
 function calculateAngularFrequency(k: number, m: number): number {
   return Math.sqrt(k / m);
 }
 
-/** Calculate period T = 2π/ω */
 function calculatePeriod(k: number, m: number): number {
   return 2 * Math.PI * Math.sqrt(m / k);
 }
 
-/** Calculate frequency f = 1/T */
 function calculateFrequency(k: number, m: number): number {
   return 1 / (2 * Math.PI * Math.sqrt(m / k));
 }
 
-/** Calculate spring potential energy PE_spring = ½kx² */
 function calculateSpringPE(k: number, x: number): number {
   return 0.5 * k * x * x;
 }
 
-/** Calculate kinetic energy KE = ½mv² */
 function calculateKE(m: number, v: number): number {
   return 0.5 * m * v * v;
 }
 
-// ============================================
-// RK4 INTEGRATOR FOR DAMPED HARMONIC MOTION
-// ============================================
-
-function rk4Step(
-  x: number, v: number,
-  k: number, m: number, b: number, dt: number
+function rk4StepForced(
+  x: number,
+  v: number,
+  t: number,
+  k: number,
+  m: number,
+  b: number,
+  f0: number,
+  omegaDrive: number,
+  dt: number
 ): [number, number] {
-  // Equation: a = -(k/m)x - (b/m)v
-  const f = (pos: number, vel: number): [number, number] => {
+  const f = (pos: number, vel: number, time: number): [number, number] => {
+    const drive = f0 > 0 ? f0 * Math.cos(omegaDrive * time) : 0;
     const dx = vel;
-    const dv = -(k / m) * pos - (b / m) * vel;
+    const dv = (-(k * pos) - b * vel + drive) / m;
     return [dx, dv];
   };
 
-  const [k1x, k1v] = f(x, v);
-  const [k2x, k2v] = f(x + k1x * dt * 0.5, v + k1v * dt * 0.5);
-  const [k3x, k3v] = f(x + k2x * dt * 0.5, v + k2v * dt * 0.5);
-  const [k4x, k4v] = f(x + k3x * dt, v + k3v * dt);
+  const [k1x, k1v] = f(x, v, t);
+  const [k2x, k2v] = f(x + k1x * dt * 0.5, v + k1v * dt * 0.5, t + dt * 0.5);
+  const [k3x, k3v] = f(x + k2x * dt * 0.5, v + k2v * dt * 0.5, t + dt * 0.5);
+  const [k4x, k4v] = f(x + k3x * dt, v + k3v * dt, t + dt);
 
   const newX = x + (dt / 6) * (k1x + 2 * k2x + 2 * k3x + k4x);
   const newV = v + (dt / 6) * (k1v + 2 * k2v + 2 * k3v + k4v);
   return [newX, newV];
 }
-
-// ============================================
-// SPRING COILS GENERATION (ZIGZAG)
-// ============================================
-
-interface SpringCoilsProps {
-  topY: number;
-  bottomY: number;
-  width?: number;
-  coils?: number;
-  color?: string;
-}
-
-function SpringCoils({ topY, bottomY, width = 0.4, coils = 10, color = "#888" }: SpringCoilsProps) {
-  const points = useMemo(() => {
-    const pts: [number, number, number][] = [];
-    const length = topY - bottomY;
-    const segments = coils * 4; // 4 segments per coil for zigzag
-
-    for (let i = 0; i <= segments; i++) {
-      const t = i / segments;
-      const y = topY - t * length;
-
-      // Zigzag pattern in X direction
-      let x = 0;
-      const phase = (i % 4);
-      if (phase === 1) x = width;
-      else if (phase === 3) x = -width;
-
-      pts.push([x, y, 0]);
-    }
-    return pts;
-  }, [topY, bottomY, width, coils]);
-
-  return <Line points={points} color={color} lineWidth={2} />;
-}
-
-// ============================================
-// 3D ENERGY BAR COMPONENT
-// ============================================
 
 interface EnergyBar3DProps {
   position: [number, number, number];
@@ -143,19 +97,16 @@ interface EnergyBar3DProps {
 }
 
 function EnergyBar3D({ position, value, maxValue, color, label }: EnergyBar3DProps) {
-  const height = Math.max(0.1, (value / maxValue) * 3);
+  const height = Math.max(0.1, Math.min(4.2, (value / maxValue) * 3));
   const width = 0.3;
   const depth = 0.3;
 
   return (
     <group position={position}>
-      {/* Base */}
       <mesh position={[0, -0.05, 0]}>
         <boxGeometry args={[width * 1.5, 0.1, depth * 1.5]} />
         <meshStandardMaterial color="#222" metalness={0.5} roughness={0.5} />
       </mesh>
-
-      {/* Bar */}
       <mesh position={[0, height / 2, 0]}>
         <boxGeometry args={[width, height, depth]} />
         <meshStandardMaterial
@@ -166,21 +117,17 @@ function EnergyBar3D({ position, value, maxValue, color, label }: EnergyBar3DPro
           emissiveIntensity={0.2}
         />
       </mesh>
-
-      {/* Label */}
       <Html position={[width, 0.5, 0]} center distanceFactor={8}>
-        <div className="text-[9px] font-bold whitespace-nowrap pointer-events-none select-none"
-          style={{ color, backgroundColor: "rgba(0,0,0,0.7)", padding: "2px 6px", borderRadius: "4px" }}>
+        <div
+          className="text-[9px] font-bold whitespace-nowrap pointer-events-none select-none"
+          style={{ color, backgroundColor: "rgba(0,0,0,0.7)", padding: "2px 6px", borderRadius: "4px" }}
+        >
           {label}: {value.toFixed(2)} J
         </div>
       </Html>
     </group>
   );
 }
-
-// ============================================
-// MAIN SCENE COMPONENT
-// ============================================
 
 export function SpringMassSceneComponent({
   onDataChange,
@@ -189,6 +136,8 @@ export function SpringMassSceneComponent({
   damping = 0.3,
   initialDisplacement = 2,
   numberOfMasses = 1,
+  drivingAmplitude = 0,
+  drivingFrequency = 0.8,
   showTrail = true,
   showVectors = true,
   showEnergyBars = true,
@@ -196,49 +145,48 @@ export function SpringMassSceneComponent({
   simulationSpeed = 1,
   resetTrigger,
 }: SpringMassSceneProps) {
-  // Refs for masses and springs
   const massRefs = useRef<(THREE.Mesh | null)[]>([]);
   const springRefs = useRef<(THREE.Group | null)[]>([]);
+  const exciterRef = useRef<THREE.Mesh>(null);
   const trailRef = useRef<THREE.Points>(null);
   const velocityArrowRef = useRef<THREE.Group>(null);
   const forceArrowRef = useRef<THREE.Group>(null);
 
-  // Physics state
   const stateRef = useRef({
     displacements: [] as number[],
     velocities: [] as number[],
     time: 0,
   });
 
-  // Trail
   const MAX_TRAIL = 800;
-  const trailBuf = useMemo(() => ({
-    positions: new Float32Array(MAX_TRAIL * 3),
-    colors: new Float32Array(MAX_TRAIL * 3),
-    idx: 0,
-  }), []);
+  const trailBuf = useMemo(
+    () => ({
+      positions: new Float32Array(MAX_TRAIL * 3),
+      colors: new Float32Array(MAX_TRAIL * 3),
+      idx: 0,
+    }),
+    []
+  );
   const trailGeo = useMemo(() => {
     const g = new THREE.BufferGeometry();
     g.setAttribute("position", new THREE.BufferAttribute(trailBuf.positions, 3));
     g.setAttribute("color", new THREE.BufferAttribute(trailBuf.colors, 3));
     return g;
-  }, []);
+  }, [trailBuf]);
 
-  // Constants
   const g = 9.81;
   const ceilingY = 2;
   const restSpringLength = 3;
   const massSize = 0.6;
 
-  // Calculate equilibrium positions
-  // For a vertical spring with mass, equilibrium is where mg = k(stretch)
-  // stretch = mg/k, so equilibrium y = -restLength - stretch
+  const naturalFreq = useMemo(() => calculateFrequency(springConstant, mass), [springConstant, mass]);
+  const isResonance = drivingAmplitude > 0 && Math.abs(drivingFrequency - naturalFreq) / naturalFreq < 0.08;
+
   const equilibriumY = useMemo(() => {
     if (numberOfMasses === 1) {
       const stretch = (mass * g) / springConstant;
       return ceilingY - restSpringLength - stretch - massSize / 2;
     }
-    // For multiple masses in series, calculate each equilibrium
     const positions: number[] = [];
     let currentY = ceilingY;
     for (let i = 0; i < numberOfMasses; i++) {
@@ -251,7 +199,6 @@ export function SpringMassSceneComponent({
 
   const dataTimerRef = useRef(0);
 
-  // Initialize state
   useEffect(() => {
     stateRef.current = {
       displacements: Array(numberOfMasses).fill(initialDisplacement),
@@ -263,74 +210,77 @@ export function SpringMassSceneComponent({
     trailBuf.colors.fill(0);
   }, [resetTrigger, initialDisplacement, numberOfMasses, trailBuf]);
 
-  // Cleanup
   useEffect(() => {
-    return () => { trailGeo.dispose(); };
+    return () => {
+      trailGeo.dispose();
+    };
   }, [trailGeo]);
 
-  // Frame loop
   useFrame((_, delta) => {
     const rawDt = Math.min(delta, 0.02);
     const dt = rawDt * simulationSpeed;
     const state = stateRef.current;
+    const omegaDrive = 2 * Math.PI * drivingFrequency;
 
     if (isPlaying && dt > 0) {
-      // Sub-step for stability
       const steps = Math.max(1, Math.ceil(dt / 0.004));
       const subDt = dt / steps;
 
       for (let step = 0; step < steps; step++) {
         if (numberOfMasses === 1) {
-          // Single mass - simple harmonic motion
-          const [newX, newV] = rk4Step(
+          const [newX, newV] = rk4StepForced(
             state.displacements[0],
             state.velocities[0],
+            state.time,
             springConstant,
             mass,
             damping,
+            drivingAmplitude,
+            omegaDrive,
             subDt
           );
-          state.displacements[0] = newX;
+          // Giới hạn biên độ an toàn trong khung nhìn 3D
+          state.displacements[0] = THREE.MathUtils.clamp(newX, -5.2, 5.2);
           state.velocities[0] = newV;
         } else {
-          // Multiple masses in series - coupled oscillators
-          // Each mass is connected to springs above and below
           const newDisplacements = [...state.displacements];
           const newVelocities = [...state.velocities];
 
           for (let i = 0; i < numberOfMasses; i++) {
             const x = state.displacements[i];
             const v = state.velocities[i];
-
-            // Spring forces (coupled)
             let springForce = 0;
             if (i === 0) {
-              // Top mass: connected to ceiling and mass below
               springForce = -springConstant * x + springConstant * (state.displacements[1] - x);
             } else if (i === numberOfMasses - 1) {
-              // Bottom mass: connected to mass above only
               springForce = springConstant * (state.displacements[i - 1] - x);
             } else {
-              // Middle mass: connected to both
-              springForce = springConstant * (state.displacements[i - 1] - x) +
-                           springConstant * (state.displacements[i + 1] - x);
+              springForce =
+                springConstant * (state.displacements[i - 1] - x) +
+                springConstant * (state.displacements[i + 1] - x);
             }
 
+            const drive = i === 0 && drivingAmplitude > 0 ? drivingAmplitude * Math.cos(omegaDrive * state.time) : 0;
             const dampingForce = -damping * v;
-            const acceleration = (springForce + dampingForce) / mass;
+            const acceleration = (springForce + dampingForce + drive) / mass;
 
             newVelocities[i] = v + acceleration * subDt;
-            newDisplacements[i] = x + newVelocities[i] * subDt;
+            newDisplacements[i] = THREE.MathUtils.clamp(x + newVelocities[i] * subDt, -5.0, 5.0);
           }
 
           state.displacements = newDisplacements;
           state.velocities = newVelocities;
         }
+        state.time += subDt;
       }
-      state.time += dt;
     }
 
-    // Update mass positions
+    // Chuyển động đĩa kích thích ngoại lực ở đỉnh lò xo
+    const exciterOffset = drivingAmplitude > 0 ? Math.min(0.28, drivingAmplitude * 0.015) * Math.cos(omegaDrive * state.time) : 0;
+    if (exciterRef.current) {
+      exciterRef.current.position.y = ceilingY - 0.2 + exciterOffset;
+    }
+
     const eqPositions = Array.isArray(equilibriumY) ? equilibriumY : [equilibriumY];
     for (let i = 0; i < numberOfMasses; i++) {
       if (massRefs.current[i]) {
@@ -339,21 +289,21 @@ export function SpringMassSceneComponent({
       }
     }
 
-    // Update springs (zigzag coils)
-    let currentTopY = ceilingY;
+    let currentTopY = ceilingY + exciterOffset;
     for (let i = 0; i < numberOfMasses; i++) {
       if (springRefs.current[i]) {
         const massY = eqPositions[i] + state.displacements[i];
         const bottomY = massY + massSize / 2;
-        currentTopY = i === 0 ? ceilingY : (eqPositions[i - 1] + state.displacements[i - 1] + massSize / 2);
+        currentTopY =
+          i === 0
+            ? ceilingY + exciterOffset
+            : eqPositions[i - 1] + state.displacements[i - 1] + massSize / 2;
         const springGroup = springRefs.current[i];
 
         if (springGroup) {
-          // Clear previous springs
           while (springGroup.children.length > 0) {
             springGroup.remove(springGroup.children[0]);
           }
-          // We need to create the mesh directly since we can't add JSX in useFrame
           const points: [number, number, number][] = [];
           const length = currentTopY - bottomY;
           const segments = (8 + i * 2) * 4;
@@ -361,21 +311,20 @@ export function SpringMassSceneComponent({
             const t = j / segments;
             const y = currentTopY - t * length;
             let x = 0;
-            const phase = (j % 4);
+            const phase = j % 4;
             if (phase === 1) x = 0.3 + i * 0.1;
             else if (phase === 3) x = -(0.3 + i * 0.1);
             points.push([x, y, 0]);
           }
 
-          const lineGeo = new THREE.BufferGeometry().setFromPoints(points.map(p => new THREE.Vector3(...p)));
-          const lineMat = new THREE.LineBasicMaterial({ color: 0xaaaaaa, linewidth: 2 });
+          const lineGeo = new THREE.BufferGeometry().setFromPoints(points.map((p) => new THREE.Vector3(...p)));
+          const lineMat = new THREE.LineBasicMaterial({ color: isResonance ? 0xfacc15 : 0xaaaaaa, linewidth: 2 });
           const line = new THREE.Line(lineGeo, lineMat);
           springGroup.add(line);
         }
       }
     }
 
-    // Update trail (for bottom mass)
     if (showTrail && isPlaying) {
       const bottomIdx = numberOfMasses - 1;
       const bottomY = eqPositions[bottomIdx] + state.displacements[bottomIdx];
@@ -401,35 +350,32 @@ export function SpringMassSceneComponent({
       }
     }
 
-    // Update vectors
     const bottomIdx = numberOfMasses - 1;
     const bottomY = eqPositions[bottomIdx] + state.displacements[bottomIdx];
     const v = state.velocities[bottomIdx];
     const springForce = -springConstant * state.displacements[bottomIdx];
     const dampingForce = -damping * v;
+    const driveForceNow = drivingAmplitude > 0 ? drivingAmplitude * Math.cos(omegaDrive * state.time) : 0;
 
     if (showVectors) {
-      // Velocity arrow
       if (velocityArrowRef.current) {
         const arrowLength = Math.abs(v) * 0.3;
         velocityArrowRef.current.position.set(-1.5, bottomY, 0);
         velocityArrowRef.current.scale.set(1, Math.max(arrowLength, 0.01), 1);
         velocityArrowRef.current.rotation.z = v > 0 ? Math.PI : 0;
-        (velocityArrowRef.current as any).visible = Math.abs(v) > 0.05;
+        velocityArrowRef.current.visible = Math.abs(v) > 0.05;
       }
 
-      // Force arrow
       if (forceArrowRef.current) {
-        const totalForce = springForce + dampingForce;
+        const totalForce = springForce + dampingForce + driveForceNow;
         const arrowLength = Math.abs(totalForce) * 0.02;
         forceArrowRef.current.position.set(1.5, bottomY, 0);
         forceArrowRef.current.scale.set(1, Math.max(arrowLength, 0.01), 1);
         forceArrowRef.current.rotation.z = totalForce > 0 ? Math.PI : 0;
-        (forceArrowRef.current as any).visible = Math.abs(totalForce) > 0.1;
+        forceArrowRef.current.visible = Math.abs(totalForce) > 0.1;
       }
     }
 
-    // Throttled data callback
     dataTimerRef.current += rawDt;
     if (dataTimerRef.current >= 0.066) {
       dataTimerRef.current = 0;
@@ -441,7 +387,7 @@ export function SpringMassSceneComponent({
 
       onDataChange?.({
         period: calculatePeriod(springConstant, mass),
-        frequency: calculateFrequency(springConstant, mass),
+        frequency: naturalFreq,
         angularFrequency: calculateAngularFrequency(springConstant, mass),
         displacement: state.displacements[bottomIdx],
         velocity: v,
@@ -449,51 +395,43 @@ export function SpringMassSceneComponent({
         springPotentialEnergy: peSpring,
         gravitationalPotentialEnergy: peGrav,
         totalEnergy: totalE,
-        springForce: springForce,
-        dampingForce: dampingForce,
+        springForce,
+        dampingForce,
+        drivingForce: driveForceNow,
+        isResonance,
         elapsedTime: state.time,
         equilibriumPosition: eqPositions[bottomIdx],
       });
     }
   });
 
-  // Total energy for bar scaling
   const maxEnergy = useMemo(() => {
-    const initialPE = calculateSpringPE(springConstant, initialDisplacement);
-    const initialGravPE = mass * g * (Array.isArray(equilibriumY) ? equilibriumY[numberOfMasses - 1] : equilibriumY);
+    const initialPE = calculateSpringPE(springConstant, Math.max(initialDisplacement, 2));
+    const initialGravPE = Math.abs(
+      mass * g * (Array.isArray(equilibriumY) ? equilibriumY[numberOfMasses - 1] : equilibriumY)
+    );
     return (initialPE + initialGravPE) * 1.5 || 100;
   }, [springConstant, initialDisplacement, mass, equilibriumY, numberOfMasses, g]);
 
   return (
     <group>
-      {/* ====== LIGHTING ====== */}
-      <ambientLight intensity={0.4} />
+      <ambientLight intensity={0.45} />
       <directionalLight position={[10, 20, 10]} intensity={1} castShadow />
       <directionalLight position={[-10, 15, -10]} intensity={0.3} />
-      <pointLight position={[0, 5, 8]} intensity={0.5} color="#8b5cf6" />
+      <pointLight position={[0, 5, 8]} intensity={0.5} color={isResonance ? "#facc15" : "#8b5cf6"} />
 
-      {/* ====== CEILING SUPPORT ====== */}
-      <SupportFrame ceilingY={ceilingY} width={12} />
+      <SupportFrame ceilingY={ceilingY} width={12} exciterRef={exciterRef} drivingAmplitude={drivingAmplitude} />
 
-      {/* ====== FLOOR ====== */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -15, 0]} receiveShadow>
         <planeGeometry args={[40, 40]} />
         <meshStandardMaterial color="#050510" roughness={0.95} />
       </mesh>
       <gridHelper args={[40, 40, "#1a1a3e", "#0a0a1e"]} position={[0, -14.99, 0]} />
 
-      {/* ====== EQUILIBRIUM LINE ====== */}
       {Array.isArray(equilibriumY) ? (
         equilibriumY.map((eqY, i) => (
           <group key={i}>
-            <Line
-              points={[[2, eqY, 0], [4, eqY, 0]]}
-              color="#22c55e"
-              lineWidth={2}
-              dashed
-              dashSize={0.2}
-              gapSize={0.1}
-            />
+            <Line points={[[2, eqY, 0], [4, eqY, 0]]} color="#22c55e" lineWidth={2} dashed dashSize={0.2} gapSize={0.1} />
             <mesh position={[4.5, eqY, 0]}>
               <sphereGeometry args={[0.05, 8, 8]} />
               <meshBasicMaterial color="#22c55e" />
@@ -502,14 +440,7 @@ export function SpringMassSceneComponent({
         ))
       ) : (
         <group>
-          <Line
-            points={[[2, equilibriumY, 0], [4, equilibriumY, 0]]}
-            color="#22c55e"
-            lineWidth={2}
-            dashed
-            dashSize={0.2}
-            gapSize={0.1}
-          />
+          <Line points={[[2, equilibriumY, 0], [4, equilibriumY, 0]]} color="#22c55e" lineWidth={2} dashed dashSize={0.2} gapSize={0.1} />
           <mesh position={[4.5, equilibriumY, 0]}>
             <sphereGeometry args={[0.05, 8, 8]} />
             <meshBasicMaterial color="#22c55e" />
@@ -517,36 +448,25 @@ export function SpringMassSceneComponent({
         </group>
       )}
 
-      {/* ====== SPRINGS ====== */}
       {Array.from({ length: numberOfMasses }).map((_, i) => (
-        <group
-          key={i}
-          ref={(el) => { springRefs.current[i] = el; }}
-        />
+        <group key={i} ref={(el) => { springRefs.current[i] = el; }} />
       ))}
 
-      {/* ====== MASSES ====== */}
       {Array.from({ length: numberOfMasses }).map((_, i) => {
         const eqY = Array.isArray(equilibriumY) ? equilibriumY[i] : equilibriumY;
         const initialY = eqY + initialDisplacement;
         return (
           <group key={i}>
-            <mesh
-              ref={(el) => { massRefs.current[i] = el; }}
-              position={[0, initialY, 0]}
-              castShadow
-            >
+            <mesh ref={(el) => { massRefs.current[i] = el; }} position={[0, initialY, 0]} castShadow>
               <boxGeometry args={[massSize * 2, massSize, massSize * 2]} />
               <meshStandardMaterial
-                color="#4f8fff"
+                color={isResonance ? "#f59e0b" : "#4f8fff"}
                 metalness={0.7}
                 roughness={0.2}
-                emissive="#4f8fff"
-                emissiveIntensity={0.2}
+                emissive={isResonance ? "#f59e0b" : "#4f8fff"}
+                emissiveIntensity={isResonance ? 0.45 : 0.2}
               />
             </mesh>
-
-            {/* Mass label */}
             <Html position={[massSize + 0.3, 0, 0]} center>
               <div className="text-[10px] text-blue-300 bg-black/50 px-1.5 py-0.5 rounded whitespace-nowrap pointer-events-none select-none">
                 m{numberOfMasses > 1 ? `${i + 1}` : ""}: {mass.toFixed(1)} kg
@@ -556,7 +476,6 @@ export function SpringMassSceneComponent({
         );
       })}
 
-      {/* ====== TRAIL ====== */}
       {showTrail && (
         <points ref={trailRef} geometry={trailGeo}>
           <pointsMaterial
@@ -571,7 +490,6 @@ export function SpringMassSceneComponent({
         </points>
       )}
 
-      {/* ====== FORCE VECTORS ====== */}
       {showVectors && (
         <>
           <group ref={velocityArrowRef}>
@@ -583,7 +501,6 @@ export function SpringMassSceneComponent({
         </>
       )}
 
-      {/* ====== 3D ENERGY BARS ====== */}
       {showEnergyBars && (
         <group position={[-6, 0, 0]}>
           <EnergyBar3D
@@ -602,21 +519,10 @@ export function SpringMassSceneComponent({
           />
           <EnergyBar3D
             position={[3, 0, 0]}
-            value={mass * g * (Array.isArray(equilibriumY) ? equilibriumY[numberOfMasses - 1] : equilibriumY)}
+            value={Math.abs(mass * g * (Array.isArray(equilibriumY) ? equilibriumY[numberOfMasses - 1] : equilibriumY))}
             maxValue={maxEnergy}
             color="#3b82f6"
             label="Thế năng trọng trường"
-          />
-          <EnergyBar3D
-            position={[4.5, 0, 0]}
-            value={
-              calculateKE(mass, Math.abs(stateRef.current.velocities[numberOfMasses - 1] || 0)) +
-              calculateSpringPE(springConstant, stateRef.current.displacements[numberOfMasses - 1] || 0) +
-              mass * g * (Array.isArray(equilibriumY) ? equilibriumY[numberOfMasses - 1] : equilibriumY)
-            }
-            maxValue={maxEnergy}
-            color="#a855f7"
-            label="Tổng năng lượng"
           />
         </group>
       )}
@@ -624,28 +530,22 @@ export function SpringMassSceneComponent({
   );
 }
 
-// ============================================
-// SUB-COMPONENTS
-// ============================================
-
-/** Arrow for force/velocity vectors */
 function ArrowMesh({ color, label }: { color: string; label: string }) {
   return (
     <group>
-      {/* Shaft */}
       <mesh position={[0, -1, 0]}>
         <cylinderGeometry args={[0.05, 0.05, 2, 8]} />
         <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.4} />
       </mesh>
-      {/* Head */}
       <mesh position={[0, 0, 0]}>
         <coneGeometry args={[0.12, 0.35, 8]} />
         <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.4} />
       </mesh>
-      {/* Label */}
       <Html position={[0.25, -0.5, 0]} center>
-        <div className="text-[9px] font-bold px-1 py-0.5 rounded pointer-events-none select-none"
-          style={{ color, backgroundColor: "rgba(0,0,0,0.6)" }}>
+        <div
+          className="text-[9px] font-bold px-1 py-0.5 rounded pointer-events-none select-none"
+          style={{ color, backgroundColor: "rgba(0,0,0,0.6)" }}
+        >
           {label}
         </div>
       </Html>
@@ -653,21 +553,27 @@ function ArrowMesh({ color, label }: { color: string; label: string }) {
   );
 }
 
-/** Ceiling support frame */
-function SupportFrame({ ceilingY, width }: { ceilingY: number; width: number }) {
+function SupportFrame({
+  ceilingY,
+  width,
+  exciterRef,
+  drivingAmplitude,
+}: {
+  ceilingY: number;
+  width: number;
+  exciterRef: React.RefObject<THREE.Mesh | null>;
+  drivingAmplitude: number;
+}) {
   const beamH = 0.4;
   const beamColor = "#2a2a3e";
   const metalMat = { color: beamColor, metalness: 0.8, roughness: 0.25 };
 
   return (
     <group>
-      {/* Main ceiling beam */}
       <mesh position={[0, ceilingY + beamH / 2, 0]} castShadow receiveShadow>
         <boxGeometry args={[width, beamH, 4]} />
         <meshStandardMaterial {...metalMat} />
       </mesh>
-
-      {/* I-beam flanges */}
       <mesh position={[0, ceilingY + beamH * 0.4, 0]}>
         <boxGeometry args={[width, 0.06, 4.5]} />
         <meshStandardMaterial {...metalMat} />
@@ -676,8 +582,6 @@ function SupportFrame({ ceilingY, width }: { ceilingY: number; width: number }) 
         <boxGeometry args={[width, 0.06, 4.5]} />
         <meshStandardMaterial {...metalMat} />
       </mesh>
-
-      {/* Support pillars */}
       <mesh position={[-width / 2 + 0.3, ceilingY - 2, 0]} castShadow>
         <boxGeometry args={[0.3, 4, 0.3]} />
         <meshStandardMaterial {...metalMat} />
@@ -686,14 +590,15 @@ function SupportFrame({ ceilingY, width }: { ceilingY: number; width: number }) 
         <boxGeometry args={[0.3, 4, 0.3]} />
         <meshStandardMaterial {...metalMat} />
       </mesh>
-
-      {/* Spring attachment point */}
-      <mesh position={[0, ceilingY - 0.2, 0]}>
-        <cylinderGeometry args={[0.25, 0.25, 0.3, 16]} />
-        <meshStandardMaterial color="#555" metalness={0.9} roughness={0.1} />
+      {/* Bộ kích thích ngoại lực cưỡng bức */}
+      <mesh ref={exciterRef} position={[0, ceilingY - 0.2, 0]}>
+        <cylinderGeometry args={[0.32, 0.32, 0.32, 16]} />
+        <meshStandardMaterial
+          color={drivingAmplitude > 0 ? "#f59e0b" : "#555"}
+          metalness={0.8}
+          roughness={0.2}
+        />
       </mesh>
-
-      {/* Base plates */}
       {[-1, 1].map((side) => (
         <mesh key={side} position={[side * (width / 2 - 0.3), ceilingY - 4.15, 0]} receiveShadow>
           <boxGeometry args={[1, 0.1, 1]} />

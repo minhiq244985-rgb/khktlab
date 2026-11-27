@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import {
   SpringMassSceneComponent,
@@ -10,6 +10,7 @@ import {
   ExperimentContainer,
   ControlGroup,
   ControlSlider,
+  ControlButton,
   DataGrid,
   FloatingControlPanel,
   SimulationController,
@@ -21,17 +22,25 @@ export default function SpringMassPage() {
   const [data, setData] = useState<SpringMassData | null>(null);
   const [showDataPanel, setShowDataPanel] = useState(true);
 
-  // Simulation
   const [isPlaying, setIsPlaying] = useState(true);
   const [simulationSpeed, setSimulationSpeed] = useState(1);
   const [resetTrigger, setResetTrigger] = useState(0);
 
-  // Physics parameters
+  // Tham số cơ bản con lắc lò xo
   const [mass, setMass] = useState(2);
   const [springConstant, setSpringConstant] = useState(50);
-  const [damping, setDamping] = useState(0.3);
+  const [damping, setDamping] = useState(0.4);
   const [initialDisplacement, setInitialDisplacement] = useState(2);
   const [numberOfMasses, setNumberOfMasses] = useState(1);
+
+  // Tham số dao động cưỡng bức & cộng hưởng (SGK Vật lí 11)
+  const [drivingAmplitude, setDrivingAmplitude] = useState(0);
+  const [drivingFrequency, setDrivingFrequency] = useState(0.8);
+
+  const naturalFrequency = useMemo(
+    () => 1 / (2 * Math.PI * Math.sqrt(mass / springConstant)),
+    [mass, springConstant]
+  );
 
   const handlePlayPause = () => setIsPlaying((p) => !p);
   const handleReset = () => {
@@ -40,11 +49,18 @@ export default function SpringMassPage() {
     setSimulationSpeed(1);
   };
 
-  // === PARAMETER CONTROLS ===
+  const handleSetResonance = () => {
+    setDrivingAmplitude(12);
+    setDrivingFrequency(Number(naturalFrequency.toFixed(2)));
+    setDamping(0.5);
+    setInitialDisplacement(0.2);
+    setResetTrigger((n) => n + 1);
+    setIsPlaying(true);
+  };
+
   const parameterControls = (
     <div className="space-y-4">
-      {/* Physics Parameters */}
-      <ControlGroup title="Tham số vật lý">
+      <ControlGroup title="Tham số con lắc lò xo">
         <ControlSlider
           label="Khối lượng (m)"
           value={mass}
@@ -68,22 +84,22 @@ export default function SpringMassPage() {
           decimals={0}
         />
         <ControlSlider
-          label="Hệ số tắt dần (b)"
+          label="Hệ số cản tắt dần (b)"
           value={damping}
           unit="Ns/m"
           min={0}
-          max={2}
+          max={3}
           step={0.1}
           color="#ef4444"
           onChange={setDamping}
           decimals={2}
         />
         <ControlSlider
-          label="Độ lệch ban đầu"
+          label="Biên độ ban đầu (A₀)"
           value={initialDisplacement}
           unit="m"
-          min={0.5}
-          max={4}
+          min={0}
+          max={3.5}
           step={0.5}
           color="#f59e0b"
           onChange={setInitialDisplacement}
@@ -102,34 +118,70 @@ export default function SpringMassPage() {
         />
       </ControlGroup>
 
-      {/* Details link */}
+      <ControlGroup title="Ngoại lực cưỡng bức & Cộng hưởng">
+        <ControlSlider
+          label="Biên độ ngoại lực (F₀)"
+          value={drivingAmplitude}
+          unit="N"
+          min={0}
+          max={30}
+          step={2}
+          color="#f97316"
+          onChange={setDrivingAmplitude}
+          decimals={0}
+        />
+        <ControlSlider
+          label="Tần số ngoại lực (f)"
+          value={drivingFrequency}
+          unit="Hz"
+          min={0.1}
+          max={2.5}
+          step={0.02}
+          color="#eab308"
+          onChange={setDrivingFrequency}
+          decimals={2}
+        />
+        <ControlButton
+          label={`Kích thích cộng hưởng (f = f₀ = ${naturalFrequency.toFixed(2)} Hz)`}
+          icon="⚡"
+          variant="warning"
+          size="sm"
+          fullWidth
+          onClick={handleSetResonance}
+        />
+      </ControlGroup>
+
       <button
         onClick={() => router.push("/experiments/spring-mass/details")}
-        className="w-full py-2.5 bg-gradient-to-r from-amber-100 to-amber-200 hover:from-amber-200 hover:to-amber-300 text-amber-700 font-medium text-sm rounded-lg transition-all border border-amber-300/50 flex items-center justify-center gap-2"
+        className="w-full py-2.5 bg-gradient-to-r from-amber-100 to-amber-200 hover:from-amber-200 hover:to-amber-300 text-amber-800 font-medium text-sm rounded-lg transition-all border border-amber-300/50 flex items-center justify-center gap-2"
       >
-        📖 Xem chi tiết thí nghiệm
+        📖 Lý thuyết Dao động & Cộng hưởng (Lớp 11)
       </button>
     </div>
   );
 
-  // === DATA PANEL CONTENT ===
   const dataPanelContent = data ? (
     <>
+      {data.isResonance && (
+        <div className="mb-2.5 p-2 rounded-lg bg-amber-500/20 border border-amber-400 text-amber-200 text-xs font-semibold">
+          ⚡ ĐANG XẢY RA CỘNG HƯỞNG CƠ HỌC (f ≈ f₀ = {data.frequency.toFixed(2)} Hz) — Biên độ tăng cực đại!
+        </div>
+      )}
       <DataGrid
         data={{
-          period: { value: data.period, unit: "s (Chu kỳ)", color: "#f59e0b", decimals: 3 },
-          frequency: { value: data.frequency, unit: "Hz (Tần số)", color: "#8b5cf6", decimals: 2 },
-          displacement: { value: data.displacement, unit: "m (Li độ)", color: "#ec4899", decimals: 2 },
-          velocity: { value: data.velocity, unit: "m/s (Vận tốc)", color: "#22c55e", decimals: 2 },
-          springForce: { value: data.springForce, unit: "N (Lực đàn hồi)", color: "#ef4444", decimals: 1 },
-          dampingForce: { value: data.dampingForce, unit: "N (Lực cản)", color: "#3b82f6", decimals: 2 },
+          "Chu kỳ riêng T₀": { value: data.period, unit: "s", color: "#f59e0b", decimals: 3 },
+          "Tần số riêng f₀": { value: data.frequency, unit: "Hz", color: "#8b5cf6", decimals: 2 },
+          "Li độ x": { value: data.displacement, unit: "m", color: "#ec4899", decimals: 2 },
+          "Vận tốc v": { value: data.velocity, unit: "m/s", color: "#22c55e", decimals: 2 },
+          "Lực đàn hồi": { value: data.springForce, unit: "N", color: "#ef4444", decimals: 1 },
+          "Ngoại lực F": { value: data.drivingForce, unit: "N", color: "#f97316", decimals: 1 },
         }}
         columns={2}
       />
       <div className="mt-3 pt-3 border-t border-gray-700">
         <div className="grid grid-cols-2 gap-2 text-xs">
           <div className="p-2 bg-gray-800/50 rounded">
-            <span className="text-gray-500">Động năng</span>
+            <span className="text-gray-500">Động năng Wđ</span>
             <div className="font-mono text-green-400">{data.kineticEnergy.toFixed(2)} J</div>
           </div>
           <div className="p-2 bg-gray-800/50 rounded">
@@ -137,11 +189,11 @@ export default function SpringMassPage() {
             <div className="font-mono text-amber-400">{data.springPotentialEnergy.toFixed(2)} J</div>
           </div>
           <div className="p-2 bg-gray-800/50 rounded">
-            <span className="text-gray-500">Thế năng trọng trường</span>
-            <div className="font-mono text-blue-400">{data.gravitationalPotentialEnergy.toFixed(2)} J</div>
+            <span className="text-gray-500">Lực cản môi trường</span>
+            <div className="font-mono text-blue-400">{data.dampingForce.toFixed(2)} N</div>
           </div>
           <div className="p-2 bg-gray-800/50 rounded">
-            <span className="text-gray-500">Cơ năng toàn phần</span>
+            <span className="text-gray-500">Cơ năng W</span>
             <div className="font-mono text-purple-400">{data.totalEnergy.toFixed(2)} J</div>
           </div>
         </div>
@@ -156,9 +208,9 @@ export default function SpringMassPage() {
   return (
     <>
       <ExperimentContainer
-        title="Hệ con lắc lò xo"
-        description="Khám phá dao động điều hòa với định luật Hooke: F = -kx - bv. Hỗ trợ 1-3 vật mắc nối tiếp."
-        cameraPosition={[18, 10, 18]}
+        title="Con Lắc Lò Xo: Dao Động Điều Hòa & Cộng Hưởng (Lớp 11)"
+        description="Khảo sát dao động điều hòa, dao động tắt dần và hiện tượng cộng hưởng cơ học"
+        cameraPosition={[0, 1, 14]}
         backgroundColor="#050510"
         controls={null}
         dataPanel={null}
@@ -170,13 +222,14 @@ export default function SpringMassPage() {
           damping={damping}
           initialDisplacement={initialDisplacement}
           numberOfMasses={numberOfMasses}
-          resetTrigger={resetTrigger}
+          drivingAmplitude={drivingAmplitude}
+          drivingFrequency={drivingFrequency}
           isPlaying={isPlaying}
           simulationSpeed={simulationSpeed}
+          resetTrigger={resetTrigger}
         />
       </ExperimentContainer>
 
-      {/* Simulation Controller - Always Visible */}
       <SimulationController
         isPlaying={isPlaying}
         onPlayPause={handlePlayPause}
@@ -186,15 +239,13 @@ export default function SpringMassPage() {
         timeElapsed={data?.elapsedTime ?? 0}
       />
 
-      {/* Parameter Controls - Toggleable */}
       <FloatingControlPanel
-        title="⚙️ Tham số con lắc lò xo"
+        title="⚙️ Tham số dao động & Cộng hưởng"
         initialPosition={{ x: 20, y: 80 }}
       >
         {parameterControls}
       </FloatingControlPanel>
 
-      {/* Data Panel - Floating Toggleable */}
       <DataPanel
         isVisible={showDataPanel}
         onToggle={() => setShowDataPanel(!showDataPanel)}

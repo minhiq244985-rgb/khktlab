@@ -3,14 +3,7 @@ import { EXPERIMENTS } from "@/lib/aiContext";
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
-// Thử lần lượt các model; nếu model nào báo 404 (không còn/không cho dùng) thì sang model kế tiếp.
-const MODELS = Array.from(
-  new Set(
-    [process.env.GEMINI_MODEL, "gemini-3.5-flash-lite", "gemini-3.8-flash", "gemini-3.1-flash-lite", "gemini-2.5-flash-lite"].filter(
-      (m): m is string => !!m && !!m.trim()
-    )
-  )
-);
+const MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash";
 const MAX_MESSAGES = 12;
 const MAX_CHARS = 2000;
 const LIMIT_PER_MIN = 15;
@@ -60,7 +53,7 @@ function systemPrompt(role: string, slug: string | null) {
 }
 
 export async function POST(req: Request) {
-  const key = (process.env.GEMINI_API_KEY || "").trim();
+  const key = process.env.GEMINI_API_KEY;
   if (!key) return new Response("Chưa cấu hình GEMINI_API_KEY trên máy chủ.", { status: 500 });
 
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
@@ -103,42 +96,23 @@ export async function POST(req: Request) {
     last.parts.push({ inline_data: { mime_type: "image/jpeg", data: m[1] } });
   }
 
-  const payload = JSON.stringify({
-    systemInstruction: { parts: [{ text: systemPrompt(role, slug) }] },
-    contents: msgs,
-    generationConfig: { temperature: 0.5, maxOutputTokens: 2048 },
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:streamGenerateContent?alt=sse`;
+  const upstream = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "x-goog-api-key": key },
+    body: JSON.stringify({
+      systemInstruction: { parts: [{ text: systemPrompt(role, slug) }] },
+      contents: msgs,
+      generationConfig: { temperature: 0.5, maxOutputTokens: 1024 },
+    }),
   });
-
-  let upstream: Response | null = null;
-  for (const model of MODELS) {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse`;
-    try {
-      upstream = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "x-goog-api-key": key },
-        body: payload,
-      });
-    } catch (e) {
-      console.error("Gemini fetch failed", e);
-      return new Response("Không kết nối được tới Google (lỗi mạng từ máy chủ). Thử lại sau.", { status: 502 });
-    }
-    if (upstream.status !== 404) break;
-    console.error("Gemini model not found:", model);
-  }
-  if (!upstream) return new Response("Không có model nào để gọi.", { status: 502 });
 
   if (!upstream.ok || !upstream.body) {
     const status = upstream.status;
-    let detail = "";
-    try {
-      const j = JSON.parse(await upstream.text());
-      detail = String(j?.error?.message || "").slice(0, 300);
-    } catch {}
-    console.error("Gemini error", status, detail);
     const msg =
       status === 429
         ? "Trợ lý đang quá tải (hết lượt miễn phí tạm thời). Thử lại sau ít phút."
-        : `Trợ lý đang gặp sự cố (mã ${status}). ${detail}`.trim();
+        : "Trợ lý đang gặp sự cố, thử lại sau nhé.";
     return new Response(msg, { status: status === 429 ? 429 : 502 });
   }
 
