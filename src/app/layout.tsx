@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import PwaClient from "@/components/PwaClient";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -8,6 +9,7 @@ export const viewport: Viewport = {
   userScalable: false,
   interactiveWidget: "resizes-content",
   viewportFit: "cover",
+  themeColor: "#0b1020",
 };
 
 const SITE_URL = "https://sciencelab-two.vercel.app";
@@ -96,6 +98,7 @@ export const metadata: Metadata = {
       { url: "/favicon.svg", type: "image/svg+xml" },
     ],
     apple: "/apple-touch-icon.png",
+    shortcut: "/icons/favicon-32.png",
   },
   manifest: "/manifest.json",
   robots: {
@@ -197,7 +200,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="m-0 p-0">{children}</body>
+      <body className="m-0 p-0">
+        {children}
+        <PwaClient />
+      </body>
     </html>
   );
 }

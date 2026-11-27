@@ -1,21 +1,20 @@
 {
+  "id": "/",
   "name": "ScienceLab 3D",
-  "short_name": "ScienceLab3D",
-  "description": "Explore 40+ interactive 3D science experiments in Physics, Chemistry, Biology, and Mathematics.",
+  "short_name": "ScienceLab 3D",
+  "description": "Phòng thí nghiệm ảo 3D tương tác: Vật lý, Hóa học, Sinh học và Toán học.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#0a0a0f",
-  "theme_color": "#4f8fff",
   "orientation": "any",
+  "background_color": "#0b1020",
+  "theme_color": "#0b1020",
+  "lang": "vi",
+  "dir": "ltr",
+  "categories": ["education", "science"],
   "icons": [
-    {
-      "src": "/favicon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    }
-  ],
-  "categories": ["education", "science", "utilities"],
-  "lang": "en",
-  "dir": "ltr"
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
 }
