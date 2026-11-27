@@ -202,8 +202,8 @@ export function EmfInternalResistanceSceneComponent({
 
       {/* Biến trở con chạy R ở cạnh dưới */}
       <group position={[0, 0.32, D]}>
-        <mesh castShadow>
-          <cylinderGeometry args={[0.28, 0.28, 2.8, 20]} rotation={[0, 0, Math.PI / 2]} />
+        <mesh castShadow rotation={[0, 0, Math.PI / 2]}>
+          <cylinderGeometry args={[0.28, 0.28, 2.8, 20]} />
           <meshStandardMaterial color="#64748b" metalness={0.7} roughness={0.3} />
         </mesh>
         <mesh ref={wiperRef} position={[0, 0.38, 0]}>
