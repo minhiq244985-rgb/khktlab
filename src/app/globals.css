@@ -1,14 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  --bg-primary: #0a0a1a;
-  --bg-secondary: #111128;
-  --bg-card: #1a1a3e;
-  --text-primary: #e8e8ff;
-  --text-secondary: #a0a0c8;
-  --accent-blue: #4f8fff;
-  --accent-purple: #8b5cf6;
-  --accent-cyan: #06d6a0;
+  --bg-primary: #0b1020;
+  --bg-secondary: #121a33;
+  --bg-card: #172044;
+  --text-primary: #f1f4ff;
+  --text-secondary: #b4bddb;
+  --accent-blue: #5b9dff;
+  --accent-purple: #8b7bff;
+  --accent-cyan: #2dd4bf;
   --accent-orange: #ff6b35;
   --accent-pink: #ec4899;
   --glow-blue: 0 0 20px rgba(79, 143, 255, 0.3);
@@ -35,9 +35,12 @@
   --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
 
-* {
-  margin: 0;
-  padding: 0;
+/* Tailwind's preflight already resets margin/padding. An unlayered
+   `* { margin:0; padding:0 }` here would override every Tailwind utility
+   (px-4, py-3, mx-auto...) and collapse the layout, so only keep box-sizing. */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -51,8 +54,10 @@ body {
   color: var(--text-primary);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   transition: background 0.3s ease, color 0.3s ease;
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* Selection */
@@ -96,9 +101,9 @@ body {
 
 /* Glass morphism - dark mode default */
 .glass {
-  background: rgba(26, 26, 62, 0.6);
+  background: rgba(23, 32, 68, 0.62);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 /* Glass morphism - light mode */
@@ -108,6 +113,12 @@ body {
   border: 1px solid rgba(0, 0, 0, 0.06);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
+
+/* Light mode: Tailwind gray text utilities are tuned for dark backgrounds */
+.light .text-gray-300 { color: #374151; }
+.light .text-gray-400 { color: #4b5563; }
+.light .text-gray-500 { color: #6b7280; }
+.light .bg-white\/5 { background-color: rgba(17, 24, 39, 0.05); }
 
 /* Canvas container */
 .canvas-container {
