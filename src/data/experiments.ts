@@ -1,4 +1,4 @@
-export type GradeLevel = 10 | 11 | 12;
+﻿export type GradeLevel = 10 | 11 | 12;
 export type SubjectCategory = "physics" | "chemistry" | "biology" | "mathematics";
 
 export interface Experiment {
@@ -14,6 +14,7 @@ export interface Experiment {
 }
 
 export const gradeTabs = [
+  { id: "all", name: "Tất cả", subtitle: "Toàn bộ thí nghiệm 3D", icon: "📚", color: "#6366F1" },
   { id: "10", name: "Lớp 10", subtitle: "Nền tảng tự nhiên & Toán 10", icon: "🔟", color: "#38BDF8" },
   { id: "11", name: "Lớp 11", subtitle: "Chuyển hóa, Dao động & Giải tích 11", icon: "1️⃣1️⃣", color: "#A855F7" },
   { id: "12", name: "Lớp 12", subtitle: "Chuyên sâu SGK & Ôn thi THPT", icon: "1️⃣2️⃣", color: "#10B981" },
@@ -250,6 +251,7 @@ export const experiments: Experiment[] = [
     icon: "⚽",
     color: "#60A5FA",
     topics: ["Động học", "Quỹ đạo Parabol", "Vận tốc & Gia tốc"],
+    grade: 10,
   },
   {
     id: "double-slit",
@@ -260,6 +262,7 @@ export const experiments: Experiment[] = [
     icon: "〰️",
     color: "#60A5FA",
     topics: ["Quang sóng", "Giao thoa", "Sóng ánh sáng"],
+    grade: 12,
   },
   {
     id: "ohms-law",
@@ -270,6 +273,7 @@ export const experiments: Experiment[] = [
     icon: "💡",
     color: "#60A5FA",
     topics: ["Điện học", "Mạch điện", "Công suất điện"],
+    grade: 12,
   },
   {
     id: "refraction",
@@ -280,6 +284,7 @@ export const experiments: Experiment[] = [
     icon: "🔦",
     color: "#60A5FA",
     topics: ["Quang hình học", "Chiết suất", "Phản xạ toàn phần"],
+    grade: 11,
   },
   {
     id: "doppler",
@@ -290,6 +295,7 @@ export const experiments: Experiment[] = [
     icon: "🔊",
     color: "#60A5FA",
     topics: ["Sóng âm", "Tần số", "Chuyển động nguồn sóng"],
+    grade: 11,
   },
   {
     id: "gravitational-orbits",
@@ -300,6 +306,7 @@ export const experiments: Experiment[] = [
     icon: "🪐",
     color: "#60A5FA",
     topics: ["Thiên văn học", "Lực hấp dẫn", "Định luật Kepler"],
+    grade: 11,
   },
   {
     id: "electromagnetic",
@@ -310,6 +317,7 @@ export const experiments: Experiment[] = [
     icon: "📡",
     color: "#60A5FA",
     topics: ["Tĩnh điện học", "Đường sức điện", "Mặt đẳng thế"],
+    grade: 11,
   },
   {
     id: "wave-interference",
@@ -320,6 +328,7 @@ export const experiments: Experiment[] = [
     icon: "🌊",
     color: "#60A5FA",
     topics: ["Cơ học sóng", "Biên độ sóng", "Cực đại giao thoa"],
+    grade: 11,
   },
   {
     id: "acid-base-reactions",
@@ -330,6 +339,7 @@ export const experiments: Experiment[] = [
     icon: "🧪",
     color: "#F472B6",
     topics: ["Thang pH", "Trung hòa", "Chất chỉ thị"],
+    grade: 11,
   },
   {
     id: "titration",
@@ -340,6 +350,7 @@ export const experiments: Experiment[] = [
     icon: "⚗️",
     color: "#F472B6",
     topics: ["Phân tích hóa học", "Điểm tương đương", "Buret & Bình tam giác"],
+    grade: 11,
   },
   {
     id: "atomic-structure",
@@ -350,6 +361,7 @@ export const experiments: Experiment[] = [
     icon: "⚛️",
     color: "#F472B6",
     topics: ["Hạt nhân nguyên tử", "Lớp electron", "Vật lý lượng tử"],
+    grade: 10,
   },
   {
     id: "periodic-trends",
@@ -360,6 +372,7 @@ export const experiments: Experiment[] = [
     icon: "📊",
     color: "#F472B6",
     topics: ["Bảng tuần hoàn", "Độ âm điện", "Bán kính nguyên tử"],
+    grade: 10,
   },
   {
     id: "chemical-bonding",
@@ -370,6 +383,7 @@ export const experiments: Experiment[] = [
     icon: "🔗",
     color: "#F472B6",
     topics: ["Liên kết cộng hóa trị", "Liên kết Ion", "Cấu trúc phân tử"],
+    grade: 10,
   },
   {
     id: "crystal-lattice",
@@ -380,6 +394,7 @@ export const experiments: Experiment[] = [
     icon: "💎",
     color: "#F472B6",
     topics: ["Hóa học tinh thể", "Ô cơ sở", "Cấu trúc chất rắn"],
+    grade: 12,
   },
   {
     id: "electrolysis",
@@ -390,6 +405,7 @@ export const experiments: Experiment[] = [
     icon: "⚡",
     color: "#F472B6",
     topics: ["Điện hóa học", "Cực âm & Cực dương", "Phản ứng Redox"],
+    grade: 12,
   },
   {
     id: "thermochemistry",
@@ -400,6 +416,7 @@ export const experiments: Experiment[] = [
     icon: "🔥",
     color: "#F472B6",
     topics: ["Nhiệt phản ứng", "Biến thiên Enthalpy", "Tỏa nhiệt & Thu nhiệt"],
+    grade: 10,
   },
   {
     id: "cell-structure",
@@ -410,6 +427,7 @@ export const experiments: Experiment[] = [
     icon: "🧫",
     color: "#34D399",
     topics: ["Sinh học tế bào", "Ty thể & Nhân", "Bào quan"],
+    grade: 10,
   },
   {
     id: "dna-replication",
@@ -420,6 +438,7 @@ export const experiments: Experiment[] = [
     icon: "🧬",
     color: "#34D399",
     topics: ["Di truyền học", "Mã di truyền", "Enzyme nhân đôi"],
+    grade: 12,
   },
   {
     id: "photosynthesis",
@@ -430,6 +449,7 @@ export const experiments: Experiment[] = [
     icon: "🌿",
     color: "#34D399",
     topics: ["Lục lạp", "Chu trình Calvin", "Hấp thụ ánh sáng"],
+    grade: 12,
   },
   {
     id: "cellular-respiration",
@@ -440,6 +460,7 @@ export const experiments: Experiment[] = [
     icon: "⚡",
     color: "#34D399",
     topics: ["Phân giải Glucose", "Tổng hợp ATP", "Chu trình Krebs"],
+    grade: 12,
   },
   {
     id: "mitosis-meiosis",
@@ -450,6 +471,7 @@ export const experiments: Experiment[] = [
     icon: "🎛️",
     color: "#34D399",
     topics: ["Nhiễm sắc thể", "Phân chia tế bào", "Sinh sản tế bào"],
+    grade: 10,
   },
   {
     id: "natural-selection",
@@ -460,6 +482,7 @@ export const experiments: Experiment[] = [
     icon: "🦅",
     color: "#34D399",
     topics: ["Thuyết tiến hóa Darwin", "Tần số Gen", "Thích nghi"],
+    grade: 12,
   },
   {
     id: "protein-synthesis",
@@ -470,6 +493,7 @@ export const experiments: Experiment[] = [
     icon: "🧬",
     color: "#34D399",
     topics: ["Ribosome & tRNA", "Axit Amin", "Phiên mã & Dịch mã"],
+    grade: 12,
   },
   {
     id: "nervous-system",
@@ -480,6 +504,7 @@ export const experiments: Experiment[] = [
     icon: "🧠",
     color: "#34D399",
     topics: ["Tế bào Neuron", "Synapses", "Điện thế hoạt động"],
+    grade: 11,
   },
   {
     id: "diffusion",
@@ -490,6 +515,7 @@ export const experiments: Experiment[] = [
     icon: "💧",
     color: "#34D399",
     topics: ["Màng tế bào", "Áp suất thẩm thấu", "Vận chuyển thụ động"],
+    grade: 10,
   },
   {
     id: "immune-response",
@@ -500,6 +526,7 @@ export const experiments: Experiment[] = [
     icon: "🛡️",
     color: "#34D399",
     topics: ["Kháng thể & Kháng nguyên", "Bạch cầu", "Miễn dịch học"],
+    grade: 12,
   },
   {
     id: "ecosystem",
@@ -510,6 +537,7 @@ export const experiments: Experiment[] = [
     icon: "🌲",
     color: "#34D399",
     topics: ["Chuỗi thức ăn", "Cân bằng sinh thái", "Tháp năng lượng"],
+    grade: 11,
   },
   {
     id: "calculus-visualizer",
@@ -520,6 +548,7 @@ export const experiments: Experiment[] = [
     icon: "📈",
     color: "#FBBF24",
     topics: ["Đạo hàm", "Tích phân Riemann", "Đồ thị hàm số"],
+    grade: 12,
   },
   {
     id: "3d-geometry",
@@ -530,6 +559,7 @@ export const experiments: Experiment[] = [
     icon: "🧊",
     color: "#FBBF24",
     topics: ["Khối đa diện", "Thể tích 3D", "Mặt cắt không gian"],
+    grade: 10,
   },
   {
     id: "fourier-transform",
@@ -560,6 +590,7 @@ export const experiments: Experiment[] = [
     icon: "⭕",
     color: "#FBBF24",
     topics: ["Đường tròn đơn vị", "Hàm số lượng giác", "Góc & Radian"],
+    grade: 10,
   },
   {
     id: "complex-numbers",
@@ -580,6 +611,7 @@ export const experiments: Experiment[] = [
     icon: "📊",
     color: "#FBBF24",
     topics: ["Phân phối chuẩn", "Độ lệch chuẩn", "Xác suất thống kê"],
+    grade: 11,
   },
   {
     id: "fibonacci-spiral",
@@ -590,6 +622,7 @@ export const experiments: Experiment[] = [
     icon: "🐚",
     color: "#FBBF24",
     topics: ["Tỷ lệ vàng", "Dãy số Fibonacci", "Hình học tự nhiên"],
+    grade: 10,
   },
   {
     id: "mandelbrot",

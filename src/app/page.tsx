@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useMemo, useEffect } from "react";
 import { experiments, categories, gradeTabs, SubjectCategory } from "@/data/experiments";
@@ -13,7 +13,7 @@ function getFavorites(): string[] {
   }
 }
 
-type GradeTabId = "10" | "11" | "12" | "other";
+type GradeTabId = "all" | "10" | "11" | "12" | "other";
 type SubjectFilterId = "all" | SubjectCategory;
 
 function Navbar({
@@ -121,7 +121,7 @@ function Navbar({
 }
 
 export default function Home() {
-  const [activeGrade, setActiveGrade] = useState<GradeTabId>("10");
+  const [activeGrade, setActiveGrade] = useState<GradeTabId>("all");
   const [activeSubject, setActiveSubject] = useState<SubjectFilterId>("all");
   const [search, setSearch] = useState("");
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
@@ -148,6 +148,7 @@ export default function Home() {
 
   const gradeCounts = useMemo(
     () => ({
+      all: experiments.length,
       "10": experiments.filter((e) => e.grade === 10).length,
       "11": experiments.filter((e) => e.grade === 11).length,
       "12": experiments.filter((e) => e.grade === 12).length,
@@ -158,7 +159,7 @@ export default function Home() {
 
   const subjectCountsInActiveGrade = useMemo(() => {
     const inGrade = experiments.filter((e) =>
-      activeGrade === "other" ? e.grade === undefined : String(e.grade) === activeGrade
+      activeGrade === "all" ? true : activeGrade === "other" ? e.grade === undefined : String(e.grade) === activeGrade
     );
     return {
       all: inGrade.length,
@@ -181,9 +182,7 @@ export default function Home() {
       if (showFavoritesOnly) return favorites.includes(exp.id);
 
       const matchGrade =
-        activeGrade === "other"
-          ? exp.grade === undefined
-          : String(exp.grade) === activeGrade;
+        activeGrade === "all" ? true : activeGrade === "other" ? exp.grade === undefined : String(exp.grade) === activeGrade;
       if (!matchGrade) return false;
 
       if (activeSubject !== "all" && exp.category !== activeSubject) {
@@ -282,7 +281,7 @@ export default function Home() {
         </div>
 
         {/* TẦNG 1: 4 Mục Chính Theo Lớp */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-4xl mx-auto mb-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 max-w-5xl mx-auto mb-4">
           {gradeTabs.map((tab) => {
             const isSelected = activeGrade === tab.id && !showFavoritesOnly;
             return (
