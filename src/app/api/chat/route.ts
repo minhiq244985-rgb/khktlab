@@ -53,7 +53,7 @@ function systemPrompt(role: string, slug: string | null) {
 }
 
 export async function POST(req: Request) {
-  const key = process.env.GEMINI_API_KEY;
+  const key = (process.env.GEMINI_API_KEY || "").trim();
   if (!key) return new Response("Chưa cấu hình GEMINI_API_KEY trên máy chủ.", { status: 500 });
 
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
@@ -97,7 +97,9 @@ export async function POST(req: Request) {
   }
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:streamGenerateContent?alt=sse`;
-  const upstream = await fetch(url, {
+  let upstream: Response;
+  try {
+    upstream = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json", "x-goog-api-key": key },
     body: JSON.stringify({
@@ -105,14 +107,24 @@ export async function POST(req: Request) {
       contents: msgs,
       generationConfig: { temperature: 0.5, maxOutputTokens: 1024 },
     }),
-  });
+    });
+  } catch (e) {
+    console.error("Gemini fetch failed", e);
+    return new Response("Không kết nối được tới Google (lỗi mạng từ máy chủ). Thử lại sau.", { status: 502 });
+  }
 
   if (!upstream.ok || !upstream.body) {
     const status = upstream.status;
+    let detail = "";
+    try {
+      const j = JSON.parse(await upstream.text());
+      detail = String(j?.error?.message || "").slice(0, 300);
+    } catch {}
+    console.error("Gemini error", status, detail);
     const msg =
       status === 429
         ? "Trợ lý đang quá tải (hết lượt miễn phí tạm thời). Thử lại sau ít phút."
-        : "Trợ lý đang gặp sự cố, thử lại sau nhé.";
+        : `Trợ lý đang gặp sự cố (mã ${status}). ${detail}`.trim();
     return new Response(msg, { status: status === 429 ? 429 : 502 });
   }
 
