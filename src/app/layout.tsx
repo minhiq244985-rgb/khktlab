@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import PwaClient from "@/components/PwaClient";
+import AiAssistant from "@/components/AiAssistant";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -12,7 +13,12 @@ export const viewport: Viewport = {
   themeColor: "#0b1020",
 };
 
-const SITE_URL = "https://sciencelab-two.vercel.app";
+// Tự lấy địa chỉ web thật trên Vercel; có thể ghi đè bằng biến NEXT_PUBLIC_SITE_URL
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "http://localhost:3000");
 const SITE_NAME = "ScienceLab 3D";
 const SITE_TITLE = "ScienceLab 3D — Interactive STEM Education | 40+ Virtual Science Experiments";
 const SITE_DESCRIPTION =
@@ -71,7 +77,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    locale: "en_US",
+    locale: "vi_VN",
     url: SITE_URL,
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
@@ -186,7 +192,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="vi">
       <head>
         <link
           href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
@@ -203,6 +209,7 @@ export default function RootLayout({
       <body className="m-0 p-0">
         {children}
         <PwaClient />
+        <AiAssistant />
       </body>
     </html>
   );

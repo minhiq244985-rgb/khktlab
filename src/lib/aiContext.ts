@@ -1,0 +1,51 @@
+// Danh sách thí nghiệm để trợ lý AI biết người dùng đang ở đâu.
+// Chỉ dùng slug đã biết (máy chủ kiểm tra lại) nên không thể bị chèn nội dung lạ vào prompt.
+export type Subject = "Vật Lý" | "Hóa Học" | "Sinh Học" | "Toán Học";
+
+export const EXPERIMENTS: Record<string, { title: string; subject: Subject }> = {
+  "3d-geometry": { title: "Hình học không gian 3D", subject: "Toán Học" },
+  "acid-base-reactions": { title: "Phản ứng axit – bazơ", subject: "Hóa Học" },
+  "atomic-structure": { title: "Cấu trúc nguyên tử", subject: "Hóa Học" },
+  "calculus-visualizer": { title: "Trực quan hóa giải tích", subject: "Toán Học" },
+  "cell-structure": { title: "Cấu trúc tế bào", subject: "Sinh Học" },
+  "cellular-respiration": { title: "Hô hấp tế bào", subject: "Sinh Học" },
+  "chemical-bonding": { title: "Liên kết hóa học", subject: "Hóa Học" },
+  "complex-numbers": { title: "Số phức", subject: "Toán Học" },
+  "crystal-lattice": { title: "Mạng tinh thể", subject: "Hóa Học" },
+  diffusion: { title: "Sự khuếch tán", subject: "Vật Lý" },
+  "dna-replication": { title: "Nhân đôi DNA", subject: "Sinh Học" },
+  doppler: { title: "Hiệu ứng Doppler", subject: "Vật Lý" },
+  "double-slit": { title: "Thí nghiệm khe Young (hai khe)", subject: "Vật Lý" },
+  ecosystem: { title: "Hệ sinh thái", subject: "Sinh Học" },
+  electrolysis: { title: "Điện phân", subject: "Hóa Học" },
+  electromagnetic: { title: "Điện từ trường", subject: "Vật Lý" },
+  "fibonacci-spiral": { title: "Xoắn ốc Fibonacci", subject: "Toán Học" },
+  "fourier-transform": { title: "Biến đổi Fourier", subject: "Toán Học" },
+  "gas-laws": { title: "Định luật chất khí", subject: "Vật Lý" },
+  "gravitational-orbits": { title: "Quỹ đạo hấp dẫn", subject: "Vật Lý" },
+  "immune-response": { title: "Đáp ứng miễn dịch", subject: "Sinh Học" },
+  "linear-algebra": { title: "Đại số tuyến tính", subject: "Toán Học" },
+  mandelbrot: { title: "Tập Mandelbrot", subject: "Toán Học" },
+  "mitosis-meiosis": { title: "Nguyên phân và giảm phân", subject: "Sinh Học" },
+  "natural-selection": { title: "Chọn lọc tự nhiên", subject: "Sinh Học" },
+  "nervous-system": { title: "Hệ thần kinh", subject: "Sinh Học" },
+  "ohms-law": { title: "Định luật Ohm", subject: "Vật Lý" },
+  pendulum: { title: "Con lắc đơn", subject: "Vật Lý" },
+  "periodic-trends": { title: "Xu hướng bảng tuần hoàn", subject: "Hóa Học" },
+  photosynthesis: { title: "Quang hợp", subject: "Sinh Học" },
+  "probability-distributions": { title: "Phân phối xác suất", subject: "Toán Học" },
+  "projectile-motion": { title: "Chuyển động ném xiên", subject: "Vật Lý" },
+  "protein-synthesis": { title: "Tổng hợp protein", subject: "Sinh Học" },
+  refraction: { title: "Khúc xạ ánh sáng", subject: "Vật Lý" },
+  "spring-mass": { title: "Hệ con lắc lò xo", subject: "Vật Lý" },
+  thermochemistry: { title: "Nhiệt hóa học", subject: "Hóa Học" },
+  titration: { title: "Chuẩn độ", subject: "Hóa Học" },
+  "topology-surfaces": { title: "Mặt tô-pô", subject: "Toán Học" },
+  trigonometry: { title: "Lượng giác", subject: "Toán Học" },
+  "wave-interference": { title: "Giao thoa sóng", subject: "Vật Lý" },
+};
+
+export function slugFromPath(pathname: string): string | null {
+  const m = pathname.match(/^\/experiments\/([^/]+)/);
+  return m && EXPERIMENTS[m[1]] ? m[1] : null;
+}
