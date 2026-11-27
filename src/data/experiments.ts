@@ -1,10 +1,11 @@
 export type GradeLevel = 10 | 11 | 12;
+export type SubjectCategory = "physics" | "chemistry" | "biology" | "mathematics";
 
 export interface Experiment {
   id: string;
   title: string;
   description: string;
-  category: "physics" | "chemistry" | "biology" | "mathematics";
+  category: SubjectCategory;
   difficulty: "Cơ bản" | "Trung bình" | "Nâng cao";
   icon: string;
   color: string;
@@ -13,13 +14,13 @@ export interface Experiment {
 }
 
 export const gradeTabs = [
-  { id: "10", name: "Lớp 10", subtitle: "Cơ học & Bảo toàn", icon: "🔟", color: "#38BDF8" },
-  { id: "11", name: "Lớp 11", subtitle: "Dao động, Sóng & Điện", icon: "1️⃣1️⃣", color: "#A855F7" },
-  { id: "12", name: "Lớp 12", subtitle: "Nhiệt, Khí & Từ trường", icon: "1️⃣2️⃣", color: "#10B981" },
+  { id: "10", name: "Lớp 10", subtitle: "Nền tảng tự nhiên & Toán 10", icon: "🔟", color: "#38BDF8" },
+  { id: "11", name: "Lớp 11", subtitle: "Chuyển hóa, Dao động & Giải tích 11", icon: "1️⃣1️⃣", color: "#A855F7" },
+  { id: "12", name: "Lớp 12", subtitle: "Chuyên sâu SGK & Ôn thi THPT", icon: "1️⃣2️⃣", color: "#10B981" },
   { id: "other", name: "Khác", subtitle: "Kiến thức mở rộng & liên môn", icon: "🔬", color: "#F59E0B" },
 ] as const;
 
-export const categories = [
+export const categories: { id: SubjectCategory; name: string; icon: string; color: string }[] = [
   { id: "physics", name: "Vật Lý", icon: "⚡", color: "#60A5FA" },
   { id: "chemistry", name: "Hóa Học", icon: "🧪", color: "#F472B6" },
   { id: "biology", name: "Sinh Học", icon: "🧬", color: "#34D399" },
@@ -28,7 +29,7 @@ export const categories = [
 
 export const experiments: Experiment[] = [
   // ==========================================
-  // CHƯƠNG TRÌNH SGK VẬT LÍ LỚP 10
+  // CHƯƠNG TRÌNH SGK LỚP 10 (LÍ - HÓA - SINH - TOÁN)
   // ==========================================
   {
     id: "free-fall",
@@ -52,9 +53,42 @@ export const experiments: Experiment[] = [
     topics: ["Bảo toàn động lượng", "Bảo toàn cơ năng", "Va chạm & Ma sát"],
     grade: 10,
   },
+  {
+    id: "chem-10-structure-enthalpy-rate",
+    title: "Cấu Tạo Nguyên Tử, Enthalpy (ΔH) & Tốc Độ Phản Ứng",
+    description: "Mô phỏng 3D obitan nguyên tử, liên kết hóa học, nhiệt tỏa/thu (ΔrH) và các yếu tố ảnh hưởng tốc độ phản ứng (nồng độ, nhiệt độ, xúc tác).",
+    category: "chemistry",
+    difficulty: "Cơ bản",
+    icon: "🔥",
+    color: "#F472B6",
+    topics: ["Obitan & Liên kết", "Biến thiên Enthalpy ΔH", "Tốc độ phản ứng & Xúc tác"],
+    grade: 10,
+  },
+  {
+    id: "bio-10-cell-transport-division",
+    title: "Cấu Trúc Tế Bào, Vận Chuyển Qua Màng & Phân Bào",
+    description: "Khám phá màng sinh chất khảm động, cơ chế thẩm thấu – vận chuyển chủ động và chu kỳ nguyên phân, giảm phân của nhiễm sắc thể.",
+    category: "biology",
+    difficulty: "Cơ bản",
+    icon: "🧫",
+    color: "#34D399",
+    topics: ["Tế bào nhân thực", "Thẩm thấu & Bơm Na⁺-K⁺", "Nguyên phân & Giảm phân"],
+    grade: 10,
+  },
+  {
+    id: "math-10-vectors-conics",
+    title: "Vectơ, Hệ Thức Lượng & Ba Đường Conic 3D",
+    description: "Trực quan hóa phép toán vectơ Oxy, định lý Côsin/Sin và mặt phẳng cắt hình nón tạo thành Elip, Hypebol, Parabol cùng tiêu điểm.",
+    category: "mathematics",
+    difficulty: "Cơ bản",
+    icon: "📐",
+    color: "#FBBF24",
+    topics: ["Vectơ & Tích vô hướng", "Hệ thức lượng tam giác", "Elip, Hypebol & Parabol"],
+    grade: 10,
+  },
 
   // ==========================================
-  // CHƯƠNG TRÌNH SGK VẬT LÍ LỚP 11
+  // CHƯƠNG TRÌNH SGK LỚP 11 (LÍ - HÓA - SINH - TOÁN)
   // ==========================================
   {
     id: "pendulum",
@@ -100,9 +134,42 @@ export const experiments: Experiment[] = [
     topics: ["Định luật Ohm toàn mạch", "Suất điện động E", "Điện trở trong r"],
     grade: 11,
   },
+  {
+    id: "chem-11-equilibrium-titration",
+    title: "Cân Bằng Hóa Học (Le Chatelier) & Chuẩn Độ Acid – Base",
+    description: "Khảo sát sự chuyển dịch cân bằng thuận nghịch theo nhiệt độ/áp suất và thực hành chuẩn độ HCl bằng NaOH xác định điểm tương đương pH = 7.",
+    category: "chemistry",
+    difficulty: "Trung bình",
+    icon: "⚗️",
+    color: "#F472B6",
+    topics: ["Cân bằng hóa học", "Nguyên lý Le Chatelier", "Thang pH & Chuẩn độ"],
+    grade: 11,
+  },
+  {
+    id: "bio-11-metabolism-homeostasis",
+    title: "Quang Hợp, Hô Hấp Tế Bào & Tuần Hoàn – Cảm Ứng",
+    description: "Mô phỏng 3D lục lạp hấp thụ ánh sáng, đóng mở khí khổng trao đổi CO₂/O₂, hô hấp tế bào tạo ATP và dẫn truyền xung thần kinh.",
+    category: "biology",
+    difficulty: "Trung bình",
+    icon: "🌿",
+    color: "#34D399",
+    topics: ["Quang hợp C3/C4/CAM", "Hô hấp tế bào & ATP", "Tuần hoàn & Cảm ứng"],
+    grade: 11,
+  },
+  {
+    id: "math-11-trig-sequence-space",
+    title: "Lượng Giác, Cấp Số & Quan Hệ Vuông Góc Không Gian",
+    description: "Kết nối đường tròn lượng giác với đồ thị hàm sin/cos, cấp số cộng – nhân và hình chóp 3D đo góc nhị diện, khoảng cách trong không gian.",
+    category: "mathematics",
+    difficulty: "Trung bình",
+    icon: "⭕",
+    color: "#FBBF24",
+    topics: ["Hàm số lượng giác", "Cấp số cộng & Cấp số nhân", "Vuông góc & Góc nhị diện"],
+    grade: 11,
+  },
 
   // ==========================================
-  // CHƯƠNG TRÌNH SGK VẬT LÍ LỚP 12
+  // CHƯƠNG TRÌNH SGK LỚP 12 (LÍ - HÓA - SINH - TOÁN)
   // ==========================================
   {
     id: "calorimetry",
@@ -135,6 +202,39 @@ export const experiments: Experiment[] = [
     icon: "🧲",
     color: "#10B981",
     topics: ["Từ thông", "Cảm ứng điện từ", "Định luật Faraday & Lenz"],
+    grade: 12,
+  },
+  {
+    id: "chem-12-electrochem-polymer",
+    title: "Pin Điện Hóa (Galvani), Điện Phân & Ester – Kim Loại",
+    description: "Lắp ráp pin điện hóa Zn–Cu đo suất điện động chuẩn E°pin, quan sát điện phân dung dịch CuSO₄ và phản ứng thủy phân ester.",
+    category: "chemistry",
+    difficulty: "Trung bình",
+    icon: "⚡",
+    color: "#F472B6",
+    topics: ["Pin điện hóa & Thế điện cực", "Điện phân dung dịch", "Ester – Chất béo & Kim loại"],
+    grade: 12,
+  },
+  {
+    id: "bio-12-genetics-evolution-ecology",
+    title: "Di Truyền Phân Tử (DNA – Operon Lac), Mendel & Sinh Thái",
+    description: "Trực quan hóa tái bản DNA, phiên mã – dịch mã, điều hòa Operon Lac, phân li độc lập Mendel, chọn lọc tự nhiên và tháp sinh thái.",
+    category: "biology",
+    difficulty: "Trung bình",
+    icon: "🧬",
+    color: "#34D399",
+    topics: ["Tái bản DNA & Operon Lac", "Quy luật Mendel & Quần thể", "Tiến hóa & Tháp sinh thái"],
+    grade: 12,
+  },
+  {
+    id: "math-12-calculus-oxyz",
+    title: "Khảo Sát Hàm Số, Tích Phân Tròn Xoay & Hình Học Oxyz",
+    description: "Khảo sát cực trị – tiệm cận đồ thị hàm số, quay hình phẳng tính thể tích khối tròn xoay V = π∫f²(x)dx và mặt phẳng, mặt cầu Oxyz.",
+    category: "mathematics",
+    difficulty: "Trung bình",
+    icon: "📈",
+    color: "#FBBF24",
+    topics: ["Đạo hàm, Cực trị & Tiệm cận", "Tích phân & Khối tròn xoay", "Tọa độ không gian Oxyz"],
     grade: 12,
   },
 
@@ -221,8 +321,6 @@ export const experiments: Experiment[] = [
     color: "#60A5FA",
     topics: ["Cơ học sóng", "Biên độ sóng", "Cực đại giao thoa"],
   },
-
-  // --- HÓA HỌC ---
   {
     id: "acid-base-reactions",
     title: "Phản Ứng Axit - Bazơ",
@@ -303,8 +401,6 @@ export const experiments: Experiment[] = [
     color: "#F472B6",
     topics: ["Nhiệt phản ứng", "Biến thiên Enthalpy", "Tỏa nhiệt & Thu nhiệt"],
   },
-
-  // --- SINH HỌC ---
   {
     id: "cell-structure",
     title: "Cấu Trúc Tế Bào Nhân Thực 3D",
@@ -415,8 +511,6 @@ export const experiments: Experiment[] = [
     color: "#34D399",
     topics: ["Chuỗi thức ăn", "Cân bằng sinh thái", "Tháp năng lượng"],
   },
-
-  // --- TOÁN HỌC ---
   {
     id: "calculus-visualizer",
     title: "Trực Quan Hóa Giải Tích (Đạo Hàm & Tích Phân)",
