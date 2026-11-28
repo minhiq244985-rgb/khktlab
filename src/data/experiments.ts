@@ -29,627 +29,1146 @@ export const categories: { id: SubjectCategory; name: string; icon: string; colo
 ];
 
 export const experiments: Experiment[] = [
-{
-    id: "free-fall",
-    title: "Đo Gia Tốc Rơi Tự Do",
-    description: "Sử dụng cổng quang điện và đồng hồ đo thời gian hiện số để đo thời gian rơi và xác định gia tốc trọng trường g.",
-    category: "physics",
-    difficulty: "Cơ bản",
-    icon: "⏱️",
-    color: "#38BDF8",
-    topics: ["Sai số phép đo", "Rơi tự do", "Định luật II Newton"],
-    grade: 10,
+  {
+    "id": "free-fall",
+    "title": "Đo Gia Tốc Rơi Tự Do",
+    "description": "Sử dụng cổng quang điện và đồng hồ đo thời gian hiện số để đo thời gian rơi và xác định gia tốc trọng trường g.",
+    "category": "physics",
+    "difficulty": "Cơ bản",
+    "icon": "⏱️",
+    "color": "#38BDF8",
+    "topics": [
+      "Sai số phép đo",
+      "Rơi tự do",
+      "Định luật II Newton"
+    ],
+    "grade": 10
   },
-{
-    id: "air-track-collision",
-    title: "Bảo Toàn Động Lượng & Cơ Năng (Đệm Khí)",
-    description: "Khảo sát va chạm đàn hồi và va chạm mềm của hai xe trượt trên băng đệm khí qua cổng quang điện.",
-    category: "physics",
-    difficulty: "Trung bình",
-    icon: "🚝",
-    color: "#38BDF8",
-    topics: ["Bảo toàn động lượng", "Bảo toàn cơ năng", "Va chạm & Ma sát"],
-    grade: 10,
+  {
+    "id": "air-track-collision",
+    "title": "Bảo Toàn Động Lượng & Cơ Năng (Đệm Khí)",
+    "description": "Khảo sát va chạm đàn hồi và va chạm mềm của hai xe trượt trên băng đệm khí qua cổng quang điện.",
+    "category": "physics",
+    "difficulty": "Trung bình",
+    "icon": "🚝",
+    "color": "#38BDF8",
+    "topics": [
+      "Bảo toàn động lượng",
+      "Bảo toàn cơ năng",
+      "Va chạm & Ma sát"
+    ],
+    "grade": 10
   },
-{
-    id: "projectile-motion",
-    title: "Chuyển Động Ném Xiên",
-    description: "Mô phỏng quỹ đạo chuyển động của vật thể khi được ném với góc vận tốc ban đầu khác nhau.",
-    category: "physics",
-    difficulty: "Cơ bản",
-    icon: "⚽",
-    color: "#60A5FA",
-    topics: ["Động học", "Quỹ đạo Parabol", "Vận tốc & Gia tốc"],
-    grade: 10,
+  {
+    "id": "projectile-motion",
+    "title": "Chuyển Động Ném Xiên",
+    "description": "Mô phỏng quỹ đạo chuyển động của vật thể khi được ném với góc vận tốc ban đầu khác nhau.",
+    "category": "physics",
+    "difficulty": "Cơ bản",
+    "icon": "⚽",
+    "color": "#60A5FA",
+    "topics": [
+      "Động học",
+      "Quỹ đạo Parabol",
+      "Vận tốc & Gia tốc"
+    ],
+    "grade": 10
   },
-{
-    id: "chem-10-structure-enthalpy-rate",
-    title: "Cấu Tạo Nguyên Tử, Enthalpy (ΔH) & Tốc Độ Phản Ứng",
-    description: "Mô phỏng 3D obitan nguyên tử, liên kết hóa học, nhiệt tỏa/thu (ΔrH) và các yếu tố ảnh hưởng tốc độ phản ứng (nồng độ, nhiệt độ, xúc tác).",
-    category: "chemistry",
-    difficulty: "Cơ bản",
-    icon: "🔥",
-    color: "#F472B6",
-    topics: ["Obitan & Liên kết", "Biến thiên Enthalpy ΔH", "Tốc độ phản ứng & Xúc tác"],
-    grade: 10,
+  {
+    "id": "chem-10-structure-enthalpy-rate",
+    "title": "Cấu Tạo Nguyên Tử, Enthalpy (ΔH) & Tốc Độ Phản Ứng",
+    "description": "Mô phỏng 3D obitan nguyên tử, liên kết hóa học, nhiệt tỏa/thu (ΔrH) và các yếu tố ảnh hưởng tốc độ phản ứng (nồng độ, nhiệt độ, xúc tác).",
+    "category": "chemistry",
+    "difficulty": "Cơ bản",
+    "icon": "🔥",
+    "color": "#F472B6",
+    "topics": [
+      "Obitan & Liên kết",
+      "Biến thiên Enthalpy ΔH",
+      "Tốc độ phản ứng & Xúc tác"
+    ],
+    "grade": 10
   },
-{
-    id: "atomic-structure",
-    title: "Cấu Tạo Nguyên Tử & Quỹ Đạo Electron",
-    description: "Mô hình 3D nguyên tử theo lý thuyết Bohr và đám mây electron lượng tử.",
-    category: "chemistry",
-    difficulty: "Trung bình",
-    icon: "⚛️",
-    color: "#F472B6",
-    topics: ["Hạt nhân nguyên tử", "Lớp electron", "Vật lý lượng tử"],
-    grade: 10,
+  {
+    "id": "atomic-structure",
+    "title": "Cấu Tạo Nguyên Tử & Quỹ Đạo Electron",
+    "description": "Mô hình 3D nguyên tử theo lý thuyết Bohr và đám mây electron lượng tử.",
+    "category": "chemistry",
+    "difficulty": "Trung bình",
+    "icon": "⚛️",
+    "color": "#F472B6",
+    "topics": [
+      "Hạt nhân nguyên tử",
+      "Lớp electron",
+      "Vật lý lượng tử"
+    ],
+    "grade": 10
   },
-{
-    id: "periodic-trends",
-    title: "Xu Hướng Trong Bảng Tuần Hoàn",
-    description: "Quan sát trực quan sự biến đổi bán kính nguyên tử, độ âm điện và năng lượng ion hóa.",
-    category: "chemistry",
-    difficulty: "Cơ bản",
-    icon: "📊",
-    color: "#F472B6",
-    topics: ["Bảng tuần hoàn", "Độ âm điện", "Bán kính nguyên tử"],
-    grade: 10,
+  {
+    "id": "periodic-trends",
+    "title": "Xu Hướng Trong Bảng Tuần Hoàn",
+    "description": "Quan sát trực quan sự biến đổi bán kính nguyên tử, độ âm điện và năng lượng ion hóa.",
+    "category": "biology",
+    "difficulty": "Cơ bản",
+    "icon": "📊",
+    "color": "#F472B6",
+    "topics": [
+      "Bảng tuần hoàn",
+      "Độ âm điện",
+      "Bán kính nguyên tử"
+    ],
+    "grade": 10
   },
-{
-    id: "chemical-bonding",
-    title: "Liên Kết Hóa Học 3D",
-    description: "Trực quan hóa sự hình thành liên kết ion, liên kết cộng hóa trị qua cấu trúc phân tử.",
-    category: "chemistry",
-    difficulty: "Trung bình",
-    icon: "🔗",
-    color: "#F472B6",
-    topics: ["Liên kết cộng hóa trị", "Liên kết Ion", "Cấu trúc phân tử"],
-    grade: 10,
+  {
+    "id": "chemical-bonding",
+    "title": "Liên Kết Hóa Học 3D",
+    "description": "Trực quan hóa sự hình thành liên kết ion, liên kết cộng hóa trị qua cấu trúc phân tử.",
+    "category": "chemistry",
+    "difficulty": "Trung bình",
+    "icon": "🔗",
+    "color": "#F472B6",
+    "topics": [
+      "Liên kết cộng hóa trị",
+      "Liên kết Ion",
+      "Cấu trúc phân tử"
+    ],
+    "grade": 10
   },
-{
-    id: "thermochemistry",
-    title: "Nhiệt Hóa Học & Phản Ứng Thu/Tỏa Nhiệt",
-    description: "Đo đạc sự thay đổi nhiệt lượng (Enthalpy) và nhiệt độ của hệ trong các phản ứng hóa học.",
-    category: "chemistry",
-    difficulty: "Trung bình",
-    icon: "🔥",
-    color: "#F472B6",
-    topics: ["Nhiệt phản ứng", "Biến thiên Enthalpy", "Tỏa nhiệt & Thu nhiệt"],
-    grade: 10,
+  {
+    "id": "thermochemistry",
+    "title": "Nhiệt Hóa Học & Phản Ứng Thu/Tỏa Nhiệt",
+    "description": "Đo đạc sự thay đổi nhiệt lượng (Enthalpy) và nhiệt độ của hệ trong các phản ứng hóa học.",
+    "category": "chemistry",
+    "difficulty": "Trung bình",
+    "icon": "🔥",
+    "color": "#F472B6",
+    "topics": [
+      "Nhiệt phản ứng",
+      "Biến thiên Enthalpy",
+      "Tỏa nhiệt & Thu nhiệt"
+    ],
+    "grade": 10
   },
-{
-    id: "bio-10-cell-transport-division",
-    title: "Cấu Trúc Tế Bào, Vận Chuyển Qua Màng & Phân Bào",
-    description: "Khám phá màng sinh chất khảm động, cơ chế thẩm thấu – vận chuyển chủ động và chu kỳ nguyên phân, giảm phân của nhiễm sắc thể.",
-    category: "biology",
-    difficulty: "Cơ bản",
-    icon: "🧫",
-    color: "#34D399",
-    topics: ["Tế bào nhân thực", "Thẩm thấu & Bơm Na⁺-K⁺", "Nguyên phân & Giảm phân"],
-    grade: 10,
+  {
+    "id": "bio-10-cell-transport-division",
+    "title": "Cấu Trúc Tế Bào, Vận Chuyển Qua Màng & Phân Bào",
+    "description": "Khám phá màng sinh chất khảm động, cơ chế thẩm thấu – vận chuyển chủ động và chu kỳ nguyên phân, giảm phân của nhiễm sắc thể.",
+    "category": "biology",
+    "difficulty": "Cơ bản",
+    "icon": "🧫",
+    "color": "#34D399",
+    "topics": [
+      "Tế bào nhân thực",
+      "Thẩm thấu & Bơm Na⁺-K⁺",
+      "Nguyên phân & Giảm phân"
+    ],
+    "grade": 10
   },
-{
-    id: "cell-structure",
-    title: "Cấu Trúc Tế Bào Nhân Thực 3D",
-    description: "Khám phá chi tiết các bào quan bên trong tế bào như Nhân, Ty thể, Lưới nội chất.",
-    category: "biology",
-    difficulty: "Cơ bản",
-    icon: "🧫",
-    color: "#34D399",
-    topics: ["Sinh học tế bào", "Ty thể & Nhân", "Bào quan"],
-    grade: 10,
+  {
+    "id": "cell-structure",
+    "title": "Cấu Trúc Tế Bào Nhân Thực 3D",
+    "description": "Khám phá chi tiết các bào quan bên trong tế bào như Nhân, Ty thể, Lưới nội chất.",
+    "category": "biology",
+    "difficulty": "Cơ bản",
+    "icon": "🧫",
+    "color": "#34D399",
+    "topics": [
+      "Sinh học tế bào",
+      "Ty thể & Nhân",
+      "Bào quan"
+    ],
+    "grade": 10
   },
-{
-    id: "mitosis-meiosis",
-    title: "Phân Bào Nguyên Phân & Giảm Phân",
-    description: "Trực quan hóa các kỳ phân bào (Kỳ đầu, Kỳ giữa, Kỳ sau, Kỳ cuối) của nhiễm sắc thể.",
-    category: "biology",
-    difficulty: "Trung bình",
-    icon: "🎛️",
-    color: "#34D399",
-    topics: ["Nhiễm sắc thể", "Phân chia tế bào", "Sinh sản tế bào"],
-    grade: 10,
+  {
+    "id": "mitosis-meiosis",
+    "title": "Phân Bào Nguyên Phân & Giảm Phân",
+    "description": "Trực quan hóa các kỳ phân bào (Kỳ đầu, Kỳ giữa, Kỳ sau, Kỳ cuối) của nhiễm sắc thể.",
+    "category": "biology",
+    "difficulty": "Trung bình",
+    "icon": "🎛️",
+    "color": "#34D399",
+    "topics": [
+      "Nhiễm sắc thể",
+      "Phân chia tế bào",
+      "Sinh sản tế bào"
+    ],
+    "grade": 10
   },
-{
-    id: "diffusion",
-    title: "Khuếch Tán & Thẩm Thấu",
-    description: "Mô phỏng chuyển động Brown của các phân tử nước và chất tan qua màng bán thấm.",
-    category: "biology",
-    difficulty: "Cơ bản",
-    icon: "💧",
-    color: "#34D399",
-    topics: ["Màng tế bào", "Áp suất thẩm thấu", "Vận chuyển thụ động"],
-    grade: 10,
+  {
+    "id": "diffusion",
+    "title": "Khuếch Tán & Thẩm Thấu",
+    "description": "Mô phỏng chuyển động Brown của các phân tử nước và chất tan qua màng bán thấm.",
+    "category": "biology",
+    "difficulty": "Cơ bản",
+    "icon": "💧",
+    "color": "#34D399",
+    "topics": [
+      "Màng tế bào",
+      "Áp suất thẩm thấu",
+      "Vận chuyển thụ động"
+    ],
+    "grade": 10
   },
-{
-    id: "cellular-respiration",
-    title: "Hô Hấp Tế Bào",
-    description: "Theo dõi 3 giai đoạn chính: Đường phân, Chu trình Krebs và Chuỗi truyền electron.",
-    category: "biology",
-    difficulty: "Nâng cao",
-    icon: "⚡",
-    color: "#34D399",
-    topics: ["Phân giải Glucose", "Tổng hợp ATP", "Chu trình Krebs"],
-    grade: 10,
+  {
+    "id": "cellular-respiration",
+    "title": "Hô Hấp Tế Bào",
+    "description": "Theo dõi 3 giai đoạn chính: Đường phân, Chu trình Krebs và Chuỗi truyền electron.",
+    "category": "biology",
+    "difficulty": "Nâng cao",
+    "icon": "⚡",
+    "color": "#34D399",
+    "topics": [
+      "Phân giải Glucose",
+      "Tổng hợp ATP",
+      "Chu trình Krebs"
+    ],
+    "grade": 10
   },
-{
-    id: "math-10-vectors-conics",
-    title: "Vectơ, Hệ Thức Lượng & Ba Đường Conic 3D",
-    description: "Trực quan hóa phép toán vectơ Oxy, định lý Côsin/Sin và mặt phẳng cắt hình nón tạo thành Elip, Hypebol, Parabol cùng tiêu điểm.",
-    category: "mathematics",
-    difficulty: "Cơ bản",
-    icon: "📐",
-    color: "#FBBF24",
-    topics: ["Vectơ & Tích vô hướng", "Hệ thức lượng tam giác", "Elip, Hypebol & Parabol"],
-    grade: 10,
+  {
+    "id": "math-10-vectors-conics",
+    "title": "Vectơ, Hệ Thức Lượng & Ba Đường Conic 3D",
+    "description": "Trực quan hóa phép toán vectơ Oxy, định lý Côsin/Sin và mặt phẳng cắt hình nón tạo thành Elip, Hypebol, Parabol cùng tiêu điểm.",
+    "category": "mathematics",
+    "difficulty": "Cơ bản",
+    "icon": "📐",
+    "color": "#FBBF24",
+    "topics": [
+      "Vectơ & Tích vô hướng",
+      "Hệ thức lượng tam giác",
+      "Elip, Hypebol & Parabol"
+    ],
+    "grade": 10
   },
-{
-    id: "pendulum",
-    title: "Dao Động Điều Hòa: Con Lắc Đơn",
-    description: "Khám phá dao động điều hòa, đo chu kỳ T, tần số f và sự chuyển hóa động năng – thế năng.",
-    category: "physics",
-    difficulty: "Cơ bản",
-    icon: "🕰️",
-    color: "#A855F7",
-    topics: ["Dao động điều hòa", "Chu kỳ & Tần số", "Cơ năng con lắc"],
-    grade: 11,
+  {
+    "id": "pendulum",
+    "title": "Dao Động Điều Hòa: Con Lắc Đơn",
+    "description": "Khám phá dao động điều hòa, đo chu kỳ T, tần số f và sự chuyển hóa động năng – thế năng.",
+    "category": "physics",
+    "difficulty": "Cơ bản",
+    "icon": "🕰️",
+    "color": "#A855F7",
+    "topics": [
+      "Dao động điều hòa",
+      "Chu kỳ & Tần số",
+      "Cơ năng con lắc"
+    ],
+    "grade": 11
   },
-{
-    id: "spring-mass",
-    title: "Dao Động Điều Hòa: Con Lắc Lò Xo & Cộng Hưởng",
-    description: "Khảo sát dao động con lắc lò xo, dao động tắt dần và hiện tượng cộng hưởng cơ học khi ngoại lực biến thiên.",
-    category: "physics",
-    difficulty: "Cơ bản",
-    icon: "🌀",
-    color: "#A855F7",
-    topics: ["Con lắc lò xo", "Dao động tắt dần", "Hiện tượng cộng hưởng"],
-    grade: 11,
+  {
+    "id": "spring-mass",
+    "title": "Dao Động Điều Hòa: Con Lắc Lò Xo & Cộng Hưởng",
+    "description": "Khảo sát dao động con lắc lò xo, dao động tắt dần và hiện tượng cộng hưởng cơ học khi ngoại lực biến thiên.",
+    "category": "physics",
+    "difficulty": "Cơ bản",
+    "icon": "🌀",
+    "color": "#A855F7",
+    "topics": [
+      "Con lắc lò xo",
+      "Dao động tắt dần",
+      "Hiện tượng cộng hưởng"
+    ],
+    "grade": 11
   },
-{
-    id: "speed-of-sound",
-    title: "Đo Tốc Độ Truyền Âm Trong Không Khí",
-    description: "Dùng ống cộng hưởng cột khí và sóng dừng để xác định bước sóng λ và tốc độ truyền âm v = λ.f.",
-    category: "physics",
-    difficulty: "Trung bình",
-    icon: "📢",
-    color: "#A855F7",
-    topics: ["Sóng âm", "Sóng dừng", "Cộng hưởng cột khí"],
-    grade: 11,
+  {
+    "id": "speed-of-sound",
+    "title": "Đo Tốc Độ Truyền Âm Trong Không Khí",
+    "description": "Dùng ống cộng hưởng cột khí và sóng dừng để xác định bước sóng λ và tốc độ truyền âm v = λ.f.",
+    "category": "physics",
+    "difficulty": "Trung bình",
+    "icon": "📢",
+    "color": "#A855F7",
+    "topics": [
+      "Sóng âm",
+      "Sóng dừng",
+      "Cộng hưởng cột khí"
+    ],
+    "grade": 11
   },
-{
-    id: "emf-internal-resistance",
-    title: "Đo Suất Điện Động (E) & Điện Trở Trong (r)",
-    description: "Khảo sát mạch điện kín một chiều, đo sự phụ thuộc của hiệu điện thế ngoài U vào cường độ dòng điện I.",
-    category: "physics",
-    difficulty: "Trung bình",
-    icon: "🔋",
-    color: "#A855F7",
-    topics: ["Định luật Ohm toàn mạch", "Suất điện động E", "Điện trở trong r"],
-    grade: 11,
+  {
+    "id": "emf-internal-resistance",
+    "title": "Đo Suất Điện Động (E) & Điện Trở Trong (r)",
+    "description": "Khảo sát mạch điện kín một chiều, đo sự phụ thuộc của hiệu điện thế ngoài U vào cường độ dòng điện I.",
+    "category": "biology",
+    "difficulty": "Trung bình",
+    "icon": "🔋",
+    "color": "#A855F7",
+    "topics": [
+      "Định luật Ohm toàn mạch",
+      "Suất điện động E",
+      "Điện trở trong r"
+    ],
+    "grade": 11
   },
-{
-    id: "electromagnetic",
-    title: "Điện Trường & Mặt Đẳng Thế 3D",
-    description: "Trực quan hóa đường sức điện trường, lực tương tác Coulomb và mặt đẳng thế quanh các điện tích.",
-    category: "physics",
-    difficulty: "Nâng cao",
-    icon: "📡",
-    color: "#60A5FA",
-    topics: ["Tĩnh điện học", "Đường sức điện", "Mặt đẳng thế"],
-    grade: 11,
+  {
+    "id": "electromagnetic",
+    "title": "Điện Trường & Mặt Đẳng Thế 3D",
+    "description": "Trực quan hóa đường sức điện trường, lực tương tác Coulomb và mặt đẳng thế quanh các điện tích.",
+    "category": "physics",
+    "difficulty": "Nâng cao",
+    "icon": "📡",
+    "color": "#60A5FA",
+    "topics": [
+      "Tĩnh điện học",
+      "Đường sức điện",
+      "Mặt đẳng thế"
+    ],
+    "grade": 11
   },
-{
-    id: "wave-interference",
-    title: "Giao Thoa Sóng Mặt Nước",
-    description: "Mô phỏng 3D hiện tượng giao thoa sóng khi hai nguồn dao động cùng biên độ và tần số.",
-    category: "physics",
-    difficulty: "Trung bình",
-    icon: "🌊",
-    color: "#60A5FA",
-    topics: ["Cơ học sóng", "Biên độ sóng", "Cực đại giao thoa"],
-    grade: 11,
+  {
+    "id": "wave-interference",
+    "title": "Giao Thoa Sóng Mặt Nước",
+    "description": "Mô phỏng 3D hiện tượng giao thoa sóng khi hai nguồn dao động cùng biên độ và tần số.",
+    "category": "physics",
+    "difficulty": "Trung bình",
+    "icon": "🌊",
+    "color": "#60A5FA",
+    "topics": [
+      "Cơ học sóng",
+      "Biên độ sóng",
+      "Cực đại giao thoa"
+    ],
+    "grade": 11
   },
-{
-    id: "gravitational-orbits",
-    title: "Quỹ Đạo Hành Tinh & Định Luật Kepler",
-    description: "Mô phỏng chuyển động của các hành tinh quanh Mặt Trời và kiểm chứng các định luật Kepler.",
-    category: "physics",
-    difficulty: "Trung bình",
-    icon: "🪐",
-    color: "#60A5FA",
-    topics: ["Thiên văn học", "Lực hấp dẫn", "Định luật Kepler"],
-    grade: 11,
+  {
+    "id": "gravitational-orbits",
+    "title": "Quỹ Đạo Hành Tinh & Định Luật Kepler",
+    "description": "Mô phỏng chuyển động của các hành tinh quanh Mặt Trời và kiểm chứng các định luật Kepler.",
+    "category": "physics",
+    "difficulty": "Trung bình",
+    "icon": "🪐",
+    "color": "#60A5FA",
+    "topics": [
+      "Thiên văn học",
+      "Lực hấp dẫn",
+      "Định luật Kepler"
+    ],
+    "grade": 11
   },
-{
-    id: "double-slit",
-    title: "Thí Nghiệm Khe Y-âng",
-    description: "Quan sát hiện tượng giao thoa ánh sáng, tính chất sóng của ánh sáng qua hai khe hẹp.",
-    category: "physics",
-    difficulty: "Nâng cao",
-    icon: "〰️",
-    color: "#60A5FA",
-    topics: ["Quang sóng", "Giao thoa", "Sóng ánh sáng"],
-    grade: 11,
+  {
+    "id": "double-slit",
+    "title": "Thí Nghiệm Khe Y-âng",
+    "description": "Quan sát hiện tượng giao thoa ánh sáng, tính chất sóng của ánh sáng qua hai khe hẹp.",
+    "category": "physics",
+    "difficulty": "Nâng cao",
+    "icon": "〰️",
+    "color": "#60A5FA",
+    "topics": [
+      "Quang sóng",
+      "Giao thoa",
+      "Sóng ánh sáng"
+    ],
+    "grade": 11
   },
-{
-    id: "ohms-law",
-    title: "Định Luật Ohm & Mạch Điện Tải",
-    description: "Khám phá mối quan hệ giữa điện áp, dòng điện, điện trở và công suất tiêu thụ trên bóng đèn, động cơ.",
-    category: "physics",
-    difficulty: "Cơ bản",
-    icon: "💡",
-    color: "#60A5FA",
-    topics: ["Điện học", "Mạch điện", "Công suất điện"],
-    grade: 11,
+  {
+    "id": "ohms-law",
+    "title": "Định Luật Ohm & Mạch Điện Tải",
+    "description": "Khám phá mối quan hệ giữa điện áp, dòng điện, điện trở và công suất tiêu thụ trên bóng đèn, động cơ.",
+    "category": "physics",
+    "difficulty": "Cơ bản",
+    "icon": "💡",
+    "color": "#60A5FA",
+    "topics": [
+      "Điện học",
+      "Mạch điện",
+      "Công suất điện"
+    ],
+    "grade": 11
   },
-{
-    id: "chem-11-equilibrium-titration",
-    title: "Cân Bằng Hóa Học (Le Chatelier) & Chuẩn Độ Acid – Base",
-    description: "Khảo sát sự chuyển dịch cân bằng thuận nghịch theo nhiệt độ/áp suất và thực hành chuẩn độ HCl bằng NaOH xác định điểm tương đương pH = 7.",
-    category: "chemistry",
-    difficulty: "Trung bình",
-    icon: "⚗️",
-    color: "#F472B6",
-    topics: ["Cân bằng hóa học", "Nguyên lý Le Chatelier", "Thang pH & Chuẩn độ"],
-    grade: 11,
+  {
+    "id": "chem-11-equilibrium-titration",
+    "title": "Cân Bằng Hóa Học (Le Chatelier) & Chuẩn Độ Acid – Base",
+    "description": "Khảo sát sự chuyển dịch cân bằng thuận nghịch theo nhiệt độ/áp suất và thực hành chuẩn độ HCl bằng NaOH xác định điểm tương đương pH = 7.",
+    "category": "chemistry",
+    "difficulty": "Trung bình",
+    "icon": "⚗️",
+    "color": "#F472B6",
+    "topics": [
+      "Cân bằng hóa học",
+      "Nguyên lý Le Chatelier",
+      "Thang pH & Chuẩn độ"
+    ],
+    "grade": 11
   },
-{
-    id: "acid-base-reactions",
-    title: "Phản Ứng Axit - Bazơ",
-    description: "Khám phá sự thay đổi độ pH, màu sắc chất chỉ thị và nhiệt độ trong phản ứng trung hòa.",
-    category: "chemistry",
-    difficulty: "Cơ bản",
-    icon: "🧪",
-    color: "#F472B6",
-    topics: ["Thang pH", "Trung hòa", "Chất chỉ thị"],
-    grade: 11,
+  {
+    "id": "acid-base-reactions",
+    "title": "Phản Ứng Axit - Bazơ",
+    "description": "Khám phá sự thay đổi độ pH, màu sắc chất chỉ thị và nhiệt độ trong phản ứng trung hòa.",
+    "category": "chemistry",
+    "difficulty": "Cơ bản",
+    "icon": "🧪",
+    "color": "#F472B6",
+    "topics": [
+      "Thang pH",
+      "Trung hòa",
+      "Chất chỉ thị"
+    ],
+    "grade": 11
   },
-{
-    id: "titration",
-    title: "Chuẩn Độ Axit - Bazơ",
-    description: "Thực hiện kỹ thuật chuẩn độ từng giọt dung dịch để xác định chính xác nồng độ chưa biết.",
-    category: "chemistry",
-    difficulty: "Trung bình",
-    icon: "⚗️",
-    color: "#F472B6",
-    topics: ["Phân tích hóa học", "Điểm tương đương", "Buret & Bình tam giác"],
-    grade: 11,
+  {
+    "id": "titration",
+    "title": "Chuẩn Độ Axit - Bazơ",
+    "description": "Thực hiện kỹ thuật chuẩn độ từng giọt dung dịch để xác định chính xác nồng độ chưa biết.",
+    "category": "chemistry",
+    "difficulty": "Trung bình",
+    "icon": "⚗️",
+    "color": "#F472B6",
+    "topics": [
+      "Phân tích hóa học",
+      "Điểm tương đương",
+      "Buret & Bình tam giác"
+    ],
+    "grade": 11
   },
-{
-    id: "bio-11-metabolism-homeostasis",
-    title: "Quang Hợp, Hô Hấp Tế Bào & Tuần Hoàn – Cảm Ứng",
-    description: "Mô phỏng 3D lục lạp hấp thụ ánh sáng, đóng mở khí khổng trao đổi CO₂/O₂, hô hấp tế bào tạo ATP và dẫn truyền xung thần kinh.",
-    category: "biology",
-    difficulty: "Trung bình",
-    icon: "🌿",
-    color: "#34D399",
-    topics: ["Quang hợp C3/C4/CAM", "Hô hấp tế bào & ATP", "Tuần hoàn & Cảm ứng"],
-    grade: 11,
+  {
+    "id": "bio-11-metabolism-homeostasis",
+    "title": "Quang Hợp, Hô Hấp Tế Bào & Tuần Hoàn – Cảm Ứng",
+    "description": "Mô phỏng 3D lục lạp hấp thụ ánh sáng, đóng mở khí khổng trao đổi CO₂/O₂, hô hấp tế bào tạo ATP và dẫn truyền xung thần kinh.",
+    "category": "biology",
+    "difficulty": "Trung bình",
+    "icon": "🌿",
+    "color": "#34D399",
+    "topics": [
+      "Quang hợp C3/C4/CAM",
+      "Hô hấp tế bào & ATP",
+      "Tuần hoàn & Cảm ứng"
+    ],
+    "grade": 11
   },
-{
-    id: "nervous-system",
-    title: "Hệ Thần Kinh & Dẫn Truyền Xung Thần Kinh",
-    description: "Trực quan hóa cấu trúc tế bào Neuron và quá trình truyền xung điện qua các Synapse.",
-    category: "biology",
-    difficulty: "Nâng cao",
-    icon: "🧠",
-    color: "#34D399",
-    topics: ["Tế bào Neuron", "Synapses", "Điện thế hoạt động"],
-    grade: 11,
+  {
+    "id": "nervous-system",
+    "title": "Hệ Thần Kinh & Dẫn Truyền Xung Thần Kinh",
+    "description": "Trực quan hóa cấu trúc tế bào Neuron và quá trình truyền xung điện qua các Synapse.",
+    "category": "biology",
+    "difficulty": "Nâng cao",
+    "icon": "🧠",
+    "color": "#34D399",
+    "topics": [
+      "Tế bào Neuron",
+      "Synapses",
+      "Điện thế hoạt động"
+    ],
+    "grade": 11
   },
-{
-    id: "photosynthesis",
-    title: "Quang Hợp Thực Vật",
-    description: "Mô phỏng pha sáng và pha tối của quá trình quang hợp diễn ra trong lục lạp.",
-    category: "biology",
-    difficulty: "Trung bình",
-    icon: "🌿",
-    color: "#34D399",
-    topics: ["Lục lạp", "Chu trình Calvin", "Hấp thụ ánh sáng"],
-    grade: 11,
+  {
+    "id": "photosynthesis",
+    "title": "Quang Hợp Thực Vật",
+    "description": "Mô phỏng pha sáng và pha tối của quá trình quang hợp diễn ra trong lục lạp.",
+    "category": "biology",
+    "difficulty": "Trung bình",
+    "icon": "🌿",
+    "color": "#34D399",
+    "topics": [
+      "Lục lạp",
+      "Chu trình Calvin",
+      "Hấp thụ ánh sáng"
+    ],
+    "grade": 11
   },
-{
-    id: "immune-response",
-    title: "Phản Ứng Miễn Dịch Động",
-    description: "Mô phỏng sự tương tác giữa tế bào bạch cầu (T-cell, B-cell), Kháng nguyên và Kháng thể.",
-    category: "biology",
-    difficulty: "Nâng cao",
-    icon: "🛡️",
-    color: "#34D399",
-    topics: ["Kháng thể & Kháng nguyên", "Bạch cầu", "Miễn dịch học"],
-    grade: 11,
+  {
+    "id": "immune-response",
+    "title": "Phản Ứng Miễn Dịch Động",
+    "description": "Mô phỏng sự tương tác giữa tế bào bạch cầu (T-cell, B-cell), Kháng nguyên và Kháng thể.",
+    "category": "chemistry",
+    "difficulty": "Nâng cao",
+    "icon": "🛡️",
+    "color": "#34D399",
+    "topics": [
+      "Kháng thể & Kháng nguyên",
+      "Bạch cầu",
+      "Miễn dịch học"
+    ],
+    "grade": 11
   },
-{
-    id: "math-11-trig-sequence-space",
-    title: "Lượng Giác, Cấp Số & Quan Hệ Vuông Góc Không Gian",
-    description: "Kết nối đường tròn lượng giác với đồ thị hàm sin/cos, cấp số cộng – nhân và hình chóp 3D đo góc nhị diện, khoảng cách trong không gian.",
-    category: "mathematics",
-    difficulty: "Trung bình",
-    icon: "⭕",
-    color: "#FBBF24",
-    topics: ["Hàm số lượng giác", "Cấp số cộng & Cấp số nhân", "Vuông góc & Góc nhị diện"],
-    grade: 11,
+  {
+    "id": "math-11-trig-sequence-space",
+    "title": "Lượng Giác, Cấp Số & Quan Hệ Vuông Góc Không Gian",
+    "description": "Kết nối đường tròn lượng giác với đồ thị hàm sin/cos, cấp số cộng – nhân và hình chóp 3D đo góc nhị diện, khoảng cách trong không gian.",
+    "category": "mathematics",
+    "difficulty": "Trung bình",
+    "icon": "⭕",
+    "color": "#FBBF24",
+    "topics": [
+      "Hàm số lượng giác",
+      "Cấp số cộng & Cấp số nhân",
+      "Vuông góc & Góc nhị diện"
+    ],
+    "grade": 11
   },
-{
-    id: "trigonometry",
-    title: "Lượng Giác & Đường Tròn Đơn Vị",
-    description: "Theo dõi sự hình thành đồ thị hàm số Sin, Cos, Tan khi điểm di chuyển trên đường tròn đơn vị.",
-    category: "mathematics",
-    difficulty: "Cơ bản",
-    icon: "⭕",
-    color: "#FBBF24",
-    topics: ["Đường tròn đơn vị", "Hàm số lượng giác", "Góc & Radian"],
-    grade: 11,
+  {
+    "id": "trigonometry",
+    "title": "Lượng Giác & Đường Tròn Đơn Vị",
+    "description": "Theo dõi sự hình thành đồ thị hàm số Sin, Cos, Tan khi điểm di chuyển trên đường tròn đơn vị.",
+    "category": "mathematics",
+    "difficulty": "Cơ bản",
+    "icon": "⭕",
+    "color": "#FBBF24",
+    "topics": [
+      "Đường tròn đơn vị",
+      "Hàm số lượng giác",
+      "Góc & Radian"
+    ],
+    "grade": 11
   },
-{
-    id: "fibonacci-spiral",
-    title: "Dãy Số Fibonacci & Tỷ Lệ Vàng 3D",
-    description: "Khám phá hình xoắn ốc Fibonacci và sự xuất hiện của Tỷ lệ vàng trong hình học tự nhiên.",
-    category: "mathematics",
-    difficulty: "Cơ bản",
-    icon: "🐚",
-    color: "#FBBF24",
-    topics: ["Tỷ lệ vàng", "Dãy số Fibonacci", "Hình học tự nhiên"],
-    grade: 11,
+  {
+    "id": "fibonacci-spiral",
+    "title": "Dãy Số Fibonacci & Tỷ Lệ Vàng 3D",
+    "description": "Khám phá hình xoắn ốc Fibonacci và sự xuất hiện của Tỷ lệ vàng trong hình học tự nhiên.",
+    "category": "mathematics",
+    "difficulty": "Cơ bản",
+    "icon": "🐚",
+    "color": "#FBBF24",
+    "topics": [
+      "Tỷ lệ vàng",
+      "Dãy số Fibonacci",
+      "Hình học tự nhiên"
+    ],
+    "grade": 11
   },
-{
-    id: "calorimetry",
-    title: "Đo Nhiệt Dung Riêng & Ẩn Nhiệt Chuyển Thể",
-    description: "Sử dụng nhiệt lượng kế để xác định nhiệt dung riêng c, nhiệt nóng chảy riêng λ và nhiệt hóa hơi riêng L.",
-    category: "physics",
-    difficulty: "Trung bình",
-    icon: "🌡️",
-    color: "#10B981",
-    topics: ["Nội năng", "Nhiệt dung riêng", "Nóng chảy & Hóa hơi"],
-    grade: 12,
+  {
+    "id": "calorimetry",
+    "title": "Đo Nhiệt Dung Riêng & Ẩn Nhiệt Chuyển Thể",
+    "description": "Sử dụng nhiệt lượng kế để xác định nhiệt dung riêng c, nhiệt nóng chảy riêng λ và nhiệt hóa hơi riêng L.",
+    "category": "physics",
+    "difficulty": "Trung bình",
+    "icon": "🌡️",
+    "color": "#10B981",
+    "topics": [
+      "Nội năng",
+      "Nhiệt dung riêng",
+      "Nóng chảy & Hóa hơi"
+    ],
+    "grade": 12
   },
-{
-    id: "gas-laws",
-    title: "Khảo Sát Định Luật Boyle (Khí Lí Tưởng)",
-    description: "Khảo sát mối liên hệ tỉ lệ nghịch giữa áp suất p và thể tích V trong quá trình đẳng nhiệt (p.V = const).",
-    category: "physics",
-    difficulty: "Cơ bản",
-    icon: "🎈",
-    color: "#10B981",
-    topics: ["Khí lí tưởng", "Định luật Boyle", "Quá trình đẳng nhiệt"],
-    grade: 12,
+  {
+    "id": "gas-laws",
+    "title": "Khảo Sát Định Luật Boyle (Khí Lí Tưởng)",
+    "description": "Khảo sát mối liên hệ tỉ lệ nghịch giữa áp suất p và thể tích V trong quá trình đẳng nhiệt (p.V = const).",
+    "category": "physics",
+    "difficulty": "Cơ bản",
+    "icon": "🎈",
+    "color": "#10B981",
+    "topics": [
+      "Khí lí tưởng",
+      "Định luật Boyle",
+      "Quá trình đẳng nhiệt"
+    ],
+    "grade": 12
   },
-{
-    id: "electromagnetic-induction",
-    title: "Hiện Tượng Cảm Ứng Điện Từ",
-    description: "Thay đổi từ thông Φ qua cuộn dây bằng nam châm để quan sát dòng điện cảm ứng và nguyên lí máy phát điện.",
-    category: "physics",
-    difficulty: "Trung bình",
-    icon: "🧲",
-    color: "#10B981",
-    topics: ["Từ thông", "Cảm ứng điện từ", "Định luật Faraday & Lenz"],
-    grade: 12,
+  {
+    "id": "electromagnetic-induction",
+    "title": "Hiện Tượng Cảm Ứng Điện Từ",
+    "description": "Thay đổi từ thông Φ qua cuộn dây bằng nam châm để quan sát dòng điện cảm ứng và nguyên lí máy phát điện.",
+    "category": "physics",
+    "difficulty": "Trung bình",
+    "icon": "🧲",
+    "color": "#10B981",
+    "topics": [
+      "Từ thông",
+      "Cảm ứng điện từ",
+      "Định luật Faraday & Lenz"
+    ],
+    "grade": 12
   },
-{
-    id: "chem-12-electrochem-polymer",
-    title: "Pin Điện Hóa (Galvani), Điện Phân & Ester – Kim Loại",
-    description: "Lắp ráp pin điện hóa Zn–Cu đo suất điện động chuẩn E°pin, quan sát điện phân dung dịch CuSO₄ và phản ứng thủy phân ester.",
-    category: "chemistry",
-    difficulty: "Trung bình",
-    icon: "⚡",
-    color: "#F472B6",
-    topics: ["Pin điện hóa & Thế điện cực", "Điện phân dung dịch", "Ester – Chất béo & Kim loại"],
-    grade: 12,
+  {
+    "id": "chem-12-electrochem-polymer",
+    "title": "Pin Điện Hóa (Galvani), Điện Phân & Ester – Kim Loại",
+    "description": "Lắp ráp pin điện hóa Zn–Cu đo suất điện động chuẩn E°pin, quan sát điện phân dung dịch CuSO₄ và phản ứng thủy phân ester.",
+    "category": "chemistry",
+    "difficulty": "Trung bình",
+    "icon": "⚡",
+    "color": "#F472B6",
+    "topics": [
+      "Pin điện hóa & Thế điện cực",
+      "Điện phân dung dịch",
+      "Ester – Chất béo & Kim loại"
+    ],
+    "grade": 12
   },
-{
-    id: "crystal-lattice",
-    title: "Mạng Tinh Thể Không Gian",
-    description: "Khám phá cấu trúc mạng tinh thể lập phương tâm khối (BCC), lập phương tâm mặt (FCC).",
-    category: "chemistry",
-    difficulty: "Nâng cao",
-    icon: "💎",
-    color: "#F472B6",
-    topics: ["Hóa học tinh thể", "Ô cơ sở", "Cấu trúc chất rắn"],
-    grade: 12,
+  {
+    "id": "crystal-lattice",
+    "title": "Mạng Tinh Thể Không Gian",
+    "description": "Khám phá cấu trúc mạng tinh thể lập phương tâm khối (BCC), lập phương tâm mặt (FCC).",
+    "category": "chemistry",
+    "difficulty": "Nâng cao",
+    "icon": "💎",
+    "color": "#F472B6",
+    "topics": [
+      "Hóa học tinh thể",
+      "Ô cơ sở",
+      "Cấu trúc chất rắn"
+    ],
+    "grade": 12
   },
-{
-    id: "electrolysis",
-    title: "Điện Phân Dung Dịch",
-    description: "Quan sát quá trình oxy hóa khử xảy ra tại cực âm (Cathode) và cực dương (Anode).",
-    category: "chemistry",
-    difficulty: "Trung bình",
-    icon: "⚡",
-    color: "#F472B6",
-    topics: ["Điện hóa học", "Cực âm & Cực dương", "Phản ứng Redox"],
-    grade: 12,
+  {
+    "id": "electrolysis",
+    "title": "Điện Phân Dung Dịch",
+    "description": "Quan sát quá trình oxy hóa khử xảy ra tại cực âm (Cathode) và cực dương (Anode).",
+    "category": "chemistry",
+    "difficulty": "Trung bình",
+    "icon": "⚡",
+    "color": "#F472B6",
+    "topics": [
+      "Điện hóa học",
+      "Cực âm & Cực dương",
+      "Phản ứng Redox"
+    ],
+    "grade": 12
   },
-{
-    id: "bio-12-genetics-evolution-ecology",
-    title: "Di Truyền Phân Tử (DNA – Operon Lac), Mendel & Sinh Thái",
-    description: "Trực quan hóa tái bản DNA, phiên mã – dịch mã, điều hòa Operon Lac, phân li độc lập Mendel, chọn lọc tự nhiên và tháp sinh thái.",
-    category: "biology",
-    difficulty: "Trung bình",
-    icon: "🧬",
-    color: "#34D399",
-    topics: ["Tái bản DNA & Operon Lac", "Quy luật Mendel & Quần thể", "Tiến hóa & Tháp sinh thái"],
-    grade: 12,
+  {
+    "id": "bio-12-genetics-evolution-ecology",
+    "title": "Di Truyền Phân Tử (DNA – Operon Lac), Mendel & Sinh Thái",
+    "description": "Trực quan hóa tái bản DNA, phiên mã – dịch mã, điều hòa Operon Lac, phân li độc lập Mendel, chọn lọc tự nhiên và tháp sinh thái.",
+    "category": "biology",
+    "difficulty": "Trung bình",
+    "icon": "🧬",
+    "color": "#34D399",
+    "topics": [
+      "Tái bản DNA & Operon Lac",
+      "Quy luật Mendel & Quần thể",
+      "Tiến hóa & Tháp sinh thái"
+    ],
+    "grade": 12
   },
-{
-    id: "dna-replication",
-    title: "Quá Trình Nhân Đôi DNA",
-    description: "Quan sát enzyme Helicase tháo xoắn và DNA Polymerase tổng hợp mạch mới.",
-    category: "biology",
-    difficulty: "Nâng cao",
-    icon: "🧬",
-    color: "#34D399",
-    topics: ["Di truyền học", "Mã di truyền", "Enzyme nhân đôi"],
-    grade: 12,
+  {
+    "id": "dna-replication",
+    "title": "Quá Trình Nhân Đôi DNA",
+    "description": "Quan sát enzyme Helicase tháo xoắn và DNA Polymerase tổng hợp mạch mới.",
+    "category": "biology",
+    "difficulty": "Nâng cao",
+    "icon": "🧬",
+    "color": "#34D399",
+    "topics": [
+      "Di truyền học",
+      "Mã di truyền",
+      "Enzyme nhân đôi"
+    ],
+    "grade": 12
   },
-{
-    id: "natural-selection",
-    title: "Chọn Lọc Tự Nhiên & Tiến Hóa",
-    description: "Mô phỏng sự thay đổi tần số allele của quần thể sinh vật dưới tác động của môi trường.",
-    category: "biology",
-    difficulty: "Trung bình",
-    icon: "🦅",
-    color: "#34D399",
-    topics: ["Thuyết tiến hóa Darwin", "Tần số Gen", "Thích nghi"],
-    grade: 12,
+  {
+    "id": "natural-selection",
+    "title": "Chọn Lọc Tự Nhiên & Tiến Hóa",
+    "description": "Mô phỏng sự thay đổi tần số allele của quần thể sinh vật dưới tác động của môi trường.",
+    "category": "biology",
+    "difficulty": "Trung bình",
+    "icon": "🦅",
+    "color": "#34D399",
+    "topics": [
+      "Thuyết tiến hóa Darwin",
+      "Tần số Gen",
+      "Thích nghi"
+    ],
+    "grade": 12
   },
-{
-    id: "protein-synthesis",
-    title: "Tổng Hợp Protein (Phiên Mã & Dịch Mã)",
-    description: "Mô phỏng quá trình tổng hợp mRNA từ DNA và Ribosome đọc mã di truyền tạo chuỗi Polypeptide.",
-    category: "biology",
-    difficulty: "Nâng cao",
-    icon: "🧬",
-    color: "#34D399",
-    topics: ["Ribosome & tRNA", "Axit Amin", "Phiên mã & Dịch mã"],
-    grade: 12,
+  {
+    "id": "protein-synthesis",
+    "title": "Tổng Hợp Protein (Phiên Mã & Dịch Mã)",
+    "description": "Mô phỏng quá trình tổng hợp mRNA từ DNA và Ribosome đọc mã di truyền tạo chuỗi Polypeptide.",
+    "category": "biology",
+    "difficulty": "Nâng cao",
+    "icon": "🧬",
+    "color": "#34D399",
+    "topics": [
+      "Ribosome & tRNA",
+      "Axit Amin",
+      "Phiên mã & Dịch mã"
+    ],
+    "grade": 12
   },
-{
-    id: "ecosystem",
-    title: "Mô Phỏng Hệ Sinh Thái & Chuỗi Thức Ăn",
-    description: "Theo dõi sự cân bằng quần thể giữa sinh vật sản xuất, sinh vật tiêu thụ và phân giải.",
-    category: "biology",
-    difficulty: "Cơ bản",
-    icon: "🌲",
-    color: "#34D399",
-    topics: ["Chuỗi thức ăn", "Cân bằng sinh thái", "Tháp năng lượng"],
-    grade: 12,
+  {
+    "id": "ecosystem",
+    "title": "Mô Phỏng Hệ Sinh Thái & Chuỗi Thức Ăn",
+    "description": "Theo dõi sự cân bằng quần thể giữa sinh vật sản xuất, sinh vật tiêu thụ và phân giải.",
+    "category": "biology",
+    "difficulty": "Cơ bản",
+    "icon": "🌲",
+    "color": "#34D399",
+    "topics": [
+      "Chuỗi thức ăn",
+      "Cân bằng sinh thái",
+      "Tháp năng lượng"
+    ],
+    "grade": 12
   },
-{
-    id: "math-12-calculus-oxyz",
-    title: "Khảo Sát Hàm Số, Tích Phân Tròn Xoay & Hình Học Oxyz",
-    description: "Khảo sát cực trị – tiệm cận đồ thị hàm số, quay hình phẳng tính thể tích khối tròn xoay V = π∫f²(x)dx và mặt phẳng, mặt cầu Oxyz.",
-    category: "mathematics",
-    difficulty: "Trung bình",
-    icon: "📈",
-    color: "#FBBF24",
-    topics: ["Đạo hàm, Cực trị & Tiệm cận", "Tích phân & Khối tròn xoay", "Tọa độ không gian Oxyz"],
-    grade: 12,
+  {
+    "id": "math-12-calculus-oxyz",
+    "title": "Khảo Sát Hàm Số, Tích Phân Tròn Xoay & Hình Học Oxyz",
+    "description": "Khảo sát cực trị – tiệm cận đồ thị hàm số, quay hình phẳng tính thể tích khối tròn xoay V = π∫f²(x)dx và mặt phẳng, mặt cầu Oxyz.",
+    "category": "mathematics",
+    "difficulty": "Trung bình",
+    "icon": "📈",
+    "color": "#FBBF24",
+    "topics": [
+      "Đạo hàm, Cực trị & Tiệm cận",
+      "Tích phân & Khối tròn xoay",
+      "Tọa độ không gian Oxyz"
+    ],
+    "grade": 12
   },
-{
-    id: "calculus-visualizer",
-    title: "Trực Quan Hóa Giải Tích (Đạo Hàm & Tích Phân)",
-    description: "Trực quan 3D ý nghĩa hình học của đạo hàm (tiếp tuyến) và tích phân (diện tích dưới đường cong).",
-    category: "mathematics",
-    difficulty: "Trung bình",
-    icon: "📈",
-    color: "#FBBF24",
-    topics: ["Đạo hàm", "Tích phân Riemann", "Đồ thị hàm số"],
-    grade: 12,
+  {
+    "id": "calculus-visualizer",
+    "title": "Trực Quan Hóa Giải Tích (Đạo Hàm & Tích Phân)",
+    "description": "Trực quan 3D ý nghĩa hình học của đạo hàm (tiếp tuyến) và tích phân (diện tích dưới đường cong).",
+    "category": "mathematics",
+    "difficulty": "Trung bình",
+    "icon": "📈",
+    "color": "#FBBF24",
+    "topics": [
+      "Đạo hàm",
+      "Tích phân Riemann",
+      "Đồ thị hàm số"
+    ],
+    "grade": 12
   },
-{
-    id: "refraction",
-    title: "Khúc Xạ Ánh Sáng & Định Luật Snell",
-    description: "Theo dõi đường đi của tia sáng khi truyền qua các môi trường trong suốt có chiết suất khác nhau.",
-    category: "physics",
-    difficulty: "Trung bình",
-    icon: "🔦",
-    color: "#60A5FA",
-    topics: ["Quang hình học", "Chiết suất", "Phản xạ toàn phần"],
+  {
+    "id": "refraction",
+    "title": "Khúc Xạ Ánh Sáng & Định Luật Snell",
+    "description": "Theo dõi đường đi của tia sáng khi truyền qua các môi trường trong suốt có chiết suất khác nhau.",
+    "category": "physics",
+    "difficulty": "Trung bình",
+    "icon": "🔦",
+    "color": "#60A5FA",
+    "topics": [
+      "Quang hình học",
+      "Chiết suất",
+      "Phản xạ toàn phần"
+    ]
   },
-{
-    id: "3d-geometry",
-    title: "Hình Học Không Gian 3D",
-    description: "Cắt và xoay các khối đa diện đều, hình nón, hình trụ, hình cầu để hiểu rõ thể tích và diện tích.",
-    category: "mathematics",
-    difficulty: "Cơ bản",
-    icon: "🧊",
-    color: "#FBBF24",
-    topics: ["Khối đa diện", "Thể tích 3D", "Mặt cắt không gian"],
+  {
+    "id": "3d-geometry",
+    "title": "Hình Học Không Gian 3D",
+    "description": "Cắt và xoay các khối đa diện đều, hình nón, hình trụ, hình cầu để hiểu rõ thể tích và diện tích.",
+    "category": "mathematics",
+    "difficulty": "Cơ bản",
+    "icon": "🧊",
+    "color": "#FBBF24",
+    "topics": [
+      "Khối đa diện",
+      "Thể tích 3D",
+      "Mặt cắt không gian"
+    ]
   },
-{
-    id: "doppler",
-    title: "Hiệu Ứng Doppler",
-    description: "Mô phỏng sự thay đổi tần số sóng âm hoặc sóng ánh sáng khi nguồn phát chuyển động.",
-    category: "physics",
-    difficulty: "Trung bình",
-    icon: "🔊",
-    color: "#60A5FA",
-    topics: ["Sóng âm", "Tần số", "Chuyển động nguồn sóng"],
+  {
+    "id": "doppler",
+    "title": "Hiệu Ứng Doppler",
+    "description": "Mô phỏng sự thay đổi tần số sóng âm hoặc sóng ánh sáng khi nguồn phát chuyển động.",
+    "category": "physics",
+    "difficulty": "Trung bình",
+    "icon": "🔊",
+    "color": "#60A5FA",
+    "topics": [
+      "Sóng âm",
+      "Tần số",
+      "Chuyển động nguồn sóng"
+    ]
   },
-{
-    id: "probability-distributions",
-    title: "Phân Phối Xác Suất & Thống Kê",
-    description: "Mô phỏng mô hình phân phối chuẩn (Hình chuông), định lý giới hạn trung tâm qua các lần thử.",
-    category: "mathematics",
-    difficulty: "Trung bình",
-    icon: "📊",
-    color: "#FBBF24",
-    topics: ["Phân phối chuẩn", "Độ lệch chuẩn", "Xác suất thống kê"],
+  {
+    "id": "probability-distributions",
+    "title": "Phân Phối Xác Suất & Thống Kê",
+    "description": "Mô phỏng mô hình phân phối chuẩn (Hình chuông), định lý giới hạn trung tâm qua các lần thử.",
+    "category": "mathematics",
+    "difficulty": "Trung bình",
+    "icon": "📊",
+    "color": "#FBBF24",
+    "topics": [
+      "Phân phối chuẩn",
+      "Độ lệch chuẩn",
+      "Xác suất thống kê"
+    ]
   },
-{
-    id: "complex-numbers",
-    title: "Mặt Phẳng Số Phức 3D",
-    description: "Trực quan hóa các phép toán số phức, dạng lượng giác (Euler) và nghiệm phương trình phức.",
-    category: "mathematics",
-    difficulty: "Trung bình",
-    icon: "🌐",
-    color: "#FBBF24",
-    topics: ["Số phức", "Mặt phẳng Argand", "Công thức Euler"],
+  {
+    "id": "complex-numbers",
+    "title": "Mặt Phẳng Số Phức 3D",
+    "description": "Trực quan hóa các phép toán số phức, dạng lượng giác (Euler) và nghiệm phương trình phức.",
+    "category": "mathematics",
+    "difficulty": "Trung bình",
+    "icon": "🌐",
+    "color": "#FBBF24",
+    "topics": [
+      "Số phức",
+      "Mặt phẳng Argand",
+      "Công thức Euler"
+    ]
   },
-{
-    id: "fourier-transform",
-    title: "Biến Đổi Fourier Trực Quan",
-    description: "Phân tích một sóng phức tạp thành tổng của các sóng hình sin cơ bản bằng phương pháp hình học.",
-    category: "mathematics",
-    difficulty: "Nâng cao",
-    icon: "🌀",
-    color: "#FBBF24",
-    topics: ["Chuỗi Fourier", "Phân tích tần số", "Xử lý tín hiệu"],
+  {
+    "id": "fourier-transform",
+    "title": "Biến Đổi Fourier Trực Quan",
+    "description": "Phân tích một sóng phức tạp thành tổng của các sóng hình sin cơ bản bằng phương pháp hình học.",
+    "category": "mathematics",
+    "difficulty": "Nâng cao",
+    "icon": "🌀",
+    "color": "#FBBF24",
+    "topics": [
+      "Chuỗi Fourier",
+      "Phân tích tần số",
+      "Xử lý tín hiệu"
+    ]
   },
-{
-    id: "linear-algebra",
-    title: "Đại Số Tuyến Tính & Biến Đổi Ma Trận",
-    description: "Mô phỏng các phép biến đổi không gian Vector 3D, Vector riêng và trị riêng qua ma trận.",
-    category: "mathematics",
-    difficulty: "Nâng cao",
-    icon: "📐",
-    color: "#FBBF24",
-    topics: ["Ma trận", "Vector riêng", "Biến đổi tuyến tính"],
+  {
+    "id": "linear-algebra",
+    "title": "Đại Số Tuyến Tính & Biến Đổi Ma Trận",
+    "description": "Mô phỏng các phép biến đổi không gian Vector 3D, Vector riêng và trị riêng qua ma trận.",
+    "category": "mathematics",
+    "difficulty": "Nâng cao",
+    "icon": "📐",
+    "color": "#FBBF24",
+    "topics": [
+      "Ma trận",
+      "Vector riêng",
+      "Biến đổi tuyến tính"
+    ]
   },
-{
-    id: "mandelbrot",
-    title: "Tập Hợp Mandelbrot & Hình Fractal 3D",
-    description: "Khám phá vẻ đẹp vô tận của hình thể Fractal khi thu phóng các vùng tọa độ phức.",
-    category: "mathematics",
-    difficulty: "Nâng cao",
-    icon: "❄️",
-    color: "#FBBF24",
-    topics: ["Hình học Fractal", "Tập hợp Mandelbrot", "Số phức"],
+  {
+    "id": "mandelbrot",
+    "title": "Tập Hợp Mandelbrot & Hình Fractal 3D",
+    "description": "Khám phá vẻ đẹp vô tận của hình thể Fractal khi thu phóng các vùng tọa độ phức.",
+    "category": "mathematics",
+    "difficulty": "Nâng cao",
+    "icon": "❄️",
+    "color": "#FBBF24",
+    "topics": [
+      "Hình học Fractal",
+      "Tập hợp Mandelbrot",
+      "Số phức"
+    ]
   },
-{
-    id: "topology-surfaces",
-    title: "Tô-pô Học & Các Mặt Không Định Hướng",
-    description: "Xoay và quan sát mô hình 3D của Dải Mobius, Chai Klein và các mặt toán học độc đáo.",
-    category: "mathematics",
-    difficulty: "Nâng cao",
-    icon: "🔄",
-    color: "#FBBF24",
-    topics: ["Tô-pô học", "Dải Mobius", "Chai Klein"],
+  {
+    "id": "topology-surfaces",
+    "title": "Tô-pô Học & Các Mặt Không Định Hướng",
+    "description": "Xoay và quan sát mô hình 3D của Dải Mobius, Chai Klein và các mặt toán học độc đáo.",
+    "category": "mathematics",
+    "difficulty": "Nâng cao",
+    "icon": "🔄",
+    "color": "#FBBF24",
+    "topics": [
+      "Tô-pô học",
+      "Dải Mobius",
+      "Chai Klein"
+    ]
   },
-  { id: "phys-10-force-composition", title: "Kéo Vòng Nhẫn Bằng 3 Lực Kế Không Gian", description: "Mô phỏng tổng hợp và phân tích 3 vectơ lực tác dụng lên vòng nhẫn theo quy tắc hình bình hành và điều kiện cân bằng chất điểm.", category: "physics", difficulty: "Cơ bản", icon: "🔗", color: "#38BDF8", topics: ["Tổng hợp và phân tích lực","Quy tắc hình bình hành","Cân bằng chất điểm"], grade: 10 },
-  { id: "phys-10-inclined-newton", title: "Xe Lăn Trượt Trên Mặt Phẳng Nghiêng & Đệm Khí", description: "Khảo sát chuyển động của xe lăn trên mặt phẳng nghiêng góc thay đổi, minh họa quán tính, gia tốc a = F/m và cặp lực trực đối.", category: "physics", difficulty: "Cơ bản", icon: "🛝", color: "#38BDF8", topics: ["Định luật I, II, III Newton","Quán tính","Cặp lực trực đối"], grade: 10 },
-  { id: "phys-10-torque-lever", title: "Đòn Bẩy & Đĩa Quay 3D (Moment Lực)", description: "Treo các quả nặng ở nhiều cánh tay đòn khác nhau trên thanh đòn bẩy và đĩa quay 3D để kiểm chứng quy tắc Moment lực.", category: "physics", difficulty: "Trung bình", icon: "⚖️", color: "#38BDF8", topics: ["Moment lực M = F.d","Quy tắc cân bằng vật rắn có trục quay"], grade: 10 },
-  { id: "phys-10-conical-pendulum", title: "Con Lắc Nón & Vật Quay Trên Bàn Xoay 3D", description: "Quan sát chuyển động tròn đều của con lắc nón và vật trên bàn xoay, phân tích vectơ vận tốc tiếp tuyến và lực hướng tâm.", category: "physics", difficulty: "Trung bình", icon: "🎠", color: "#38BDF8", topics: ["Chuyển động tròn đều","Lực hướng tâm F_ht = mω²r"], grade: 10 },
-  { id: "chem-10-vsepr-hydrogen", title: "Hình Học Phân Tử VSEPR (H2O, NH3, CH4, CO2) & Liên Kết Hydrogen", description: "Lắp ráp hình học không gian 3D của H2O, NH3, CH4, CO2 theo thuyết VSEPR và quan sát mạng lưới liên kết Hydrogen trong nước đá.", category: "chemistry", difficulty: "Trung bình", icon: "❄️", color: "#F472B6", topics: ["Thuyết VSEPR","Góc liên kết","Liên kết Hydrogen"], grade: 10 },
-  { id: "bio-10-biomolecules", title: "Chuỗi Xoắn Kép DNA & Cấu Trúc Bậc 1-4 Của Protein", description: "Tháo lắp chuỗi xoắn kép DNA theo nguyên tắc bổ sung A-T, G-C và khám phá cấu trúc không gian bậc 1, 2, 3, 4 của Protein.", category: "biology", difficulty: "Cơ bản", icon: "🧬", color: "#34D399", topics: ["Thành phần hóa học tế bào","Đại phân tử sinh học","DNA & Protein"], grade: 10 },
-  { id: "bio-10-enzyme-substrate", title: "Tương Tác Enzyme - Cơ Chất & Ức Chế Cạnh Tranh", description: "Mô phỏng mô hình khóa - chìa và khớp cảm ứng tại trung tâm hoạt động của Enzyme, cùng tác động của chất ức chế cạnh tranh.", category: "biology", difficulty: "Trung bình", icon: "🔑", color: "#34D399", topics: ["Cơ chế tác động của Enzyme","Khớp cảm ứng","Ức chế cạnh tranh"], grade: 10 },
-  { id: "phys-11-barton-resonance", title: "Hệ Con Lắc Barton & Cộng Hưởng Cơ Học", description: "Quan sát hệ nhiều con lắc chiều dài khác nhau treo trên cùng trục ngang khi con lắc dẫn dao động, minh họa hiện tượng cộng hưởng.", category: "physics", difficulty: "Trung bình", icon: "🎵", color: "#A855F7", topics: ["Dao động cưỡng bức","Hiện tượng cộng hưởng cơ học"], grade: 11 },
-  { id: "chem-11-nitrogen-geometry", title: "Cấu Tạo Phân Tử NH3 (Chóp Tam Giác) & Ion NH4+ (Tứ Diện)", description: "So sánh hình học không gian 3D của phân tử Ammonia (NH3) có cặp electron chưa liên kết và ion Ammonium (NH4+) tứ diện đều.", category: "chemistry", difficulty: "Cơ bản", icon: "🔺", color: "#F472B6", topics: ["Hợp chất của Nitrogen","Cấu tạo NH3 và NH4+","Liên kết cho - nhận"], grade: 11 },
-  { id: "chem-11-cis-trans-isomers", title: "Liên Kết Đơn, Liên Kết Bội & Đồng Phân Hình Học Cis - Trans", description: "Thử xoay quanh liên kết đơn C-C và khóa chuyển động tại liên kết đôi C=C để phân biệt đồng phân hình học cis - trans.", category: "chemistry", difficulty: "Trung bình", icon: "🔄", color: "#F472B6", topics: ["Cấu tạo hóa học hữu cơ","Đồng phân hình học cis - trans","Liên kết đôi C=C"], grade: 11 },
-  { id: "chem-11-alkene-addition-polymer", title: "Phản Ứng Cộng Br2 Vào Ethylene & Trùng Hợp Polymer", description: "Quan sát liên kết π kém bền trong C2H4 bị phá vỡ khi cộng phân tử Br2 và quá trình nối các mắt xích tạo mạch Polyethylene (PE).", category: "chemistry", difficulty: "Trung bình", icon: "⛓️", color: "#F472B6", topics: ["Phản ứng cộng Hydrocarbon không no","Phản ứng trùng hợp","Polyethylene (PE)"], grade: 11 },
-  { id: "bio-10-enzyme-substrate", title: "Tương Tác Enzyme - Cơ Chất & Ức Chế Cạnh Tranh", description: "Mô phỏng mô hình khóa - chìa và khớp cảm ứng tại trung tâm hoạt động của Enzyme, cùng tác động của chất ức chế cạnh tranh.", category: "biology", difficulty: "Trung bình", icon: "🔑", color: "#34D399", topics: ["Cơ chế tác động của Enzyme","Khớp cảm ứng","Ức chế cạnh tranh"], grade: 10 },
-  { id: "phys-11-barton-resonance", title: "Hệ Con Lắc Barton & Cộng Hưởng Cơ Học", description: "Quan sát hệ nhiều con lắc chiều dài khác nhau treo trên cùng trục ngang khi con lắc dẫn dao động, minh họa hiện tượng cộng hưởng.", category: "physics", difficulty: "Trung bình", icon: "🎵", color: "#A855F7", topics: ["Dao động cưỡng bức","Hiện tượng cộng hưởng cơ học"], grade: 11 },
-  { id: "chem-11-nitrogen-geometry", title: "Cấu Tạo Phân Tử NH3 (Chóp Tam Giác) & Ion NH4+ (Tứ Diện)", description: "So sánh hình học không gian 3D của phân tử Ammonia (NH3) có cặp electron chưa liên kết và ion Ammonium (NH4+) tứ diện đều.", category: "chemistry", difficulty: "Cơ bản", icon: "🔺", color: "#F472B6", topics: ["Hợp chất của Nitrogen","Cấu tạo NH3 và NH4+","Liên kết cho - nhận"], grade: 11 },
-  { id: "chem-11-cis-trans-isomers", title: "Liên Kết Đơn, Liên Kết Bội & Đồng Phân Hình Học Cis - Trans", description: "Thử xoay quanh liên kết đơn C-C và khóa chuyển động tại liên kết đôi C=C để phân biệt đồng phân hình học cis - trans.", category: "chemistry", difficulty: "Trung bình", icon: "🔄", color: "#F472B6", topics: ["Cấu tạo hóa học hữu cơ","Đồng phân hình học cis - trans","Liên kết đôi C=C"], grade: 11 },
-  { id: "chem-11-alkene-addition-polymer", title: "Phản Ứng Cộng Br2 Vào Ethylene & Trùng Hợp Polymer", description: "Quan sát liên kết π kém bền trong C2H4 bị phá vỡ khi cộng phân tử Br2 và quá trình nối các mắt xích tạo mạch Polyethylene (PE).", category: "chemistry", difficulty: "Trung bình", icon: "⛓️", color: "#F472B6", topics: ["Phản ứng cộng Hydrocarbon không no","Phản ứng trùng hợp","Polyethylene (PE)"], grade: 11 },
-  { id: "bio-11-xylem-stomata", title: "Dòng Mạch Gỗ Xylem & Đóng Mở Tế Bào Khí Khổng", description: "Mô phỏng 3D dòng vận chuyển nước và ion khoáng trong mạch gỗ nhờ lực hút thoát hơi nước và cơ chế trương nước đóng mở khí khổng.", category: "biology", difficulty: "Cơ bản", icon: "🌱", color: "#34D399", topics: ["Trao đổi nước và khoáng ở thực vật","Dòng mạch gỗ","Thoát hơi nước qua khí khổng"], grade: 11 },
-  { id: "bio-11-heart-circulation", title: "Mô Hình Tim 3D, Chu Kỳ Tim & Hệ Tuần Hoàn", description: "Quan sát tim 3D co bóp theo 3 pha chu kỳ tim, hoạt động đóng mở van nhĩ - thất, van động mạch và vòng tuần hoàn lớn - nhỏ.", category: "biology", difficulty: "Trung bình", icon: "❤️", color: "#34D399", topics: ["Tuần hoàn máu","Hoạt động của tim","Chu kỳ tim & Van tim"], grade: 11 },
-  { id: "phys-12-phase-transition", title: "Chuyển Thể Rắn - Lỏng - Khí & Thuyết Động Học Phân Tử", description: "Tăng nhiệt độ để quan sát các phân tử dao động mạnh dần, phá vỡ mạng tinh thể rắn sang chất lỏng trượt lên nhau và bay hơi thành chất khí.", category: "physics", difficulty: "Cơ bản", icon: "🧊", color: "#10B981", topics: ["Thuyết động học phân tử","Nội năng","Sự chuyển thể"], grade: 12 },
-  { id: "phys-12-magnetic-force", title: "Lực Từ Tác Dụng Lên Khung Dây & Quy Tắc Bàn Tay Trái", description: "Khảo sát khung dây mang dòng điện đặt trong từ trường nam châm chữ U, xác định chiều lực từ F = B.I.l.sinα theo quy tắc bàn tay trái.", category: "physics", difficulty: "Trung bình", icon: "🧲", color: "#10B981", topics: ["Từ trường & Cảm ứng từ B","Lực từ F = BIl.sinα","Quy tắc bàn tay trái"], grade: 12 },
-  { id: "phys-12-electromagnetic-wave", title: "Sóng Điện Từ 3D (Hai Vectơ E và B Vuông Góc)", description: "Trực quan hóa sự lan truyền sóng điện từ trong không gian 3D với hai vectơ cường độ điện trường E và cảm ứng từ B dao động cùng pha và vuông góc nhau.", category: "physics", difficulty: "Nâng cao", icon: "📡", color: "#10B981", topics: ["Sóng điện từ","Vectơ E và B","Sóng ngang & Tam diện thuận"], grade: 12 },
-  { id: "phys-12-nuclear-rutherford", title: "Tán Xạ Hạt Alpha Rutherford & Phóng Xạ Hạt Nhân", description: "Bắn chùm hạt alpha xuyên qua lá vàng mỏng khám phá cấu trúc hạt nhân nguyên tử, kết hợp mô phỏng phóng xạ α, β và phản ứng phân hạch dây chuyền.", category: "physics", difficulty: "Nâng cao", icon: "☢️", color: "#10B981", topics: ["Cấu trúc hạt nhân","Tán xạ hạt alpha","Phóng xạ α, β & Phân hạch"], grade: 12 },
-  { id: "chem-12-soap-micelle", title: "Xà Phòng Hóa Chất Béo & Hạt Cầu Micelle Giặt Rửa", description: "Quan sát phản ứng thủy phân triglyceride trong kiềm tạo muối carboxylate có đầu ưa nước - đuôi kị nước bao bọc vết dầu mỡ thành hạt cầu micelle.", category: "chemistry", difficulty: "Cơ bản", icon: "🧼", color: "#F472B6", topics: ["Ester - Lipid","Phản ứng xà phòng hóa","Cơ chế giặt rửa Micelle"], grade: 12 },
-  { id: "chem-12-carbohydrate-structure", title: "Cấu Trúc Không Gian Glucose & Chuỗi Xoắn Tinh Bột", description: "Chuyển đổi giữa dạng mạch hở và dạng mạch vòng α/β-Glucose, kết hợp quan sát chuỗi xoắn lò xo Amylose của tinh bột hấp phụ phân tử Iodine.", category: "chemistry", difficulty: "Trung bình", icon: "🍯", color: "#F472B6", topics: ["Carbohydrate","Dạng vòng α/β-Glucose","Chuỗi xoắn Amylose & Phức I2"], grade: 12 },
-  { id: "chem-12-transition-complex", title: "Hình Học Phức Chất Kim Loại Chuyển Tiếp", description: "Khám phá cấu trúc hình học bát diện [Cu(H2O)6]2+, tứ diện [Zn(OH)4]2- và vuông phẳng [Pt(NH3)2Cl2] của phức chất kim loại chuyển tiếp.", category: "chemistry", difficulty: "Nâng cao", icon: "💎", color: "#F472B6", topics: ["Kim loại chuyển tiếp dãy thứ nhất","Phức chất bát diện, tứ diện, vuông phẳng"], grade: 12 },
-  { id: "bio-12-operon-lac", title: "Điều Hòa Biểu Hiện Gen Theo Mô Hình Operon Lac", description: "Quan sát Protein ức chế gắn vào vùng vận hành Operator ngăn RNA Polymerase khi không có Lactose và tách ra khi có Lactose để phiên mã nhóm gen Z, Y, A.", category: "biology", difficulty: "Nâng cao", icon: "🧬", color: "#34D399", topics: ["Điều hòa biểu hiện gen","Mô hình Operon Lac","Vùng P, O và nhóm gen Z, Y, A"], grade: 12 },
-  { id: "bio-12-chromosome-mutation", title: "Đột Biến Cấu Trúc & Số Lượng Nhiễm Sắc Thể 3D", description: "Trực quan hóa 3D các dạng đột biến cấu trúc NST (mất đoạn, lặp đoạn, đảo đoạn, chuyển đoạn) và sự không phân li NST tạo thể lệch bội 2n+1, 2n-1.", category: "biology", difficulty: "Trung bình", icon: "🧬", color: "#34D399", topics: ["Đột biến cấu trúc NST","Đột biến số lượng NST","Thể lệch bội & Đa bội"], grade: 12 },
+  {
+    "id": "phys-10-force-composition",
+    "title": "Kéo Vòng Nhẫn Bằng 3 Lực Kế Không Gian",
+    "description": "Mô phỏng tổng hợp và phân tích 3 vectơ lực tác dụng lên vòng nhẫn theo quy tắc hình bình hành và điều kiện cân bằng chất điểm.",
+    "category": "physics",
+    "difficulty": "Cơ bản",
+    "icon": "🔗",
+    "color": "#38BDF8",
+    "topics": [
+      "Tổng hợp và phân tích lực",
+      "Quy tắc hình bình hành",
+      "Cân bằng chất điểm"
+    ],
+    "grade": 10
+  },
+  {
+    "id": "phys-10-inclined-newton",
+    "title": "Xe Lăn Trượt Trên Mặt Phẳng Nghiêng & Đệm Khí",
+    "description": "Khảo sát chuyển động của xe lăn trên mặt phẳng nghiêng góc thay đổi, minh họa quán tính, gia tốc a = F/m và cặp lực trực đối.",
+    "category": "physics",
+    "difficulty": "Cơ bản",
+    "icon": "🛝",
+    "color": "#38BDF8",
+    "topics": [
+      "Định luật I, II, III Newton",
+      "Quán tính",
+      "Cặp lực trực đối"
+    ],
+    "grade": 10
+  },
+  {
+    "id": "phys-10-torque-lever",
+    "title": "Đòn Bẩy & Đĩa Quay 3D (Moment Lực)",
+    "description": "Treo các quả nặng ở nhiều cánh tay đòn khác nhau trên thanh đòn bẩy và đĩa quay 3D để kiểm chứng quy tắc Moment lực.",
+    "category": "physics",
+    "difficulty": "Trung bình",
+    "icon": "⚖️",
+    "color": "#38BDF8",
+    "topics": [
+      "Moment lực M = F.d",
+      "Quy tắc cân bằng vật rắn có trục quay"
+    ],
+    "grade": 10
+  },
+  {
+    "id": "phys-10-conical-pendulum",
+    "title": "Con Lắc Nón & Vật Quay Trên Bàn Xoay 3D",
+    "description": "Quan sát chuyển động tròn đều của con lắc nón và vật trên bàn xoay, phân tích vectơ vận tốc tiếp tuyến và lực hướng tâm.",
+    "category": "physics",
+    "difficulty": "Trung bình",
+    "icon": "🎠",
+    "color": "#38BDF8",
+    "topics": [
+      "Chuyển động tròn đều",
+      "Lực hướng tâm F_ht = mω²r"
+    ],
+    "grade": 10
+  },
+  {
+    "id": "chem-10-vsepr-hydrogen",
+    "title": "Hình Học Phân Tử VSEPR (H2O, NH3, CH4, CO2) & Liên Kết Hydrogen",
+    "description": "Lắp ráp hình học không gian 3D của H2O, NH3, CH4, CO2 theo thuyết VSEPR và quan sát mạng lưới liên kết Hydrogen trong nước đá.",
+    "category": "chemistry",
+    "difficulty": "Trung bình",
+    "icon": "❄️",
+    "color": "#F472B6",
+    "topics": [
+      "Thuyết VSEPR",
+      "Góc liên kết",
+      "Liên kết Hydrogen"
+    ],
+    "grade": 10
+  },
+  {
+    "id": "bio-10-biomolecules",
+    "title": "Chuỗi Xoắn Kép DNA & Cấu Trúc Bậc 1-4 Của Protein",
+    "description": "Tháo lắp chuỗi xoắn kép DNA theo nguyên tắc bổ sung A-T, G-C và khám phá cấu trúc không gian bậc 1, 2, 3, 4 của Protein.",
+    "category": "biology",
+    "difficulty": "Cơ bản",
+    "icon": "🧬",
+    "color": "#34D399",
+    "topics": [
+      "Thành phần hóa học tế bào",
+      "Đại phân tử sinh học",
+      "DNA & Protein"
+    ],
+    "grade": 10
+  },
+  {
+    "id": "bio-10-enzyme-substrate",
+    "title": "Tương Tác Enzyme - Cơ Chất & Ức Chế Cạnh Tranh",
+    "description": "Mô phỏng mô hình khóa - chìa và khớp cảm ứng tại trung tâm hoạt động của Enzyme, cùng tác động của chất ức chế cạnh tranh.",
+    "category": "biology",
+    "difficulty": "Trung bình",
+    "icon": "🔑",
+    "color": "#34D399",
+    "topics": [
+      "Cơ chế tác động của Enzyme",
+      "Khớp cảm ứng",
+      "Ức chế cạnh tranh"
+    ],
+    "grade": 10
+  },
+  {
+    "id": "phys-11-barton-resonance",
+    "title": "Hệ Con Lắc Barton & Cộng Hưởng Cơ Học",
+    "description": "Quan sát hệ nhiều con lắc chiều dài khác nhau treo trên cùng trục ngang khi con lắc dẫn dao động, minh họa hiện tượng cộng hưởng.",
+    "category": "physics",
+    "difficulty": "Trung bình",
+    "icon": "🎵",
+    "color": "#A855F7",
+    "topics": [
+      "Dao động cưỡng bức",
+      "Hiện tượng cộng hưởng cơ học"
+    ],
+    "grade": 11
+  },
+  {
+    "id": "chem-11-nitrogen-geometry",
+    "title": "Cấu Tạo Phân Tử NH3 (Chóp Tam Giác) & Ion NH4+ (Tứ Diện)",
+    "description": "So sánh hình học không gian 3D của phân tử Ammonia (NH3) có cặp electron chưa liên kết và ion Ammonium (NH4+) tứ diện đều.",
+    "category": "chemistry",
+    "difficulty": "Cơ bản",
+    "icon": "🔺",
+    "color": "#F472B6",
+    "topics": [
+      "Hợp chất của Nitrogen",
+      "Cấu tạo NH3 và NH4+",
+      "Liên kết cho - nhận"
+    ],
+    "grade": 11
+  },
+  {
+    "id": "chem-11-cis-trans-isomers",
+    "title": "Liên Kết Đơn, Liên Kết Bội & Đồng Phân Hình Học Cis - Trans",
+    "description": "Thử xoay quanh liên kết đơn C-C và khóa chuyển động tại liên kết đôi C=C để phân biệt đồng phân hình học cis - trans.",
+    "category": "chemistry",
+    "difficulty": "Trung bình",
+    "icon": "🔄",
+    "color": "#F472B6",
+    "topics": [
+      "Cấu tạo hóa học hữu cơ",
+      "Đồng phân hình học cis - trans",
+      "Liên kết đôi C=C"
+    ],
+    "grade": 11
+  },
+  {
+    "id": "chem-11-alkene-addition-polymer",
+    "title": "Phản Ứng Cộng Br2 Vào Ethylene & Trùng Hợp Polymer",
+    "description": "Quan sát liên kết π kém bền trong C2H4 bị phá vỡ khi cộng phân tử Br2 và quá trình nối các mắt xích tạo mạch Polyethylene (PE).",
+    "category": "chemistry",
+    "difficulty": "Trung bình",
+    "icon": "⛓️",
+    "color": "#F472B6",
+    "topics": [
+      "Phản ứng cộng Hydrocarbon không no",
+      "Phản ứng trùng hợp",
+      "Polyethylene (PE)"
+    ],
+    "grade": 11
+  },
+  {
+    "id": "bio-11-xylem-stomata",
+    "title": "Dòng Mạch Gỗ Xylem & Đóng Mở Tế Bào Khí Khổng",
+    "description": "Mô phỏng 3D dòng vận chuyển nước và ion khoáng trong mạch gỗ nhờ lực hút thoát hơi nước và cơ chế trương nước đóng mở khí khổng.",
+    "category": "biology",
+    "difficulty": "Cơ bản",
+    "icon": "🌱",
+    "color": "#34D399",
+    "topics": [
+      "Trao đổi nước và khoáng ở thực vật",
+      "Dòng mạch gỗ",
+      "Thoát hơi nước qua khí khổng"
+    ],
+    "grade": 11
+  },
+  {
+    "id": "bio-11-heart-circulation",
+    "title": "Mô Hình Tim 3D, Chu Kỳ Tim & Hệ Tuần Hoàn",
+    "description": "Quan sát tim 3D co bóp theo 3 pha chu kỳ tim, hoạt động đóng mở van nhĩ - thất, van động mạch và vòng tuần hoàn lớn - nhỏ.",
+    "category": "biology",
+    "difficulty": "Trung bình",
+    "icon": "❤️",
+    "color": "#34D399",
+    "topics": [
+      "Tuần hoàn máu",
+      "Hoạt động của tim",
+      "Chu kỳ tim & Van tim"
+    ],
+    "grade": 11
+  },
+  {
+    "id": "phys-12-phase-transition",
+    "title": "Chuyển Thể Rắn - Lỏng - Khí & Thuyết Động Học Phân Tử",
+    "description": "Tăng nhiệt độ để quan sát các phân tử dao động mạnh dần, phá vỡ mạng tinh thể rắn sang chất lỏng trượt lên nhau và bay hơi thành chất khí.",
+    "category": "physics",
+    "difficulty": "Cơ bản",
+    "icon": "🧊",
+    "color": "#10B981",
+    "topics": [
+      "Thuyết động học phân tử",
+      "Nội năng",
+      "Sự chuyển thể"
+    ],
+    "grade": 12
+  },
+  {
+    "id": "phys-12-magnetic-force",
+    "title": "Lực Từ Tác Dụng Lên Khung Dây & Quy Tắc Bàn Tay Trái",
+    "description": "Khảo sát khung dây mang dòng điện đặt trong từ trường nam châm chữ U, xác định chiều lực từ F = B.I.l.sinα theo quy tắc bàn tay trái.",
+    "category": "physics",
+    "difficulty": "Trung bình",
+    "icon": "🧲",
+    "color": "#10B981",
+    "topics": [
+      "Từ trường & Cảm ứng từ B",
+      "Lực từ F = BIl.sinα",
+      "Quy tắc bàn tay trái"
+    ],
+    "grade": 12
+  },
+  {
+    "id": "phys-12-electromagnetic-wave",
+    "title": "Sóng Điện Từ 3D (Hai Vectơ E và B Vuông Góc)",
+    "description": "Trực quan hóa sự lan truyền sóng điện từ trong không gian 3D với hai vectơ cường độ điện trường E và cảm ứng từ B dao động cùng pha và vuông góc nhau.",
+    "category": "physics",
+    "difficulty": "Nâng cao",
+    "icon": "📡",
+    "color": "#10B981",
+    "topics": [
+      "Sóng điện từ",
+      "Vectơ E và B",
+      "Sóng ngang & Tam diện thuận"
+    ],
+    "grade": 12
+  },
+  {
+    "id": "phys-12-nuclear-rutherford",
+    "title": "Tán Xạ Hạt Alpha Rutherford & Phóng Xạ Hạt Nhân",
+    "description": "Bắn chùm hạt alpha xuyên qua lá vàng mỏng khám phá cấu trúc hạt nhân nguyên tử, kết hợp mô phỏng phóng xạ α, β và phản ứng phân hạch dây chuyền.",
+    "category": "physics",
+    "difficulty": "Nâng cao",
+    "icon": "☢️",
+    "color": "#10B981",
+    "topics": [
+      "Cấu trúc hạt nhân",
+      "Tán xạ hạt alpha",
+      "Phóng xạ α, β & Phân hạch"
+    ],
+    "grade": 12
+  },
+  {
+    "id": "chem-12-soap-micelle",
+    "title": "Xà Phòng Hóa Chất Béo & Hạt Cầu Micelle Giặt Rửa",
+    "description": "Quan sát phản ứng thủy phân triglyceride trong kiềm tạo muối carboxylate có đầu ưa nước - đuôi kị nước bao bọc vết dầu mỡ thành hạt cầu micelle.",
+    "category": "chemistry",
+    "difficulty": "Cơ bản",
+    "icon": "🧼",
+    "color": "#F472B6",
+    "topics": [
+      "Ester - Lipid",
+      "Phản ứng xà phòng hóa",
+      "Cơ chế giặt rửa Micelle"
+    ],
+    "grade": 12
+  },
+  {
+    "id": "chem-12-carbohydrate-structure",
+    "title": "Cấu Trúc Không Gian Glucose & Chuỗi Xoắn Tinh Bột",
+    "description": "Chuyển đổi giữa dạng mạch hở và dạng mạch vòng α/β-Glucose, kết hợp quan sát chuỗi xoắn lò xo Amylose của tinh bột hấp phụ phân tử Iodine.",
+    "category": "chemistry",
+    "difficulty": "Trung bình",
+    "icon": "🍯",
+    "color": "#F472B6",
+    "topics": [
+      "Carbohydrate",
+      "Dạng vòng α/β-Glucose",
+      "Chuỗi xoắn Amylose & Phức I2"
+    ],
+    "grade": 12
+  },
+  {
+    "id": "chem-12-transition-complex",
+    "title": "Hình Học Phức Chất Kim Loại Chuyển Tiếp",
+    "description": "Khám phá cấu trúc hình học bát diện [Cu(H2O)6]2+, tứ diện [Zn(OH)4]2- và vuông phẳng [Pt(NH3)2Cl2] của phức chất kim loại chuyển tiếp.",
+    "category": "chemistry",
+    "difficulty": "Nâng cao",
+    "icon": "💎",
+    "color": "#F472B6",
+    "topics": [
+      "Kim loại chuyển tiếp dãy thứ nhất",
+      "Phức chất bát diện, tứ diện, vuông phẳng"
+    ],
+    "grade": 12
+  },
+  {
+    "id": "bio-12-operon-lac",
+    "title": "Điều Hòa Biểu Hiện Gen Theo Mô Hình Operon Lac",
+    "description": "Quan sát Protein ức chế gắn vào vùng vận hành Operator ngăn RNA Polymerase khi không có Lactose và tách ra khi có Lactose để phiên mã nhóm gen Z, Y, A.",
+    "category": "biology",
+    "difficulty": "Nâng cao",
+    "icon": "🧬",
+    "color": "#34D399",
+    "topics": [
+      "Điều hòa biểu hiện gen",
+      "Mô hình Operon Lac",
+      "Vùng P, O và nhóm gen Z, Y, A"
+    ],
+    "grade": 12
+  },
+  {
+    "id": "bio-12-chromosome-mutation",
+    "title": "Đột Biến Cấu Trúc & Số Lượng Nhiễm Sắc Thể 3D",
+    "description": "Trực quan hóa 3D các dạng đột biến cấu trúc NST (mất đoạn, lặp đoạn, đảo đoạn, chuyển đoạn) và sự không phân li NST tạo thể lệch bội 2n+1, 2n-1.",
+    "category": "biology",
+    "difficulty": "Trung bình",
+    "icon": "🧬",
+    "color": "#34D399",
+    "topics": [
+      "Đột biến cấu trúc NST",
+      "Đột biến số lượng NST",
+      "Thể lệch bội & Đa bội"
+    ],
+    "grade": 12
+  }
 ];
