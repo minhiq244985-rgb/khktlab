@@ -18,7 +18,7 @@ export const EXPERIMENTS: Record<string, { title: string; subject: Subject }> = 
     "subject": "Sinh Học"
   },
   "math-10-vectors-conics": {
-    "title": "Vectơ, Hệ Thức Lượng & Ba Đường Conic 3D (undefined 10)",
+    "title": "Vectơ, Hệ Thức Lượng & Ba Đường Conic 3D (Toán Học 10)",
     "subject": "Toán Học"
   },
   "pendulum": {
@@ -34,8 +34,8 @@ export const EXPERIMENTS: Record<string, { title: string; subject: Subject }> = 
     "subject": "Vật Lý"
   },
   "emf-internal-resistance": {
-    "title": "Đo Suất Điện Động (E) & Điện Trở Trong (r) (Sinh Học 11)",
-    "subject": "Sinh Học"
+    "title": "Đo Suất Điện Động (E) & Điện Trở Trong (r) (Vật Lý 11)",
+    "subject": "Vật Lý"
   },
   "chem-11-equilibrium-titration": {
     "title": "Cân Bằng Hóa Học (Le Chatelier) & Chuẩn Độ Acid – Base (Hóa Học 11)",
@@ -46,7 +46,7 @@ export const EXPERIMENTS: Record<string, { title: string; subject: Subject }> = 
     "subject": "Sinh Học"
   },
   "math-11-trig-sequence-space": {
-    "title": "Lượng Giác, Cấp Số & Quan Hệ Vuông Góc Không Gian (undefined 11)",
+    "title": "Lượng Giác, Cấp Số & Quan Hệ Vuông Góc Không Gian (Toán Học 11)",
     "subject": "Toán Học"
   },
   "calorimetry": {
@@ -70,23 +70,23 @@ export const EXPERIMENTS: Record<string, { title: string; subject: Subject }> = 
     "subject": "Sinh Học"
   },
   "math-12-calculus-oxyz": {
-    "title": "Khảo Sát Hàm Số, Tích Phân Tròn Xoay & Hình Học Oxyz (undefined 12)",
+    "title": "Khảo Sát Hàm Số, Tích Phân Tròn Xoay & Hình Học Oxyz (Toán Học 12)",
     "subject": "Toán Học"
   },
   "3d-geometry": {
-    "title": "Hình Học Không Gian 3D (undefined)",
+    "title": "Hình Học Không Gian 3D (Toán Học)",
     "subject": "Toán Học"
   },
   "acid-base-reactions": {
-    "title": "Phản Ứng Axit - Bazơ (Hóa Học 11)",
-    "subject": "Hóa Học"
+    "title": "Phản Ứng Axit - Bazơ (Vật Lý 11)",
+    "subject": "Vật Lý"
   },
   "atomic-structure": {
-    "title": "Cấu Tạo Nguyên Tử & Quỹ Đạo Electron (Hóa Học 10)",
-    "subject": "Hóa Học"
+    "title": "Cấu Tạo Nguyên Tử & Quỹ Đạo Electron (Vật Lý 10)",
+    "subject": "Vật Lý"
   },
   "calculus-visualizer": {
-    "title": "Trực Quan Hóa Giải Tích (Đạo Hàm & Tích Phân) (undefined 12)",
+    "title": "Trực Quan Hóa Giải Tích (Đạo Hàm & Tích Phân) (Toán Học 12)",
     "subject": "Toán Học"
   },
   "cell-structure": {
@@ -94,15 +94,15 @@ export const EXPERIMENTS: Record<string, { title: string; subject: Subject }> = 
     "subject": "Sinh Học"
   },
   "cellular-respiration": {
-    "title": "Hô Hấp Tế Bào (Sinh Học 10)",
-    "subject": "Sinh Học"
+    "title": "Hô Hấp Tế Bào (Hóa Học 10)",
+    "subject": "Hóa Học"
   },
   "chemical-bonding": {
     "title": "Liên Kết Hóa Học 3D (Hóa Học 10)",
     "subject": "Hóa Học"
   },
   "complex-numbers": {
-    "title": "Mặt Phẳng Số Phức 3D (undefined)",
+    "title": "Mặt Phẳng Số Phức 3D (Toán Học)",
     "subject": "Toán Học"
   },
   "crystal-lattice": {
@@ -110,12 +110,12 @@ export const EXPERIMENTS: Record<string, { title: string; subject: Subject }> = 
     "subject": "Hóa Học"
   },
   "diffusion": {
-    "title": "Khuếch Tán & Thẩm Thấu (Sinh Học 10)",
-    "subject": "Sinh Học"
+    "title": "Khuếch Tán & Thẩm Thấu (Vật Lý 10)",
+    "subject": "Vật Lý"
   },
   "dna-replication": {
-    "title": "Quá Trình Nhân Đôi DNA (Sinh Học 12)",
-    "subject": "Sinh Học"
+    "title": "Quá Trình Nhân Đôi DNA (Hóa Học 12)",
+    "subject": "Hóa Học"
   },
   "doppler": {
     "title": "Hiệu Ứng Doppler (Vật Lý)",
@@ -138,11 +138,11 @@ export const EXPERIMENTS: Record<string, { title: string; subject: Subject }> = 
     "subject": "Vật Lý"
   },
   "fibonacci-spiral": {
-    "title": "Dãy Số Fibonacci & Tỷ Lệ Vàng 3D (undefined 11)",
+    "title": "Dãy Số Fibonacci & Tỷ Lệ Vàng 3D (Toán Học 11)",
     "subject": "Toán Học"
   },
   "fourier-transform": {
-    "title": "Biến Đổi Fourier Trực Quan (undefined)",
+    "title": "Biến Đổi Fourier Trực Quan (Toán Học)",
     "subject": "Toán Học"
   },
   "gravitational-orbits": {
@@ -150,15 +150,15 @@ export const EXPERIMENTS: Record<string, { title: string; subject: Subject }> = 
     "subject": "Vật Lý"
   },
   "immune-response": {
-    "title": "Phản Ứng Miễn Dịch Động (Hóa Học 11)",
-    "subject": "Hóa Học"
+    "title": "Phản Ứng Miễn Dịch Động (Sinh Học 11)",
+    "subject": "Sinh Học"
   },
   "linear-algebra": {
-    "title": "Đại Số Tuyến Tính & Biến Đổi Ma Trận (undefined)",
+    "title": "Đại Số Tuyến Tính & Biến Đổi Ma Trận (Toán Học)",
     "subject": "Toán Học"
   },
   "mandelbrot": {
-    "title": "Tập Hợp Mandelbrot & Hình Fractal 3D (undefined)",
+    "title": "Tập Hợp Mandelbrot & Hình Fractal 3D (Toán Học)",
     "subject": "Toán Học"
   },
   "mitosis-meiosis": {
@@ -178,15 +178,15 @@ export const EXPERIMENTS: Record<string, { title: string; subject: Subject }> = 
     "subject": "Vật Lý"
   },
   "periodic-trends": {
-    "title": "Xu Hướng Trong Bảng Tuần Hoàn (Sinh Học 10)",
-    "subject": "Sinh Học"
+    "title": "Xu Hướng Trong Bảng Tuần Hoàn (Hóa Học 10)",
+    "subject": "Hóa Học"
   },
   "photosynthesis": {
     "title": "Quang Hợp Thực Vật (Sinh Học 11)",
     "subject": "Sinh Học"
   },
   "probability-distributions": {
-    "title": "Phân Phối Xác Suất & Thống Kê (undefined)",
+    "title": "Phân Phối Xác Suất & Thống Kê (Toán Học)",
     "subject": "Toán Học"
   },
   "projectile-motion": {
@@ -194,27 +194,27 @@ export const EXPERIMENTS: Record<string, { title: string; subject: Subject }> = 
     "subject": "Vật Lý"
   },
   "protein-synthesis": {
-    "title": "Tổng Hợp Protein (Phiên Mã & Dịch Mã) (Sinh Học 12)",
-    "subject": "Sinh Học"
+    "title": "Tổng Hợp Protein (Phiên Mã & Dịch Mã) (Hóa Học 12)",
+    "subject": "Hóa Học"
   },
   "refraction": {
     "title": "Khúc Xạ Ánh Sáng & Định Luật Snell (Vật Lý)",
     "subject": "Vật Lý"
   },
   "thermochemistry": {
-    "title": "Nhiệt Hóa Học & Phản Ứng Thu/Tỏa Nhiệt (Hóa Học 10)",
-    "subject": "Hóa Học"
+    "title": "Nhiệt Hóa Học & Phản Ứng Thu/Tỏa Nhiệt (Vật Lý 10)",
+    "subject": "Vật Lý"
   },
   "titration": {
     "title": "Chuẩn Độ Axit - Bazơ (Hóa Học 11)",
     "subject": "Hóa Học"
   },
   "topology-surfaces": {
-    "title": "Tô-pô Học & Các Mặt Không Định Hướng (undefined)",
+    "title": "Tô-pô Học & Các Mặt Không Định Hướng (Toán Học)",
     "subject": "Toán Học"
   },
   "trigonometry": {
-    "title": "Lượng Giác & Đường Tròn Đơn Vị (undefined 11)",
+    "title": "Lượng Giác & Đường Tròn Đơn Vị (Toán Học 11)",
     "subject": "Toán Học"
   },
   "wave-interference": {
