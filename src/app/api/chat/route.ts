@@ -3,7 +3,7 @@ import { EXPERIMENTS } from "@/lib/aiContext";
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
-const MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+let cachedModel = process.env.GEMINI_MODEL || ""; async function getModel(key: string) { if (cachedModel) return cachedModel; const res = await fetch("https://generativelanguage.googleapis.com/v1beta/models", { headers: { "x-goog-api-key": key } }); if (res.ok) { const d = await res.json(); const m = (d.models || []).filter((x: { name?: string; supportedGenerationMethods?: string[] }) => x.name?.includes("flash") && !x.name.includes("8b") && x.supportedGenerationMethods?.includes("streamGenerateContent")).map((x: { name: string }) => x.name.replace("models/", "")).sort().reverse()[0]; if (m) { cachedModel = m; return m; } } return "gemini-3-flash-preview"; }
 const MAX_MESSAGES = 12;
 const MAX_CHARS = 2000;
 const LIMIT_PER_MIN = 15;
@@ -96,7 +96,7 @@ export async function POST(req: Request) {
     last.parts.push({ inline_data: { mime_type: "image/jpeg", data: m[1] } });
   }
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:streamGenerateContent?alt=sse`;
+  const model = await getModel(key); const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse`;
   const upstream = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json", "x-goog-api-key": key },
