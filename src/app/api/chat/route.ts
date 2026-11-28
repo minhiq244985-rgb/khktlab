@@ -107,12 +107,12 @@ export async function POST(req: Request) {
     }),
   });
 
-  if (!upstream.ok || !upstream.body) {
+  if (!upstream.ok || !upstream.body) { const errTxt = await upstream.text().catch(()=>""); console.error("GEMINI_ERR:", upstream.status, errTxt);
     const status = upstream.status;
     const msg =
       status === 429
         ? "Trợ lý đang quá tải (hết lượt miễn phí tạm thời). Thử lại sau ít phút."
-        : "Trợ lý đang gặp sự cố, thử lại sau nhé.";
+        : `Trợ lý gặp lỗi (${upstream.status}): ${errTxt.slice(0,120)}`;
     return new Response(msg, { status: status === 429 ? 429 : 502 });
   }
 
